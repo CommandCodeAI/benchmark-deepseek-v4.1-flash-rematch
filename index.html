@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Round 1 rematch: Command Code GOAT × DeepSeek V4.1 Flash</title>
+<meta name="description" content="The Round 1 ecosystem-simulation prompt run through the Command Code harness on DeepSeek V4.1 Flash and Flash Fast. Both games, full sessions and raw logs.">
+<style>
+	:root { --bg: #0e0e0e; --fg: #e6e6e6; --muted: #8c8c8c; --line: #262626; --card: #141414; }
+	* { box-sizing: border-box; margin: 0; }
+	body { background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; padding: 56px 20px 64px; }
+	main { max-width: 1080px; margin: 0 auto; }
+	h1 { font-size: clamp(28px, 4vw, 38px); letter-spacing: -0.5px; line-height: 1.2; }
+	.sub { color: var(--muted); margin: 10px 0 36px; }
+	a { color: var(--fg); }
+	.runs { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+	.run { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+	.run img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; border-bottom: 1px solid var(--line); }
+	.run .body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+	.run h2 { font-size: 18px; }
+	.run .model { color: #cfcfcf; }
+	.run .stats { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; margin: 6px 0 16px; }
+	.btn { margin-top: auto; display: inline-block; align-self: flex-start; padding: 9px 16px; border: 1px solid #3a3a3a; border-radius: 6px; text-decoration: none; font-weight: 600; }
+	.btn:hover, .btn:focus-visible { background: #fff; color: #000; outline: none; }
+	.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 36px; }
+	.side { border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+	.side h3 { font-size: 17px; }
+	.side p { color: #cfcfcf; font-size: 15px; }
+	.ours { border-color: #3a3a3a; background: var(--card); }
+	.theirs h3 { color: #ff8a8a; }
+	section { margin-top: 48px; }
+	section h3 { font-size: 15px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+	.card img { width: 100%; border: 1px solid var(--line); border-radius: 10px; display: block; }
+	ul { padding-left: 18px; color: #cfcfcf; }
+	li { margin: 4px 0; }
+	footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+	<h1>Round 1 rematch: Command Code GOAT × DeepSeek V4.1 Flash</h1>
+	<p class="sub">The same Round 1 prompt at max reasoning effort, one run each, no reruns. Both runs succeeded with 0 failed calls.</p>
+
+	<div class="compare">
+		<div class="side ours">
+			<h3>Our runs: fully open source</h3>
+			<p>Both full Command Code session files, the raw timestamped event logs, every file the models wrote, and the scripts behind every number. Anyone can check them and recompute the results.</p>
+			<a class="btn" href="https://github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch">Open the repo →</a>
+		</div>
+		<div class="side theirs">
+			<h3>Naz's runs: unverified</h3>
+			<p><a href="https://x.com/nothingto12/status/2114460558758236351">His Round 1 post</a> reports a failed CommandCode GOAT run with 91 failed calls, but publishes no session files or logs. With no transparency, there is no way to see why things went wrong. It could be his network, a VPN, or the third-party DeepSeek Harness (DSH). Command Code serves a standard API, and our harness recursively self-improves on every model we serve, which is why these runs held up.</p>
+		</div>
+	</div>
+
+	<div class="runs">
+		<article class="run">
+			<a href="runs/deepseek-v4.1-flash/output/index.html"><img src="runs/deepseek-v4.1-flash/screenshots/shot-3s.png" alt="The Nocturne Vivarium, live simulation"></a>
+			<div class="body">
+				<h2>The Nocturne Vivarium</h2>
+				<div class="model">Command Code GOAT · DeepSeek V4.1 Flash</div>
+				<div class="stats">58m 20s · 0 failed calls · 7.08s avg TTFT · 136 tok/s</div>
+				<a class="btn" href="runs/deepseek-v4.1-flash/output/index.html">Open the game →</a>
+			</div>
+		</article>
+		<article class="run">
+			<a href="runs/deepseek-v4.1-flash-fast/output/index.html"><img src="runs/deepseek-v4.1-flash-fast/screenshots/shot-3s.png" alt="Succession in vitro, live simulation"></a>
+			<div class="body">
+				<h2>Succession in vitro</h2>
+				<div class="model">Command Code GOAT · DeepSeek V4.1 Flash Fast</div>
+				<div class="stats">1h 29m 12s · 0 failed calls · 3.51s avg TTFT · 159 tok/s</div>
+				<a class="btn" href="runs/deepseek-v4.1-flash-fast/output/index.html">Open the game →</a>
+			</div>
+		</article>
+	</div>
+
+	<section class="card">
+		<h3>Results</h3>
+		<img src="round1-vs-dsh.png" alt="Round 1 rematch results table: two Command Code GOAT runs next to the DeepSeek Harness run reported by Naz">
+	</section>
+
+	<section>
+		<h3>Links</h3>
+		<ul>
+			<li><a href="https://x.com/nothingto12/status/2114460558758236351">Naz's Round 1 post</a> and <a href="https://nazzysar.github.io/deepseek-benchmarks/">his demos</a> to compare</li>
+			<li><a href="https://github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch">The repo</a>: full sessions, raw event logs, scripts, and how every number was measured</li>
+			<li><a href="round1-all-five.png">All five runs in one table</a> · <a href="round1-two-runs.png">just the two Command Code GOAT runs</a></li>
+		</ul>
+	</section>
+
+	<footer>Both games are single self-contained HTML files with no network requests. Screenshots are from our headless check.</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,1 @@
+{ "reported": true, "result": { "subtype": "error" }, "totalSec": 8884, "throughputTokS": 140, "ttftAvg": 48.12, "ttftP50": 28.55, "ttftP95": 154.47, "cacheHit": 0.973, "uncachedInput": 1820736, "cachedInput": 65634432, "output": 550775, "requests": null, "failedRequests": 91, "toolErrors": null, "errorEvents": {} }

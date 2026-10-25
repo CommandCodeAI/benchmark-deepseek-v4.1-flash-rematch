@@ -1,0 +1,21 @@
+const { chromium } = require('/opt/node22/lib/node_modules/playwright');
+(async()=>{
+ const browser=await chromium.launch({headless:true});
+ const page=await browser.newPage({viewport:{width:1440,height:900}});
+ const errors=[]; page.on('pageerror',e=>errors.push('ERR '+e.message)); page.on('console',m=>{if(m.type()==='error')errors.push('CONSOLE '+m.text())});
+ await page.goto('file:///work/bench/deepseek-v4.1-flash/work/index.html');
+ await page.waitForTimeout(500);
+ await page.evaluate(()=>{const e=document.querySelector('#regrowthInput');e.value='0.07';e.dispatchEvent(new Event('input',{bubbles:true}));});
+ await page.locator('#trailsToggle').click();
+ await page.locator('#gridToggle').click();
+ await page.locator('[data-step-target="generationsInput"][data-step="20"]').click();
+ await page.locator('#seedInput').fill('777');
+ await page.locator('#seedInput').press('Enter');
+ await page.waitForTimeout(300);
+ console.log('after seed', await page.evaluate(()=>({seed:window.VivariumUI.simulation.seed,gen:window.VivariumUI.simulation.generation,target:window.VivariumUI.simulation.target,paused:document.querySelector('#headerState').textContent,horizon:document.querySelector('#generationsInput').value})));
+ await page.evaluate(()=>{window.VivariumUI.setSpeed(32);const e=document.querySelector('#generationsInput');e.value=String(window.VivariumUI.simulation.generation+25);e.dispatchEvent(new Event('input',{bubbles:true}));});
+ await page.waitForTimeout(1500);
+ console.log('after target', await page.evaluate(()=>({seed:window.VivariumUI.simulation.seed,gen:window.VivariumUI.simulation.generation,target:window.VivariumUI.simulation.target,state:document.querySelector('#headerState').textContent,dash:document.querySelector('#dashboard').classList.contains('is-open'),report:document.querySelector('#viewReportBtn').className,horizon:document.querySelector('#generationsInput').value, speed:window.VivariumUI.speed})));
+ console.log('errors',errors);
+ await browser.close();
+})();

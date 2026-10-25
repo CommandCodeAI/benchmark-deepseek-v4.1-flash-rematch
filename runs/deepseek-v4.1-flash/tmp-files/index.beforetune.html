@@ -1,0 +1,2877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>The Nocturne Vivarium — Morrow Institute</title>
+<style>
+  :root {
+    --ink: #050c0a;
+    --ink-deep: #030806;
+    --panel: #08130f;
+    --panel-high: #0c1a15;
+    --panel-soft: #0a1612;
+    --paper: #e9e2d0;
+    --paper-dim: #c5beab;
+    --muted: #84968a;
+    --muted-2: #64766b;
+    --faint: #43544a;
+    --line: rgba(200, 219, 200, 0.13);
+    --line-strong: rgba(210, 227, 210, 0.24);
+    --flora: #a8e7bf;
+    --flora-deep: #3f8568;
+    --grazer: #f0bc6d;
+    --hunter: #ee7566;
+    --brass: #b99b68;
+    --brass-light: #d4bb8c;
+    --teal: #74cbc6;
+    --violet: #b6a0d9;
+    --shadow: 0 34px 80px rgba(0, 0, 0, 0.48);
+    --display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, "URW Palladio L", Georgia, serif;
+    --sans: "Avenir Next", Avenir, "Century Gothic", Futura, "Trebuchet MS", sans-serif;
+    --mono: "SFMono-Regular", "Cascadia Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    --ease: cubic-bezier(0.22, 0.72, 0.18, 1);
+  }
+
+  * { box-sizing: border-box; }
+  html { min-width: 320px; background: var(--ink-deep); }
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100svh;
+    overflow: hidden;
+    color: var(--paper);
+    background:
+      radial-gradient(1400px 900px at 14% -12%, rgba(63, 133, 104, 0.22), transparent 58%),
+      radial-gradient(1000px 700px at 108% 108%, rgba(185, 155, 104, 0.11), transparent 60%),
+      linear-gradient(135deg, #040b08, #07100d 48%, #030806);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.22;
+    background-image:
+      linear-gradient(rgba(176, 207, 182, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(176, 207, 182, 0.022) 1px, transparent 1px);
+    background-size: 92px 92px;
+    mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0.055;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+    mix-blend-mode: soft-light;
+  }
+
+  button, input { font: inherit; }
+  button { color: inherit; }
+  button, label, input[type="range"], input[type="checkbox"] { -webkit-tap-highlight-color: transparent; }
+  ::selection { background: rgba(168, 231, 191, 0.2); color: #fffdf4; }
+
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .shell {
+    position: relative;
+    z-index: 2;
+    height: calc(100svh - 32px);
+    margin: 16px;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) 30px;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: 18px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 26%),
+      var(--panel);
+    box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    isolation: isolate;
+  }
+
+  .shell::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1px solid rgba(196, 218, 198, 0.06);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 15;
+  }
+
+  .topbar {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 12px 22px 11px 20px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+    position: relative;
+    z-index: 5;
+  }
+
+  .identity { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 0 1 480px; }
+  .seal {
+    width: 45px;
+    height: 45px;
+    flex: 0 0 auto;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: var(--brass-light);
+  }
+  .seal svg { width: 100%; height: 100%; overflow: visible; }
+  .seal .seal-core { animation: seal-breathe 6s var(--ease) infinite; transform-origin: center; }
+  @keyframes seal-breathe { 0%, 100% { opacity: .7; } 50% { opacity: 1; } }
+
+  .eyebrow, .section-kicker, .stage-top, .block-head, .panel-badge, .runmeta span,
+  .section-head p, .control-heading, .range-ends, .small-note, .notes-foot, footer,
+  .legend-copy small, .census-name small, .cat-name small, .plate-id, .stage-live,
+  .event-banner .event-kicker, .event-banner .event-meta, .dashboard-kicker,
+  .chart-axis-note, .metric-label, .dash-meta, .chart-caption, .trait-unit {
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+  }
+
+  .eyebrow {
+    color: var(--brass-light);
+    opacity: 0.78;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+    margin-bottom: 3px;
+  }
+  .eyebrow .slash { color: var(--faint); margin: 0 7px; }
+
+  h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(23px, 2.15vw, 31px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: #f0eadb;
+    white-space: nowrap;
+  }
+  h1 em { font-weight: 400; color: var(--flora); }
+  h2, h3, p { margin: 0; }
+
+  .runmeta {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    height: 38px;
+    flex: 1;
+    min-width: 0;
+  }
+  .metry {
+    padding: 1px 18px;
+    min-width: 82px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--line);
+  }
+  .metry:last-child { border-right: 1px solid var(--line); }
+  .metry span { color: var(--muted-2); font-size: 7px; letter-spacing: 0.17em; line-height: 1.4; }
+  .metry b {
+    color: var(--paper-dim);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .metry b i { font-style: normal; color: var(--faint); }
+  .metry.status { min-width: 145px; }
+  .metry.status b { color: var(--flora); font-family: var(--sans); font-size: 10px; letter-spacing: 0.04em; display: flex; align-items: center; gap: 7px; }
+  .metry.status b i {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--flora);
+    box-shadow: 0 0 8px var(--flora);
+    animation: signal-pulse 2.4s ease-in-out infinite;
+  }
+  .metry.status b.is-paused { color: var(--brass-light); }
+  .metry.status b.is-paused i { background: var(--brass); box-shadow: 0 0 8px var(--brass); animation: none; }
+  @keyframes signal-pulse { 0%,100% { opacity: .45; transform: scale(.85); } 50% { opacity: 1; transform: scale(1); } }
+
+  .top-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; flex: 0 0 auto; }
+  .text-button, .primary-button, .ghost-button, .icon-button {
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.02);
+    color: var(--paper-dim);
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 13px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: border-color .22s var(--ease), background .22s var(--ease), color .22s var(--ease), transform .22s var(--ease);
+  }
+  .text-button:hover, .ghost-button:hover, .icon-button:hover { border-color: var(--line-strong); color: var(--paper); background: rgba(255,255,255,.04); }
+  .primary-button {
+    color: #102019;
+    background: var(--paper);
+    border-color: var(--paper);
+    min-width: 88px;
+    font-weight: 600;
+  }
+  .primary-button:hover { background: #f6f0e1; transform: translateY(-1px); }
+  .primary-button .glyph { width: 10px; height: 10px; display: inline-flex; }
+  .primary-button .glyph svg { width: 100%; height: 100%; }
+  button:focus-visible, [role="slider"]:focus-visible, input:focus-visible, .switch input:focus-visible + .switch-track {
+    outline: 1px solid var(--brass-light);
+    outline-offset: 4px;
+  }
+  .text-button svg { width: 13px; height: 13px; opacity: .75; }
+
+  .tableau {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 342px minmax(360px, 1fr) 250px;
+    background: var(--ink);
+    position: relative;
+  }
+
+  .instruments {
+    background:
+      radial-gradient(460px 300px at -10% 0%, rgba(94, 148, 113, .09), transparent 65%),
+      linear-gradient(180deg, rgba(255,255,255,.012), transparent 38%),
+      var(--panel-soft);
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    position: relative;
+    z-index: 8;
+  }
+
+  .panel-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 17px 22px 12px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .section-kicker { color: var(--brass); color: #bda273; font-size: 7px; letter-spacing: .18em; display: block; margin-bottom: 5px; }
+  .panel-heading h2, .notes-heading h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1;
+    color: #ece5d5;
+    letter-spacing: -.02em;
+  }
+  .panel-badge {
+    border: 1px solid rgba(168, 231, 191, .2);
+    color: var(--flora);
+    font-size: 6.5px;
+    border-radius: 2px;
+    padding: 4px 6px 3px;
+    margin-top: 3px;
+    background: rgba(168, 231, 191, .045);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    letter-spacing: .15em;
+  }
+  .panel-badge::before { content: ""; width: 3px; height: 3px; border-radius: 50%; background: var(--flora); box-shadow: 0 0 5px var(--flora); }
+  .mobile-close { display: none; }
+
+  .instrument-scroll {
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: 8px 20px 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(180, 203, 185, .22) transparent;
+  }
+  .instrument-scroll::-webkit-scrollbar { width: 4px; }
+  .instrument-scroll::-webkit-scrollbar-thumb { background: rgba(180, 203, 185, .22); border-radius: 4px; }
+  .instrument-scroll::-webkit-scrollbar-track { background: transparent; }
+
+  .control-section { padding: 11px 0 9px; }
+  .control-section + .control-section { border-top: 1px solid rgba(199, 217, 200, .09); }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 7px;
+  }
+  .section-head .roman {
+    font-family: var(--display);
+    color: var(--brass);
+    font-size: 12px;
+    font-style: italic;
+    width: 15px;
+    flex: 0 0 auto;
+    opacity: .9;
+  }
+  .section-head h3 {
+    font-family: var(--sans);
+    color: var(--paper-dim);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: .13em;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .section-head p {
+    color: var(--faint);
+    font-size: 6px;
+    letter-spacing: .13em;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+  .section-rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
+
+  .tempo-layout {
+    display: grid;
+    grid-template-columns: 122px minmax(0, 1fr);
+    align-items: center;
+    gap: 15px;
+    min-height: 122px;
+  }
+
+  .dial {
+    width: 118px;
+    height: 118px;
+    border-radius: 50%;
+    position: relative;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    flex: 0 0 auto;
+    outline: none;
+    background:
+      radial-gradient(circle at 40% 32%, rgba(255,255,255,.08), transparent 28%),
+      radial-gradient(circle at 50% 55%, #0d1b16 0 48%, #07110d 52% 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(207, 222, 205, .12),
+      inset 0 0 0 6px rgba(5, 13, 10, .5),
+      inset 0 0 28px rgba(0,0,0,.46),
+      0 10px 28px rgba(0,0,0,.32);
+  }
+  .dial:active { cursor: grabbing; }
+  .dial::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(203, 219, 201, .11);
+    background: repeating-conic-gradient(from 130deg, rgba(216, 203, 175, .42) 0deg .5deg, transparent .5deg 6deg);
+    -webkit-mask: radial-gradient(circle, transparent 0 89%, #000 90%);
+    mask: radial-gradient(circle, transparent 0 89%, #000 90%);
+    opacity: .5;
+  }
+  .dial:focus-visible { box-shadow: inset 0 0 0 2px var(--brass), inset 0 0 0 7px rgba(5,13,10,.7), 0 0 0 5px rgba(185,155,104,.15), 0 10px 28px rgba(0,0,0,.4); }
+  .dial-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .dial-arc-bg { fill: none; stroke: rgba(226, 235, 216, .085); stroke-width: 2.2; stroke-linecap: round; }
+  .dial-arc { fill: none; stroke: var(--brass-light); stroke-width: 2.4; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(185, 155, 104, .36)); transition: stroke-dasharray .06s linear; }
+  .dial-needle { stroke: #eee7d7; stroke-width: 1.1; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(238, 231, 215, .36)); transition: transform .05s linear; }
+  .dial-hub { fill: var(--brass); stroke: #1a241d; stroke-width: 1; }
+  .dial-center {
+    position: absolute;
+    inset: 31px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 33%, #15241e, #0a1511 70%);
+    border: 1px solid rgba(208, 222, 203, .11);
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    padding-top: 23px;
+    box-shadow: inset 0 0 16px rgba(0,0,0,.32);
+    pointer-events: none;
+  }
+  .dial-center span {
+    font-family: var(--display);
+    font-size: 27px;
+    color: #f0eadb;
+    line-height: 1;
+  }
+  .dial-center em { font-family: var(--mono); font-style: normal; font-size: 8px; color: var(--brass-light); margin-left: 2px; }
+  .dial-sub {
+    position: absolute;
+    bottom: 19px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 5.5px;
+    letter-spacing: .19em;
+    text-transform: uppercase;
+    color: var(--faint);
+    pointer-events: none;
+  }
+
+  .tempo-copy { min-width: 0; }
+  .tempo-copy .micro-label {
+    font-family: var(--mono);
+    font-size: 6.5px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 3px;
+  }
+  .tempo-rate {
+    font-family: var(--display);
+    font-size: 25px;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .tempo-rate small { font-family: var(--mono); font-size: 7px; color: var(--muted); letter-spacing: .08em; margin-left: 3px; }
+  .tempo-copy .spark { width: 100%; max-width: 118px; height: 20px; display: block; margin: 8px 0 8px; }
+  .small-note {
+    font-size: 6.5px;
+    letter-spacing: .09em;
+    color: var(--faint);
+    line-height: 1.55;
+    text-transform: uppercase;
+  }
+  .small-note span { color: var(--muted-2); white-space: nowrap; }
+
+  .control-heading {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 20px;
+    font-size: 7.5px;
+    color: var(--muted);
+    letter-spacing: .13em;
+  }
+  .control-heading label { color: var(--paper-dim); font-size: 7.5px; cursor: pointer; }
+  .control-heading output {
+    margin-left: auto;
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .03em;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+  }
+  .control-heading output small { color: var(--muted-2); font-size: 7px; margin-left: 2px; letter-spacing: .06em; }
+  .hint-dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid rgba(192, 209, 192, .2);
+    background: transparent;
+    color: var(--muted-2);
+    font-family: var(--display);
+    font-size: 8px;
+    font-style: italic;
+    line-height: 1;
+    display: inline-grid;
+    place-items: center;
+    padding: 0 0 1px;
+    cursor: help;
+    flex: 0 0 auto;
+    transition: color .2s, border-color .2s;
+  }
+  .hint-dot:hover, .hint-dot:focus-visible { color: var(--brass-light); border-color: var(--brass); outline: none; }
+  .spark-wrap { display: inline-flex; width: 47px; height: 15px; margin-left: auto; opacity: .68; align-items: center; justify-content: flex-end; }
+  .control-heading .spark-wrap + output { margin-left: 3px; }
+  .spark { display: block; width: 100%; height: 100%; }
+
+  .range-shell { position: relative; height: 25px; margin-top: 2px; }
+  .range-rail { position: absolute; inset: 0; pointer-events: none; }
+  .range-rail::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 11px;
+    height: 2px;
+    background: rgba(210, 226, 210, .12);
+    border-radius: 4px;
+  }
+  .range-fill {
+    position: absolute;
+    left: 0; top: 11px;
+    height: 2px;
+    width: var(--fill, 40%);
+    border-radius: 4px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent, var(--brass-light)) 35%, transparent), var(--accent, var(--brass-light)));
+    box-shadow: 0 0 8px color-mix(in srgb, var(--accent, var(--brass-light)) 24%, transparent);
+  }
+  .range-rail::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 16px;
+    height: 5px;
+    background: repeating-linear-gradient(90deg, rgba(209, 223, 209, .17) 0 1px, transparent 1px 10%);
+    opacity: .62;
+  }
+  .range-thumb {
+    position: absolute;
+    left: var(--fill, 40%);
+    top: 12px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--accent, var(--brass-light));
+    background: #0b1712;
+    box-shadow: 0 0 0 3px rgba(8, 19, 15, .9), 0 0 11px color-mix(in srgb, var(--accent, var(--brass-light)) 42%, transparent);
+    transition: box-shadow .2s, width .2s, height .2s;
+  }
+  .range-thumb::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--accent, var(--brass-light));
+    opacity: .9;
+  }
+  .range-input {
+    position: absolute;
+    inset: -4px 0;
+    width: 100%;
+    height: 30px;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+    z-index: 2;
+  }
+  .range-shell:hover .range-thumb, .range-shell.is-focused .range-thumb {
+    width: 13px; height: 13px;
+    box-shadow: 0 0 0 3px rgba(8, 19, 15, .9), 0 0 14px color-mix(in srgb, var(--accent, var(--brass-light)) 65%, transparent);
+  }
+  .range-shell.is-focused .range-thumb { outline: 1px solid var(--paper); outline-offset: 3px; }
+  .range-ends {
+    display: flex;
+    justify-content: space-between;
+    color: var(--faint);
+    font-size: 5.6px;
+    letter-spacing: .08em;
+    margin-top: -1px;
+    line-height: 1.3;
+  }
+  .range-ends span:nth-child(2) { opacity: .75; }
+
+  .step-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 9px; }
+  .stepper-control { min-width: 0; }
+  .stepper-control .control-heading { min-height: 18px; }
+  .stepper-control .control-heading label { font-size: 6.5px; letter-spacing: .12em; }
+  .stepper-control .spark-wrap { width: 35px; height: 12px; }
+  .stepper-control output { font-size: 9px; }
+  .stepper {
+    display: flex;
+    align-items: stretch;
+    height: 31px;
+    margin-top: 3px;
+    border: 1px solid rgba(201, 218, 201, .14);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, .018);
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .stepper:focus-within { border-color: rgba(185, 155, 104, .65); box-shadow: 0 0 0 3px rgba(185,155,104,.08); }
+  .stepper button {
+    width: 25px;
+    flex: 0 0 auto;
+    border: 0;
+    border-right: 1px solid rgba(201, 218, 201, .1);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    transition: background .2s, color .2s;
+  }
+  .stepper button:last-child { border-right: 0; border-left: 1px solid rgba(201, 218, 201, .1); }
+  .stepper button:hover { color: var(--paper); background: rgba(255,255,255,.045); }
+  .stepper button:focus-visible { outline: none; color: var(--brass-light); background: rgba(185,155,104,.12); }
+  .stepper button svg { width: 10px; height: 10px; opacity: .8; }
+  .stepper input {
+    min-width: 0;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-align: center;
+    letter-spacing: .04em;
+    padding: 0;
+    -moz-appearance: textfield;
+    font-variant-numeric: tabular-nums;
+  }
+  .stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .stepper input:focus { outline: none; color: #fffaf0; }
+  .stepper.dice-only button:last-child { border-left: 0; border-right: 0; }
+
+  .cat-list { margin-top: 1px; }
+  .cat-control { padding: 5px 0 6px; }
+  .cat-control + .cat-control { border-top: 1px dotted rgba(201, 218, 201, .08); }
+  .cat-head { display: flex; align-items: center; gap: 6px; min-height: 15px; }
+  .cat-symbol {
+    width: 14px;
+    height: 14px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    color: var(--accent);
+    font-family: var(--display);
+    font-size: 13px;
+    line-height: 1;
+  }
+  .cat-symbol svg { width: 12px; height: 12px; display: block; }
+  .cat-name { color: var(--paper-dim); font-size: 7px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .12em; white-space: nowrap; }
+  .cat-name small { color: var(--faint); font-size: 5.5px; margin-left: 4px; letter-spacing: .05em; }
+  .cat-next { margin-left: auto; color: var(--faint); font-family: var(--mono); font-size: 6px; letter-spacing: .06em; white-space: nowrap; text-transform: uppercase; }
+  .cat-next b { color: var(--accent); font-weight: 400; }
+  .cat-head .hint-dot { width: 11px; height: 11px; font-size: 7px; }
+  .cat-head .spark-wrap { width: 32px; height: 12px; margin-left: auto; opacity: .55; }
+  .cat-head .cat-next { margin-left: 3px; min-width: 42px; text-align: right; }
+  .cat-head output { font-family: var(--mono); font-size: 8px; color: var(--paper-dim); margin-left: 1px; min-width: 22px; text-align: right; letter-spacing: 0; }
+  .cat-head output small { color: var(--faint); font-size: 5.5px; }
+  .cat-control .range-shell { height: 19px; margin-top: 0; }
+  .cat-control .range-rail::before, .cat-control .range-fill { top: 9px; }
+  .cat-control .range-rail::after { top: 13px; height: 4px; opacity: .4; }
+  .cat-control .range-thumb { top: 10px; width: 8px; height: 8px; }
+  .cat-control .range-thumb::after { inset: 2.5px; }
+  .cat-control .range-input { height: 23px; }
+
+  .toggle-block { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 2px; padding: 10px 0 7px; border-top: 1px solid rgba(199,217,200,.09); }
+  .toggle-control { min-width: 0; display: flex; align-items: center; gap: 8px; }
+  .toggle-copy { min-width: 0; }
+  .toggle-copy label {
+    display: block;
+    font-family: var(--mono);
+    color: var(--paper-dim);
+    font-size: 6.5px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle-copy span { display: block; font-family: var(--mono); font-size: 5.4px; letter-spacing: .05em; color: var(--faint); margin-top: 2px; text-transform: uppercase; white-space: nowrap; }
+  .toggle-control .switch { margin-left: auto; flex: 0 0 auto; }
+  .switch { position: relative; width: 28px; height: 16px; display: inline-block; }
+  .switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; z-index: 2; }
+  .switch-track {
+    position: absolute;
+    inset: 0;
+    border-radius: 9px;
+    border: 1px solid rgba(201, 218, 201, .2);
+    background: rgba(255,255,255,.025);
+    transition: background .2s var(--ease), border-color .2s;
+  }
+  .switch-track::after {
+    content: "";
+    position: absolute;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    top: 3px; left: 3px;
+    background: var(--muted);
+    transition: transform .2s var(--ease), background .2s;
+  }
+  .switch input:checked + .switch-track { background: rgba(168, 231, 191, .12); border-color: rgba(168, 231, 191, .38); }
+  .switch input:checked + .switch-track::after { transform: translateX(12px); background: var(--flora); box-shadow: 0 0 6px rgba(168,231,191,.5); }
+  .switch input:focus-visible + .switch-track { outline: 1px solid var(--brass-light); outline-offset: 3px; }
+
+  .console-footer {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 7px;
+    padding: 10px 20px 12px;
+    border-top: 1px solid var(--line);
+    background: rgba(3,10,7,.2);
+  }
+  .ghost-button { height: 31px; font-size: 6.8px; letter-spacing: .1em; padding: 0 8px; }
+  .ghost-button:last-child { color: var(--brass-light); border-color: rgba(185,155,104,.25); }
+  .ghost-button svg { width: 11px; height: 11px; opacity: .75; }
+
+  .stage {
+    min-width: 0;
+    min-height: 0;
+    padding: 0 18px 11px;
+    display: grid;
+    grid-template-rows: 41px minmax(0, 1fr) 77px;
+    background:
+      radial-gradient(800px 600px at 50% 45%, rgba(55, 101, 81, .08), transparent 65%),
+      linear-gradient(180deg, #07100d, #050c09);
+    position: relative;
+    z-index: 1;
+  }
+  .stage-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--muted-2);
+    font-size: 6.5px;
+    letter-spacing: .14em;
+    min-width: 0;
+  }
+  .plate-id { display: flex; align-items: center; gap: 8px; min-width: 0; white-space: nowrap; }
+  .plate-id .line { width: 32px; height: 1px; background: var(--line); }
+  .plate-id i { color: var(--paper-dim); font-family: var(--display); font-size: 12px; text-transform: none; letter-spacing: .01em; }
+  .plate-id span:first-child { color: var(--brass); }
+  .stage-live { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .signal-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--flora); box-shadow: 0 0 6px var(--flora); animation: signal-pulse 2.4s ease-in-out infinite; }
+  .stage-live .coord { color: var(--faint); margin-left: 7px; padding-left: 10px; border-left: 1px solid var(--line); }
+  .stage-live .signal-dot.is-paused { background: var(--brass); box-shadow: 0 0 6px var(--brass); animation: none; }
+  .stage-live.is-finished { color: var(--brass-light); }
+
+  .vitrine {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid rgba(197, 216, 199, .2);
+    background: #07120e;
+    box-shadow:
+      inset 0 0 0 1px rgba(0,0,0,.6),
+      inset 0 0 50px rgba(0,0,0,.36),
+      0 22px 44px rgba(0,0,0,.3);
+    isolation: isolate;
+  }
+  .vitrine::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(203, 221, 204, .08);
+    border-radius: 6px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .vitrine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 11;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow:
+      inset 0 0 70px rgba(0,0,0,.56),
+      inset 0 0 0 1px rgba(255,255,255,.025),
+      inset 0 -40px 70px rgba(0,0,0,.25);
+  }
+  #world { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
+  .water-glow {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      radial-gradient(ellipse at 50% 44%, rgba(93, 160, 124, .075), transparent 59%),
+      radial-gradient(ellipse at 50% 105%, rgba(185, 155, 104, .05), transparent 50%);
+    mix-blend-mode: screen;
+  }
+  .glass-streak {
+    position: absolute; inset: 0; z-index: 9; pointer-events: none; opacity: .55;
+    background:
+      linear-gradient(116deg, transparent 0 26%, rgba(205, 229, 208, .025) 29%, rgba(205, 229, 208, .01) 34%, transparent 37%),
+      linear-gradient(104deg, transparent 0 68%, rgba(221, 228, 211, .022) 72%, transparent 76%);
+  }
+  .grain-canvas { display: none; }
+
+  .stage-overlay { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
+  .corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: rgba(211, 225, 208, .33);
+    border-style: solid;
+    opacity: .9;
+  }
+  .corner.tl { left: 14px; top: 14px; border-width: 1px 0 0 1px; }
+  .corner.tr { right: 14px; top: 14px; border-width: 1px 1px 0 0; }
+  .corner.bl { left: 14px; bottom: 14px; border-width: 0 0 1px 1px; }
+  .corner.br { right: 14px; bottom: 14px; border-width: 0 1px 1px 0; }
+  .vitrine-caption {
+    position: absolute;
+    top: 20px; left: 25px;
+    color: rgba(211, 226, 210, .55);
+    font-family: var(--mono);
+    font-size: 5.8px;
+    line-height: 1.7;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .vitrine-caption b { color: rgba(219, 230, 211, .82); font-weight: 500; }
+  .vitrine-caption .dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(168, 231, 191, .7); }
+  .vitrine-code {
+    position: absolute;
+    top: 20px; right: 25px;
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 5.8px;
+    line-height: 1.7;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: rgba(198, 216, 201, .4);
+  }
+  .vitrine-code b { color: rgba(219, 230, 211, .75); font-weight: 400; }
+  .glass-plaque {
+    position: absolute;
+    left: 23px; bottom: 20px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--mono);
+    font-size: 5px;
+    letter-spacing: .19em;
+    text-transform: uppercase;
+    color: rgba(203, 220, 201, .28);
+    z-index: 9;
+    pointer-events: none;
+  }
+  .stage-scale {
+    position: absolute;
+    left: 50%;
+    bottom: 15px;
+    transform: translateX(-50%);
+    width: 92px;
+    height: 5px;
+    background: repeating-linear-gradient(90deg, rgba(211, 225, 208, .28) 0 1px, transparent 1px 9px);
+    z-index: 9;
+    pointer-events: none;
+    opacity: .6;
+  }
+  .stage-scale::after { content: ""; position: absolute; left: 50%; top: -3px; width: 1px; height: 10px; background: rgba(224, 232, 218, .55); }
+
+  .event-tint {
+    position: absolute;
+    inset: 0;
+    z-index: 7;
+    opacity: 0;
+    pointer-events: none;
+    background: transparent;
+    transition: opacity .7s var(--ease), background .7s var(--ease);
+    mix-blend-mode: screen;
+  }
+  .vitrine.is-event .event-tint { opacity: .7; background: var(--event-wash, radial-gradient(ellipse at center, rgba(217,164,65,.18), transparent 65%)); }
+  .vitrine.is-event .aureole i { animation: event-ring 2.3s cubic-bezier(.12,.7,.2,1) forwards; }
+  .vitrine.is-event .aureole i:last-child { animation-delay: .24s; }
+  .aureole { position: absolute; inset: 0; z-index: 6; pointer-events: none; display: grid; place-items: center; }
+  .aureole i {
+    position: absolute;
+    width: min(88%, 620px);
+    aspect-ratio: 1;
+    border: 1px solid var(--event-color, rgba(217,164,65,.35));
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(.2);
+    box-shadow: 0 0 30px var(--event-color, rgba(217,164,65,.2));
+  }
+  @keyframes event-ring { 0% { opacity: 0; transform: scale(.15); } 12% { opacity: .55; } 100% { opacity: 0; transform: scale(1.3); } }
+
+  .event-banner {
+    position: absolute;
+    z-index: 12;
+    left: 50%;
+    top: 45px;
+    transform: translate(-50%, -8px);
+    width: min(390px, calc(100% - 70px));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .45s var(--ease), transform .6s var(--ease);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 13px 9px 11px;
+    border: 1px solid color-mix(in srgb, var(--event-color, var(--brass)) 34%, transparent);
+    border-radius: 4px;
+    background: rgba(5, 13, 10, .82);
+    box-shadow: 0 12px 34px rgba(0,0,0,.3);
+    backdrop-filter: blur(9px);
+  }
+  .event-banner.is-visible { opacity: 1; transform: translate(-50%, 0); }
+  .event-banner .event-icon {
+    width: 30px;
+    height: 30px;
+    border: 1px solid color-mix(in srgb, var(--event-color) 32%, transparent);
+    border-radius: 50%;
+    color: var(--event-color);
+    display: grid;
+    place-items: center;
+    font-family: var(--display);
+    font-size: 17px;
+    flex: 0 0 auto;
+    box-shadow: inset 0 0 12px color-mix(in srgb, var(--event-color) 8%, transparent);
+  }
+  .event-banner .event-icon svg { width: 16px; height: 16px; }
+  .event-banner .event-kicker { color: var(--event-color); font-size: 5.8px; margin-bottom: 2px; letter-spacing: .17em; }
+  .event-banner .event-title { font-family: var(--display); font-weight: 400; font-size: 16px; line-height: 1.05; color: #eee7d7; letter-spacing: -.01em; }
+  .event-banner .event-meta { margin-left: auto; text-align: right; color: var(--muted-2); font-size: 5.6px; letter-spacing: .1em; white-space: nowrap; line-height: 1.6; }
+  .event-banner .event-meta b { color: var(--paper-dim); font-weight: 400; }
+
+  .stage-bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(150px, .95fr);
+    align-items: center;
+    gap: 18px;
+    padding: 10px 2px 0;
+  }
+  .species-legend { display: flex; align-items: center; gap: clamp(10px, 1.9vw, 20px); min-width: 0; }
+  .legend-item { display: flex; align-items: center; gap: 7px; min-width: 0; }
+  .legend-glyph { width: 19px; height: 19px; flex: 0 0 auto; opacity: .92; }
+  .legend-glyph svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .legend-copy { min-width: 0; }
+  .legend-copy b { display: block; font-size: 8px; color: var(--paper-dim); font-weight: 500; letter-spacing: .015em; white-space: nowrap; }
+  .legend-copy small { display: block; font-size: 5.2px; color: var(--muted-2); letter-spacing: .13em; margin-top: 2px; white-space: nowrap; }
+  .legend-count { font-family: var(--mono); font-size: 10px; color: var(--paper-dim); margin-left: 1px; min-width: 24px; font-variant-numeric: tabular-nums; }
+  .legend-count small { font-size: 5.6px; color: var(--faint); margin-left: 1px; }
+  .flora .legend-copy b { color: var(--flora); }
+  .grazer .legend-copy b { color: var(--grazer); }
+  .hunter .legend-copy b { color: var(--hunter); }
+
+  .run-progress { min-width: 0; }
+  .run-progress-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 7px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .13em; font-size: 5.8px; color: var(--muted-2); }
+  .run-progress-head span:last-child { color: var(--paper-dim); font-size: 6px; white-space: nowrap; }
+  .timeline { position: relative; height: 17px; }
+  .timeline-track { position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: rgba(207, 223, 207, .16); }
+  .timeline-track::before {
+    content: "";
+    position: absolute;
+    inset: -4px 0 auto;
+    height: 9px;
+    background: repeating-linear-gradient(90deg, rgba(208,223,208,.2) 0 1px, transparent 1px calc(100% / 12));
+    opacity: .55;
+  }
+  .timeline-fill { position: absolute; left: 0; top: 0; height: 1px; width: 0%; background: linear-gradient(90deg, rgba(168,231,191,.4), var(--brass-light)); box-shadow: 0 0 7px rgba(210,189,143,.25); }
+  .timeline-head { position: absolute; top: 2px; width: 9px; height: 9px; transform: translateX(-50%); border-radius: 50%; background: #0b1712; border: 1px solid var(--brass-light); box-shadow: 0 0 0 3px rgba(8,19,15,.8); left: 0; z-index: 2; }
+  .timeline-head::after { content:""; position: absolute; inset: 2px; border-radius: 50%; background: var(--brass-light); }
+  .timeline-pins { position: absolute; inset: 0; pointer-events: none; }
+  .timeline-pin { position: absolute; top: 4px; width: 5px; height: 5px; transform: translateX(-50%) rotate(45deg); border: 1px solid var(--pin-color, var(--brass)); background: #08130f; z-index: 3; }
+  .timeline-pin.past { background: var(--pin-color, var(--brass)); box-shadow: 0 0 7px var(--pin-color, var(--brass)); }
+  .timeline-pin.upcoming { opacity: .55; }
+  .timeline-labels { display: flex; justify-content: space-between; margin-top: 2px; color: var(--faint); font-family: var(--mono); font-size: 5.2px; letter-spacing: .08em; }
+  .report-button {
+    display: none;
+    position: absolute;
+    right: 20px;
+    bottom: 90px;
+    z-index: 14;
+    height: 34px;
+    padding: 0 15px;
+    font-family: var(--mono);
+    font-size: 7px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: #102019;
+    background: var(--paper);
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 11px 25px rgba(0,0,0,.25);
+  }
+  .report-button.is-visible { display: block; }
+
+  .fieldnotes {
+    background:
+      radial-gradient(380px 300px at 110% 12%, rgba(185,155,104,.06), transparent 70%),
+      linear-gradient(180deg, rgba(255,255,255,.018), transparent 30%),
+      #07110e;
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 5;
+  }
+  .notes-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 18px 18px 13px;
+    border-bottom: 1px solid var(--line);
+  }
+  .notes-heading h2 { font-family: var(--display); }
+  .live-tag { display: inline-flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 5.7px; color: var(--hunter); letter-spacing: .14em; text-transform: uppercase; margin-top: 4px; }
+  .live-tag i { width: 4px; height: 4px; border-radius: 50%; background: var(--hunter); box-shadow: 0 0 6px var(--hunter); animation: rec-blink 2.1s steps(1) infinite; }
+  @keyframes rec-blink { 0%, 68% { opacity: 1; } 69%, 100% { opacity: .25; } }
+  .notes-block { padding: 11px 18px 12px; border-bottom: 1px solid rgba(199,217,200,.09); min-height: 0; }
+  .block-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--muted-2); font-size: 5.8px; letter-spacing: .12em; margin-bottom: 9px; }
+  .block-head span:last-child { color: var(--faint); font-size: 5.3px; letter-spacing: .06em; text-align: right; white-space: nowrap; }
+  .census-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
+  .census-row + .census-row { border-top: 1px dotted rgba(202,218,201,.07); }
+  .census-glyph { width: 17px; height: 17px; flex: 0 0 auto; }
+  .census-glyph svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .census-copy { flex: 1; min-width: 0; }
+  .census-name { display: flex; align-items: center; gap: 5px; }
+  .census-name b { color: var(--paper-dim); font-family: var(--sans); font-size: 8.5px; font-weight: 500; letter-spacing: 0; white-space: nowrap; }
+  .census-name small { color: var(--faint); font-size: 5px; letter-spacing: .1em; }
+  .census-bar { height: 2px; background: rgba(201,218,201,.09); margin-top: 5px; overflow: hidden; }
+  .census-bar i { display: block; height: 100%; width: 0%; background: var(--species, var(--flora)); opacity: .65; transition: width .4s var(--ease); }
+  .census-value { font-family: var(--mono); font-size: 12px; color: var(--paper); font-variant-numeric: tabular-nums; min-width: 32px; text-align: right; letter-spacing: -.03em; }
+  .census-value small { display: block; font-size: 5px; color: var(--muted-2); letter-spacing: .06em; text-align: right; margin-top: 2px; }
+  .trace-block { padding-bottom: 8px; }
+  #liveTrace { display: block; width: 100%; height: 76px; }
+  .chart-key { display: flex; align-items: center; gap: 12px; margin-top: 5px; font-family: var(--mono); font-size: 5.2px; color: var(--faint); text-transform: uppercase; letter-spacing: .08em; }
+  .key-item { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+  .key-item i { width: 5px; height: 1px; background: var(--key); }
+  .schedule-block { padding-bottom: 10px; }
+  .schedule-row { display: grid; grid-template-columns: 16px 1fr auto; align-items: center; gap: 6px; padding: 6px 0; }
+  .schedule-row + .schedule-row { border-top: 1px dotted rgba(202,218,201,.065); }
+  .schedule-icon { width: 14px; height: 14px; color: var(--event); display: grid; place-items: center; font-family: var(--display); font-size: 12px; }
+  .schedule-icon svg { width: 12px; height: 12px; }
+  .schedule-copy b { display: block; color: var(--paper-dim); font-family: var(--sans); font-size: 8px; font-weight: 500; }
+  .schedule-copy span { display: block; color: var(--faint); font-family: var(--mono); font-size: 5px; text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
+  .schedule-when { color: var(--faint); font-family: var(--mono); font-size: 5.5px; text-align: right; line-height: 1.55; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+  .schedule-when b { display: block; color: var(--event); font-weight: 400; font-size: 7px; letter-spacing: .06em; }
+  .chronicle-block { flex: 1; overflow: auto; min-height: 66px; }
+  .chronicle-list { display: flex; flex-direction: column; gap: 6px; }
+  .chronicle-entry { display: grid; grid-template-columns: 12px 1fr auto; align-items: baseline; gap: 6px; font-family: var(--mono); }
+  .chronicle-entry .entry-mark { width: 5px; height: 5px; border-radius: 50%; background: var(--event); box-shadow: 0 0 5px var(--event); align-self: center; }
+  .chronicle-entry .entry-text { color: var(--muted); font-size: 5.7px; text-transform: uppercase; letter-spacing: .07em; line-height: 1.45; }
+  .chronicle-entry .entry-text b { color: var(--paper-dim); font-weight: 500; }
+  .chronicle-entry .entry-gen { color: var(--faint); font-size: 5.3px; letter-spacing: .04em; white-space: nowrap; }
+  .empty-note { font-family: var(--display); font-style: italic; color: var(--faint); font-size: 11px; line-height: 1.4; }
+  .notes-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 18px;
+    border-top: 1px solid var(--line);
+    color: var(--faint);
+    font-size: 5.2px;
+    letter-spacing: .08em;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .notes-foot .folio { color: var(--muted-2); }
+  .notes-foot .folio b { color: var(--paper-dim); font-weight: 400; }
+
+  .statusbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 18px;
+    border-top: 1px solid var(--line);
+    background: rgba(3,9,7,.7);
+    font-size: 5.9px;
+    color: var(--faint);
+    letter-spacing: .09em;
+    z-index: 6;
+  }
+  .statusbar > div { display: flex; align-items: center; gap: 7px; min-width: 0; white-space: nowrap; }
+  .status-chip { color: var(--flora); border: 1px solid rgba(168,231,191,.18); padding: 3px 5px; border-radius: 2px; font-size: 5.2px; letter-spacing: .1em; background: rgba(168,231,191,.035); }
+  .statusbar code { font-family: var(--mono); color: var(--muted); font-size: 6px; letter-spacing: .02em; text-transform: none; }
+  .statusbar .sep { color: var(--faint); opacity: .6; }
+  .statusbar kbd { font-family: var(--mono); font-size: 5.4px; color: var(--muted-2); border: 1px solid var(--line); border-radius: 2px; padding: 2px 4px; background: rgba(255,255,255,.025); letter-spacing: .03em; }
+  .status-center span { color: var(--faint); }
+
+  .tooltip {
+    position: fixed;
+    z-index: 100;
+    max-width: 238px;
+    padding: 9px 11px 10px;
+    border: 1px solid rgba(211, 225, 208, .19);
+    border-radius: 4px;
+    background: rgba(8, 20, 15, .97);
+    box-shadow: 0 14px 35px rgba(0,0,0,.42);
+    color: var(--paper-dim);
+    font-family: var(--sans);
+    font-size: 9.5px;
+    line-height: 1.5;
+    letter-spacing: .01em;
+    opacity: 0;
+    transform: translateY(3px);
+    pointer-events: none;
+    transition: opacity .16s var(--ease), transform .16s var(--ease);
+  }
+  .tooltip.is-visible { opacity: 1; transform: translateY(0); }
+  .tooltip::before {
+    content: "";
+    position: absolute;
+    top: -4px; left: 16px;
+    width: 7px; height: 7px;
+    background: #08140f;
+    border-left: 1px solid rgba(211,225,208,.19);
+    border-top: 1px solid rgba(211,225,208,.19);
+    transform: rotate(45deg);
+  }
+
+  .mobile-scrim { display: none; }
+
+  /* Dashboard */
+  .dashboard {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    overflow: auto;
+    color: var(--paper);
+    background:
+      radial-gradient(1100px 700px at 20% -5%, rgba(69, 132, 104, .18), transparent 60%),
+      radial-gradient(900px 700px at 110% 95%, rgba(185,155,104,.1), transparent 52%),
+      #040b08;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .65s var(--ease), visibility .65s;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(200, 218, 201, .22) transparent;
+  }
+  .dashboard.is-open { opacity: 1; visibility: visible; }
+  .dashboard::before {
+    content: "";
+    position: fixed;
+    inset: 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .dashboard-inner {
+    position: relative;
+    z-index: 1;
+    width: min(1500px, calc(100% - 64px));
+    margin: 0 auto;
+    padding: 22px 0 30px;
+  }
+  .dash-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--line);
+  }
+  .dash-brand { display: flex; align-items: center; gap: 12px; }
+  .dash-brand .seal { width: 31px; height: 31px; }
+  .dashboard-kicker { font-family: var(--mono); color: var(--brass); font-size: 6.5px; letter-spacing: .18em; text-transform: uppercase; }
+  .dash-brand h2 { font-family: var(--display); font-size: 15px; font-weight: 400; line-height: 1.1; margin-top: 2px; letter-spacing: -.01em; }
+  .dash-controls { display: flex; align-items: center; gap: 8px; }
+  .dash-controls .text-button { height: 32px; }
+  .dash-meta { display: flex; gap: 22px; align-items: center; }
+  .dash-meta div { text-align: right; }
+  .dash-meta span { display: block; color: var(--faint); font-family: var(--mono); font-size: 5.3px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 3px; }
+  .dash-meta b { display: block; color: var(--paper-dim); font-family: var(--mono); font-size: 8px; letter-spacing: .03em; font-weight: 400; }
+
+  .dash-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 30px;
+    padding: 26px 0 23px;
+  }
+  .dash-hero .dashboard-kicker { margin-bottom: 8px; color: var(--flora); }
+  .dash-title {
+    font-family: var(--display);
+    font-size: clamp(43px, 5.9vw, 84px);
+    font-weight: 400;
+    letter-spacing: -.045em;
+    line-height: .88;
+    max-width: 780px;
+    color: #f1ebdd;
+  }
+  .dash-title em { color: var(--brass-light); font-weight: 400; }
+  .dash-sub {
+    max-width: 515px;
+    margin-top: 14px;
+    font-family: var(--display);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+    letter-spacing: .01em;
+  }
+  .dash-sub .accent { color: var(--paper-dim); font-style: italic; }
+  .verdict {
+    max-width: 260px;
+    border-left: 1px solid var(--line-strong);
+    padding-left: 16px;
+    margin-bottom: 2px;
+  }
+  .verdict-label { font-family: var(--mono); color: var(--brass); font-size: 5.7px; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 7px; }
+  .verdict p { font-family: var(--display); font-size: 12.5px; line-height: 1.45; color: var(--paper-dim); font-style: italic; }
+  .verdict small { display: block; margin-top: 8px; color: var(--faint); font-family: var(--mono); font-size: 5.2px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.7; }
+  .dash-stat-row { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 18px; }
+  .dash-stat { min-width: 78px; }
+  .dash-stat .metric-label { color: var(--faint); font-size: 5.4px; margin-bottom: 3px; }
+  .dash-stat b { font-family: var(--display); font-size: 20px; font-weight: 400; color: var(--paper); letter-spacing: -.02em; }
+  .dash-stat b small { font-family: var(--mono); font-size: 6px; color: var(--muted); margin-left: 2px; letter-spacing: .04em; }
+
+  .dash-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 14px; }
+  .chart-panel, .dossier {
+    border: 1px solid var(--line);
+    background: linear-gradient(160deg, rgba(255,255,255,.018), rgba(255,255,255,.004));
+    border-radius: 7px;
+    position: relative;
+  }
+  .chart-panel { padding: 13px 15px 12px; min-width: 0; }
+  .chart-panel::before, .dossier::before {
+    content: "";
+    position: absolute;
+    left: 10px; top: 10px;
+    width: 7px; height: 7px;
+    border-left: 1px solid rgba(211,225,208,.25);
+    border-top: 1px solid rgba(211,225,208,.25);
+    pointer-events: none;
+  }
+  .chart-panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 3px 2px 9px;
+  }
+  .chart-title-wrap { display: flex; gap: 10px; align-items: baseline; }
+  .fig-no { font-family: var(--mono); font-size: 6.2px; color: var(--brass); letter-spacing: .1em; padding-top: 2px; white-space: nowrap; }
+  .chart-title { font-family: var(--display); font-size: 17px; font-weight: 400; color: var(--paper-dim); line-height: 1.1; letter-spacing: -.015em; }
+  .chart-caption { font-family: var(--mono); font-size: 5.4px; color: var(--faint); letter-spacing: .07em; text-transform: uppercase; line-height: 1.5; text-align: right; max-width: 270px; }
+  .chart-legend { display: flex; align-items: center; gap: 13px; flex-wrap: wrap; }
+  .chart-legend .key-item { font-size: 5.7px; color: var(--muted-2); }
+  .chart-legend .key-item i { height: 2px; width: 14px; }
+  #populationChart { display: block; width: 100%; height: 250px; touch-action: none; }
+  .pop-legend { display: flex; justify-content: space-between; padding: 8px 1px 0; border-top: 1px solid rgba(199,217,200,.08); margin-top: 4px; }
+  .pop-legend .chart-legend { gap: 15px; }
+  .pop-readout { font-family: var(--mono); color: var(--faint); font-size: 5.4px; letter-spacing: .06em; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .pop-readout b { color: var(--paper-dim); font-weight: 400; }
+
+  .dossier { padding: 13px 14px 12px; display: flex; flex-direction: column; min-height: 0; }
+  .dossier-head { display: flex; align-items: baseline; justify-content: space-between; padding: 2px 2px 9px; border-bottom: 1px solid var(--line); }
+  .dossier-head h3 { font-family: var(--display); font-size: 16px; font-weight: 400; color: var(--paper-dim); }
+  .dossier-head span { font-family: var(--mono); font-size: 5.2px; color: var(--faint); text-transform: uppercase; letter-spacing: .1em; }
+  .dossier-section { padding: 10px 2px; border-bottom: 1px solid rgba(199,217,200,.08); }
+  .dossier-section:last-of-type { border-bottom: 0; }
+  .dossier-label { font-family: var(--mono); color: var(--faint); font-size: 5.2px; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 7px; }
+  .event-ledger { display: flex; flex-direction: column; gap: 7px; max-height: 105px; overflow: auto; scrollbar-width: thin; }
+  .event-ledger-row { display: grid; grid-template-columns: 13px 1fr auto; align-items: center; gap: 6px; }
+  .event-ledger-icon { color: var(--event); font-family: var(--display); font-size: 12px; line-height: 1; text-align: center; }
+  .event-ledger-icon svg { width: 11px; height: 11px; vertical-align: middle; }
+  .event-ledger-copy { min-width: 0; }
+  .event-ledger-copy b { display: block; color: var(--paper-dim); font-family: var(--sans); font-size: 7.7px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .event-ledger-copy span { display: block; color: var(--faint); font-family: var(--mono); font-size: 5px; letter-spacing: .04em; text-transform: uppercase; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .event-ledger-gen { color: var(--event); font-family: var(--mono); font-size: 6px; }
+  .trait-shifts { display: flex; flex-direction: column; gap: 6px; }
+  .shift-row { display: grid; grid-template-columns: 1fr 56px; gap: 7px; align-items: center; }
+  .shift-copy { display: flex; justify-content: space-between; gap: 5px; font-family: var(--mono); font-size: 5.3px; color: var(--muted-2); text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+  .shift-copy span:last-child { color: var(--shift); }
+  .shift-bar { height: 2px; background: rgba(201,218,201,.09); margin-top: 3px; }
+  .shift-bar i { display: block; height: 100%; width: var(--shift-mag, 0%); background: var(--shift); opacity: .75; }
+  .dossier-foot { margin-top: auto; padding: 12px 2px 2px; border-top: 1px solid var(--line); }
+  .dossier-foot p { font-family: var(--display); font-style: italic; font-size: 10.5px; line-height: 1.5; color: var(--muted); }
+
+  .trait-section { margin-top: 14px; }
+  .trait-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 15px 2px 10px;
+    border-top: 1px solid var(--line-strong);
+  }
+  .trait-section-head .head-left { display: flex; gap: 11px; align-items: baseline; }
+  .trait-section-head h3 { font-family: var(--display); font-size: 17px; font-weight: 400; color: var(--paper-dim); letter-spacing: -.01em; }
+  .trait-section-head p { font-family: var(--mono); color: var(--faint); font-size: 5.4px; letter-spacing: .07em; text-transform: uppercase; }
+  .trait-legend { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 5.4px; color: var(--faint); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+  .trait-legend i { width: 9px; height: 5px; display: inline-block; background: rgba(168,231,191,.17); border: 1px solid rgba(168,231,191,.24); }
+  .trait-legend .mean-mark { width: 13px; height: 1px; background: var(--flora); margin-left: 7px; }
+  .trait-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .trait-card {
+    border: 1px solid rgba(199,217,200,.105);
+    border-radius: 5px;
+    padding: 8px 9px 7px;
+    min-width: 0;
+    background: rgba(255,255,255,.012);
+    position: relative;
+  }
+  .trait-card::after { content: ""; position: absolute; right: 6px; top: 6px; width: 3px; height: 3px; border-radius: 50%; background: var(--species); opacity: .65; }
+  .trait-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 5px; margin-bottom: 5px; }
+  .trait-card-title { font-family: var(--mono); font-size: 5.5px; color: var(--faint); letter-spacing: .08em; text-transform: uppercase; line-height: 1.45; }
+  .trait-card-title b { display: block; color: var(--species); font-size: 6.5px; font-weight: 400; letter-spacing: .1em; margin-bottom: 2px; }
+  .trait-card-value { text-align: right; white-space: nowrap; }
+  .trait-card-value b { font-family: var(--mono); font-size: 9px; color: var(--paper-dim); font-weight: 400; font-variant-numeric: tabular-nums; }
+  .trait-card-value span { display: block; color: var(--faint); font-family: var(--mono); font-size: 5px; letter-spacing: .03em; margin-top: 1px; }
+  .trait-card canvas { display: block; width: 100%; height: 73px; }
+  .trait-card-foot { display: flex; justify-content: space-between; border-top: 1px solid rgba(199,217,200,.07); padding-top: 4px; margin-top: 3px; color: var(--faint); font-family: var(--mono); font-size: 4.8px; letter-spacing: .04em; text-transform: uppercase; }
+  .trait-card-foot span:last-child { color: var(--muted-2); }
+
+  .dash-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 2px 0;
+    margin-top: 15px;
+    border-top: 1px solid var(--line);
+  }
+  .dash-bottom .note { font-family: var(--display); font-style: italic; color: var(--faint); font-size: 11px; line-height: 1.4; }
+  .dash-actions { display: flex; align-items: center; gap: 8px; }
+  .dash-actions .primary-button { height: 38px; padding: 0 20px; font-size: 7px; }
+  .dash-actions .text-button { height: 38px; padding: 0 16px; font-size: 6.5px; }
+  .dash-folio { color: var(--faint); font-family: var(--mono); font-size: 5.4px; letter-spacing: .12em; text-transform: uppercase; margin-left: 4px; }
+
+  .dash-reveal { opacity: 0; transform: translateY(14px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+  .dashboard.is-open .dash-reveal { opacity: 1; transform: none; }
+  .dashboard.is-open .dash-reveal:nth-child(2) { transition-delay: .08s; }
+  .dashboard.is-open .dash-reveal:nth-child(3) { transition-delay: .16s; }
+  .dashboard.is-open .dash-reveal:nth-child(4) { transition-delay: .24s; }
+
+  @media (max-width: 1320px) {
+    .tableau { grid-template-columns: 324px minmax(330px, 1fr) 225px; }
+    .runmeta .metry.status { display: none; }
+    .runmeta .metry { padding-left: 13px; padding-right: 13px; min-width: 74px; }
+    .identity { flex-basis: 430px; }
+    .fieldnotes { font-size: 95%; }
+    .stage-bottom { gap: 13px; }
+    .species-legend { gap: 12px; }
+    .legend-copy small { display: none; }
+    .trait-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 1120px) {
+    .tableau { grid-template-columns: 310px minmax(300px, 1fr); }
+    .fieldnotes { display: none; }
+    .identity { flex-basis: auto; }
+    .runmeta { justify-content: flex-end; }
+    .stage { grid-template-rows: 38px minmax(0, 1fr) 72px; }
+    .dash-grid { grid-template-columns: minmax(0, 1fr) 280px; }
+    .trait-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dash-inner { width: min(1100px, calc(100% - 48px)); }
+  }
+
+  @media (max-width: 880px) {
+    body { overflow: auto; }
+    .shell { height: 100svh; min-height: 690px; margin: 0; border-radius: 0; border: 0; }
+    .topbar { min-height: 70px; padding: 10px 14px; gap: 12px; }
+    .seal { width: 36px; height: 36px; }
+    .eyebrow { font-size: 6.5px; letter-spacing: .13em; white-space: normal; line-height: 1.35; }
+    .eyebrow .slash { margin: 0 4px; }
+    h1 { font-size: 22px; white-space: normal; }
+    .runmeta { display: none; }
+    .top-actions { gap: 6px; }
+    .top-actions .text-button span { display: none; }
+    .top-actions .text-button { width: 34px; padding: 0; }
+    .top-actions .primary-button { min-width: 76px; font-size: 6.5px; padding: 0 10px; }
+    .tableau { grid-template-columns: 1fr; }
+    .instruments {
+      position: fixed;
+      z-index: 40;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: min(354px, calc(100vw - 42px));
+      transform: translateX(-104%);
+      transition: transform .42s var(--ease);
+      border-right: 1px solid var(--line-strong);
+      box-shadow: 22px 0 60px rgba(0,0,0,.44);
+      background: var(--panel-soft);
+    }
+    .instruments.is-open { transform: none; }
+    .mobile-close {
+      display: grid;
+      place-items: center;
+      width: 26px; height: 26px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .instruments.is-open + .mobile-scrim, .mobile-scrim.is-open { display: block; position: fixed; inset: 0; z-index: 35; background: rgba(2,7,5,.68); backdrop-filter: blur(3px); }
+    .stage { padding: 0 12px 8px; grid-template-rows: 36px minmax(360px, 1fr) 86px; min-height: 0; }
+    .stage-bottom { grid-template-columns: 1fr; gap: 10px; padding-top: 8px; }
+    .species-legend { order: 2; justify-content: space-between; gap: 8px; }
+    .legend-copy small { display: block; font-size: 4.9px; }
+    .run-progress { order: 1; }
+    .statusbar { padding: 0 12px; font-size: 5.3px; }
+    .status-center { display: none !important; }
+    .report-button { right: 14px; bottom: 105px; }
+    .dashboard-inner { width: calc(100% - 30px); padding: 15px 0 24px; }
+    .dash-topline { flex-wrap: wrap; gap: 10px; padding-bottom: 11px; }
+    .dash-meta { display: none; }
+    .dash-hero { grid-template-columns: 1fr; padding: 22px 0 18px; gap: 18px; }
+    .dash-title { font-size: clamp(40px, 12vw, 65px); }
+    .verdict { max-width: 100%; border-left: 0; border-top: 1px solid var(--line); padding-left: 0; padding-top: 12px; }
+    .dash-grid { grid-template-columns: 1fr; }
+    .dossier { order: 2; }
+    .trait-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dash-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .dash-bottom .note { display: none; }
+    .dash-actions { width: 100%; flex-wrap: wrap; }
+    .dash-actions .primary-button { flex: 1; }
+  }
+
+  @media (max-width: 520px) {
+    .stage { grid-template-rows: 32px minmax(300px, 1fr) 102px; padding: 0 8px 6px; }
+    .plate-id .line, .plate-id i { display: none; }
+    .stage-live .coord { display: none; }
+    .species-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+    .legend-item { gap: 5px; }
+    .legend-glyph { width: 15px; height: 15px; }
+    .legend-copy b { font-size: 7px; }
+    .legend-copy small { font-size: 4.5px; }
+    .legend-count { font-size: 8px; }
+    .vitrine-caption { left: 18px; top: 17px; }
+    .vitrine-code { right: 18px; top: 17px; }
+    .event-banner { top: 38px; width: calc(100% - 32px); padding: 8px 9px; gap: 8px; }
+    .event-banner .event-title { font-size: 14px; }
+    .event-banner .event-meta { display: none; }
+    .statusbar .shortcuts { display: none; }
+    .statusbar > div:first-child { gap: 5px; font-size: 5px; }
+    .trait-grid { grid-template-columns: 1fr; }
+    .dash-title { font-size: 41px; }
+    .dash-stat-row { gap: 17px; }
+    .dash-grid { gap: 10px; }
+    .chart-panel { padding: 10px 10px 9px; }
+    .chart-caption { display: none; }
+    #populationChart { height: 205px; }
+    .dash-controls .text-button { padding: 0 9px; }
+    .dash-actions .text-button { flex: 1 1 auto; }
+    .dash-folio { display: none; }
+    .trait-section-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+    .dash-reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="shell" id="shell">
+  <header class="topbar">
+    <div class="identity">
+      <div class="seal" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="21.5" stroke="currentColor" stroke-opacity=".45" stroke-width=".7"/>
+          <circle cx="24" cy="24" r="17" stroke="currentColor" stroke-opacity=".22" stroke-width=".6" stroke-dasharray="1 3"/>
+          <path d="M24 8.5v31M8.5 24h31" stroke="currentColor" stroke-opacity=".2" stroke-width=".6"/>
+          <path d="M24 13.5c3.7 4.1 5.9 7 5.9 10.5 0 3.4-2.4 6.2-5.9 7.5-3.5-1.3-5.9-4.1-5.9-7.5 0-3.5 2.2-6.4 5.9-10.5Z" stroke="currentColor" stroke-width=".8"/>
+          <path d="M24 19.2v12.3M24 24.5l-3.4-2.8M24 25.8l3.4-2.8" stroke="currentColor" stroke-opacity=".7" stroke-width=".65" stroke-linecap="round"/>
+          <circle class="seal-core" cx="24" cy="24" r="2.2" fill="var(--flora)" fill-opacity=".8"/>
+          <path d="M24 2.5v4M24 41.5v4M2.5 24h4M41.5 24h4" stroke="currentColor" stroke-opacity=".5" stroke-width=".6"/>
+        </svg>
+      </div>
+      <div>
+        <div class="eyebrow">Morrow Institute <span class="slash">///</span> Benthic Observation <span class="slash">09</span></div>
+        <h1>The Nocturne <em>Vivarium</em></h1>
+      </div>
+    </div>
+
+    <div class="runmeta" aria-label="Run metadata">
+      <div class="metry"><span>Run</span><b id="runCode">NV–0417</b></div>
+      <div class="metry"><span>Seed</span><b id="headerSeed">0417</b></div>
+      <div class="metry"><span>Generation</span><b><span id="headerGen">000</span><i> / </i><span id="headerTarget">240</span></b></div>
+      <div class="metry status"><span>State</span><b id="headerStateWrap"><i></i><span id="headerState">Under observation</span></b></div>
+    </div>
+
+    <div class="top-actions">
+      <button class="text-button" id="instrumentsToggle" type="button" aria-controls="instruments" aria-expanded="true" title="Toggle instrument drawer">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1"/><circle cx="5" cy="4" r="1.5" fill="var(--panel)"/><circle cx="11" cy="8" r="1.5" fill="var(--panel)"/><circle cx="7" cy="12" r="1.5" fill="var(--panel)"/></svg>
+        <span>Instruments</span>
+      </button>
+      <button class="primary-button" id="topPause" type="button" aria-label="Pause observation">
+        <span class="glyph" id="pauseGlyph">
+          <svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2.4" y="1.6" width="2.4" height="8.8" rx=".5"/><rect x="7.2" y="1.6" width="2.4" height="8.8" rx=".5"/></svg>
+        </span>
+        <span class="label" id="pauseLabel">Pause</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="tableau">
+    <aside class="instruments" id="instruments" aria-label="Observation instruments">
+      <div class="panel-heading">
+        <div>
+          <span class="section-kicker">Observation deck</span>
+          <h2>Instruments</h2>
+        </div>
+        <span class="panel-badge" aria-label="Live controls">Live</span>
+        <button class="mobile-close" id="drawerClose" type="button" aria-label="Close instruments">×</button>
+      </div>
+
+      <div class="instrument-scroll" id="instrumentScroll">
+        <section class="control-section tempo-section">
+          <div class="section-head">
+            <span class="roman">I</span>
+            <div><h3>Tempo</h3><p>chronographic drive</p></div>
+            <span class="section-rule"></span>
+          </div>
+          <div class="tempo-layout">
+            <div class="dial" id="tempoDial" role="slider" tabindex="0" aria-label="Tempo" aria-valuemin="1" aria-valuemax="32" aria-valuenow="8" aria-valuetext="8 times, 11.6 generations per second" data-dial="tempo">
+              <svg class="dial-svg" viewBox="0 0 118 118" fill="none" aria-hidden="true">
+                <circle class="dial-arc-bg" cx="59" cy="59" r="48" pathLength="100" stroke-dasharray="75 100" transform="rotate(135 59 59)"/>
+                <circle class="dial-arc" id="dialArc" cx="59" cy="59" r="48" pathLength="100" stroke-dasharray="0 100" transform="rotate(135 59 59)"/>
+                <g id="dialTicks"></g>
+                <line class="dial-needle" id="dialNeedle" x1="59" y1="59" x2="59" y2="20" transform="rotate(-74 59 59)"/>
+                <circle class="dial-hub" cx="59" cy="59" r="2.6"/>
+              </svg>
+              <div class="dial-center"><span id="tempoReadout">08</span><em>×</em></div>
+              <span class="dial-sub">drag to dilate</span>
+            </div>
+            <div class="tempo-copy">
+              <div class="micro-label">generations / second</div>
+              <div class="tempo-rate"><span id="tempoRate">11.6</span><small>gen/s</small></div>
+              <canvas class="spark" data-spark="tempo" aria-hidden="true"></canvas>
+              <p class="small-note">Drag dial or use <span>↑ ↓</span><br>Time is observation only.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <div class="section-head">
+            <span class="roman">II</span>
+            <div><h3>Inheritance</h3><p>variation at birth</p></div>
+            <span class="section-rule"></span>
+          </div>
+          <div class="control-heading">
+            <label for="mutationInput">Mutation rate</label>
+            <button class="hint-dot" type="button" data-tip="Standard deviation applied to every inherited gene at birth. Higher values explore faster; lower values preserve lineages." aria-label="Mutation rate help: standard deviation applied to every inherited gene at birth.">i</button>
+            <span class="spark-wrap"><canvas class="spark" data-spark="mutation" aria-hidden="true"></canvas></span>
+            <output id="mutationValue" for="mutationInput">8.0<small>%</small></output>
+          </div>
+          <div class="range-shell" data-range-shell>
+            <div class="range-rail" aria-hidden="true">
+              <div class="range-fill"></div>
+              <div class="range-thumb"></div>
+            </div>
+            <input class="range-input" id="mutationInput" type="range" min="0" max="24" step="0.5" value="8" aria-label="Mutation rate" aria-valuetext="8 percent">
+          </div>
+          <div class="range-ends"><span>rigid</span><span>σ per birth</span><span>volatile</span></div>
+        </section>
+
+        <section class="control-section">
+          <div class="section-head">
+            <span class="roman">III</span>
+            <div><h3>Biome</h3><p>resource &amp; horizon</p></div>
+            <span class="section-rule"></span>
+          </div>
+          <div class="control-heading">
+            <label for="regrowthInput">Food regrowth</label>
+            <button class="hint-dot" type="button" data-tip="Plant biomass added per grid cell each generation. Low values turn the vivarium into a scarcity study; high values fuel boom-and-bust grazing." aria-label="Food regrowth help: plant biomass added per grid cell each generation.">i</button>
+            <span class="spark-wrap"><canvas class="spark" data-spark="regrowth" aria-hidden="true"></canvas></span>
+            <output id="regrowthValue" for="regrowthInput">0.045<small>/cell</small></output>
+          </div>
+          <div class="range-shell" data-range-shell>
+            <div class="range-rail" aria-hidden="true">
+              <div class="range-fill"></div>
+              <div class="range-thumb"></div>
+            </div>
+            <input class="range-input" id="regrowthInput" type="range" min="0.005" max="0.12" step="0.005" value="0.045" aria-label="Food regrowth" aria-valuetext="0.045 biomass per cell per generation">
+          </div>
+          <div class="range-ends"><span>barren</span><span>mass / cell / gen</span><span>verdant</span></div>
+
+          <div class="step-grid">
+            <div class="stepper-control">
+              <div class="control-heading">
+                <label for="seedInput">Seed</label>
+                <button class="hint-dot" type="button" data-tip="Seed for every ecological decision. Re-entering a seed resets the habitat and replays the same run exactly." aria-label="Seed help: sets the deterministic sequence; changing it restarts the habitat.">i</button>
+                <span class="spark-wrap"><canvas class="spark" data-spark="seed" aria-hidden="true"></canvas></span>
+              </div>
+              <div class="stepper dice-only">
+                <input id="seedInput" type="number" min="0" max="999999" step="1" value="417" aria-label="Random seed" inputmode="numeric">
+                <button id="seedReroll" type="button" aria-label="Generate a new seed" title="New seed" data-tip="Cast a new deterministic seed. The habitat resets immediately.">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M11.2 5.4V2.6L9.1 4.7A4.4 4.4 0 1 0 11 8.7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.4 2.6h2.8V5.4" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="stepper-control">
+              <div class="control-heading">
+                <label for="generationsInput">Horizon</label>
+                <button class="hint-dot" type="button" data-tip="The observation ends after this many generations and opens the run monograph. Lowering it below the current generation ends the run now." aria-label="Horizon help: number of generations until the report opens.">i</button>
+                <span class="spark-wrap"><canvas class="spark" data-spark="generations" aria-hidden="true"></canvas></span>
+              </div>
+              <div class="stepper">
+                <button type="button" data-step-target="generationsInput" data-step="-20" aria-label="Decrease horizon by 20 generations">−</button>
+                <input id="generationsInput" type="number" min="40" max="800" step="20" value="240" aria-label="Generation horizon">
+                <button type="button" data-step-target="generationsInput" data-step="20" aria-label="Increase horizon by 20 generations">+</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <div class="section-head">
+            <span class="roman">IV</span>
+            <div><h3>Disturbance</h3><p>scheduled weather</p></div>
+            <span class="section-rule"></span>
+          </div>
+          <div class="cat-list">
+            <div class="cat-control" style="--accent:#d9a441">
+              <div class="cat-head">
+                <span class="cat-symbol" aria-hidden="true">
+                  <svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.1" stroke="currentColor" stroke-width=".9"/><path d="M7 .8v1.8M7 11.4v1.8M.8 7h1.8M11.4 7h1.8M2.3 2.3l1.3 1.3M10.4 10.4l1.3 1.3M11.7 2.3l-1.3 1.3M3.6 10.4l-1.3 1.3" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>
+                </span>
+                <span class="cat-name">Drought <small>solstice</small></span>
+                <button class="hint-dot" type="button" data-tip="A prolonged dry season. Plant mass withdraws sharply and regrowth slows for nine generations." aria-label="Drought interval help: reduces plant mass and suppresses regrowth for nine generations.">i</button>
+                <span class="spark-wrap"><canvas class="spark" data-spark="drought" aria-hidden="true"></canvas></span>
+                <span class="cat-next" id="droughtNext">next <b>90</b></span>
+                <output id="droughtValue" for="droughtInput">130<small>g</small></output>
+              </div>
+              <div class="range-shell" data-range-shell>
+                <div class="range-rail" aria-hidden="true"><div class="range-fill"></div><div class="range-thumb"></div></div>
+                <input class="range-input" id="droughtInput" type="range" min="0" max="240" step="10" value="130" aria-label="Drought interval in generations" aria-valuetext="Every 130 generations">
+              </div>
+            </div>
+            <div class="cat-control" style="--accent:#b6a0d9">
+              <div class="cat-head">
+                <span class="cat-symbol" aria-hidden="true">
+                  <svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="1.5" fill="currentColor" opacity=".8"/><circle cx="7" cy="7" r="4.2" stroke="currentColor" stroke-width=".8" stroke-dasharray="1 2.3"/><path d="M7 .7v1.6M7 11.7v1.6M.7 7h1.6M11.7 7h1.6" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/><circle cx="3.8" cy="3.8" r=".9" fill="currentColor"/><circle cx="10.2" cy="9.9" r=".7" fill="currentColor"/></svg>
+                </span>
+                <span class="cat-name">Plague <small>crimson spore</small></span>
+                <button class="hint-dot" type="button" data-tip="A fast-moving spore event. Grazers die back sharply, leaving the meadow and the hunters to rebalance." aria-label="Plague interval help: removes a large share of grazers.">i</button>
+                <span class="spark-wrap"><canvas class="spark" data-spark="plague" aria-hidden="true"></canvas></span>
+                <span class="cat-next" id="plagueNext">next <b>190</b></span>
+                <output id="plagueValue" for="plagueInput">190<small>g</small></output>
+              </div>
+              <div class="range-shell" data-range-shell>
+                <div class="range-rail" aria-hidden="true"><div class="range-fill"></div><div class="range-thumb"></div></div>
+                <input class="range-input" id="plagueInput" type="range" min="0" max="240" step="10" value="190" aria-label="Plague interval in generations" aria-valuetext="Every 190 generations">
+              </div>
+            </div>
+            <div class="cat-control" style="--accent:#74cbc6">
+              <div class="cat-head">
+                <span class="cat-symbol" aria-hidden="true">
+                  <svg viewBox="0 0 14 14" fill="none"><path d="M.8 5.2c2.1 0 2.1 2.1 4.2 2.1s2.1-2.1 4.2-2.1 2.1 2.1 4 2.1M.8 9c2.1 0 2.1 2.1 4.2 2.1s2.1-2.1 4.2-2.1 2.1 2.1 4 2.1M.8 1.4c2.1 0 2.1 2.1 4.2 2.1s2.1-2.1 4.2-2.1 2.1 2.1 4 2.1" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>
+                </span>
+                <span class="cat-name">Surge <small>hadal wash</small></span>
+                <button class="hint-dot" type="button" data-tip="A sediment-laden pulse sweeps the habitat, removing a mixed cross-section of flora, grazers and hunters." aria-label="Surge interval help: removes a mixed cross-section of flora, grazers and hunters.">i</button>
+                <span class="spark-wrap"><canvas class="spark" data-spark="surge" aria-hidden="true"></canvas></span>
+                <span class="cat-next" id="surgeNext">next <b>90</b></span>
+                <output id="surgeValue" for="surgeInput">90<small>g</small></output>
+              </div>
+              <div class="range-shell" data-range-shell>
+                <div class="range-rail" aria-hidden="true"><div class="range-fill"></div><div class="range-thumb"></div></div>
+                <input class="range-input" id="surgeInput" type="range" min="0" max="240" step="10" value="90" aria-label="Surge interval in generations" aria-valuetext="Every 90 generations">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="toggle-block">
+          <div class="toggle-control">
+            <div class="toggle-copy"><label for="trailsToggle">Ghost trails</label><span>retinal memory</span></div>
+            <label class="switch">
+              <input id="trailsToggle" type="checkbox" checked aria-label="Show ghost trails">
+              <span class="switch-track"></span>
+            </label>
+          </div>
+          <div class="toggle-control">
+            <div class="toggle-copy"><label for="gridToggle">Field lattice</label><span>sample grid</span></div>
+            <label class="switch">
+              <input id="gridToggle" type="checkbox" checked aria-label="Show sample grid">
+              <span class="switch-track"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="console-footer">
+        <button class="ghost-button" id="restartBtn" type="button" title="Restart this seed (R)">
+          <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M11.2 5.4V2.6L9.1 4.7A4.4 4.4 0 1 0 11 8.7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><path d="M8.4 2.6h2.8V5.4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+          Restart
+        </button>
+        <button class="ghost-button" id="newSeedBtn" type="button">New specimen</button>
+      </div>
+    </aside>
+
+    <div class="mobile-scrim" id="mobileScrim"></div>
+
+    <section class="stage" aria-label="Vivarium specimen chamber">
+      <div class="stage-top">
+        <div class="plate-id"><span>Plate 07</span><span class="line"></span><i>Lacuna vitae</i></div>
+        <div class="stage-live" id="stageLive"><span class="signal-dot" id="stageSignal"></span><span id="stageStatus">Live culture</span><span class="coord">112 × 84 GRID</span></div>
+      </div>
+
+      <div class="vitrine" id="vitrine">
+        <canvas id="world" role="img" aria-label="Live vivarium: bioluminescent plants, amber grazers, and coral hunters on a dark grid"></canvas>
+        <div class="water-glow" aria-hidden="true"></div>
+        <div class="event-tint" id="eventTint" aria-hidden="true"></div>
+        <div class="aureole" id="aureole" aria-hidden="true"><i></i><i></i></div>
+        <div class="stage-overlay" aria-hidden="true">
+          <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+          <div class="vitrine-caption"><b>Culture 04</b><span class="dot"></span> sealed nocturne</div>
+          <div class="vitrine-code"><b>O₂ 19.4</b> · 4.1°C<br>pressure stable</div>
+          <div class="glass-plaque">Morrow Institute · Benthic Division · 1884</div>
+          <div class="stage-scale"></div>
+        </div>
+        <div class="glass-streak" aria-hidden="true"></div>
+        <div class="event-banner" id="eventBanner" role="status" aria-live="polite">
+          <div class="event-icon" id="eventIcon">☼</div>
+          <div>
+            <div class="event-kicker" id="eventKicker">Disturbance · Generation 090</div>
+            <div class="event-title" id="eventTitle">Solstice deficit</div>
+          </div>
+          <div class="event-meta" id="eventMeta">flora <b>−54%</b><br>recovery 09 gen</div>
+        </div>
+        <div class="vitrine-caption" style="display:none"></div>
+      </div>
+
+      <div class="stage-bottom">
+        <div class="species-legend" aria-label="Species key">
+          <div class="legend-item flora">
+            <span class="legend-glyph" aria-hidden="true">
+              <svg viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="1.4" fill="currentColor"/><path d="M11 9.1V3.6M11 12.9v5.5M9.1 11H3.6M12.9 11h5.5M9.7 9.7 5.8 5.8M12.3 12.3l3.9 3.9M12.3 9.7l3.9-3.9M9.7 12.3l-3.9 3.9" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/><circle cx="11" cy="11" r="7.8" stroke="currentColor" stroke-opacity=".22" stroke-width=".6"/></svg>
+            </span>
+            <div class="legend-copy"><b>Phlox moss</b><small>Flora</small></div>
+            <span class="legend-count" id="legendFlora">—</span>
+          </div>
+          <div class="legend-item grazer">
+            <span class="legend-glyph" aria-hidden="true">
+              <svg viewBox="0 0 22 22" fill="none"><path d="M4.7 10.8c2.4-2.8 5-4.2 7.8-4.2 3.1 0 5.1 1.9 5.1 4.4 0 2.6-2 4.4-5.1 4.4-2.8 0-5.4-1.5-7.8-4.6Z" stroke="currentColor" stroke-width=".8"/><path d="M5 10.9 2.5 8.5M5 10.9l-2.5 2.4" stroke="currentColor" stroke-width=".7" stroke-linecap="round"/><circle cx="14.6" cy="10.2" r=".85" fill="currentColor"/><path d="M13.4 6.9c.2-1.4.9-2.4 2-3M15.2 7.3c.8-1.1 1.8-1.7 3-1.8" stroke="currentColor" stroke-opacity=".55" stroke-width=".55" stroke-linecap="round"/></svg>
+            </span>
+            <div class="legend-copy"><b>Glass grazer</b><small>Herbivore</small></div>
+            <span class="legend-count" id="legendGrazer">—</span>
+          </div>
+          <div class="legend-item hunter">
+            <span class="legend-glyph" aria-hidden="true">
+              <svg viewBox="0 0 22 22" fill="none"><path d="M7.2 4.6c4.8-.2 8.1 2.4 8.1 6.2 0 3.7-3.1 6.2-7.3 6.2-1.8 0-3.4-.5-4.7-1.4 2.1-.6 3.6-2.2 3.6-4.5 0-2.4-1.5-4.2-3.9-4.7.9-1 2.4-1.7 4.2-1.8Z" stroke="currentColor" stroke-width=".85"/><path d="M15.1 7.1c1.3 1.9 1.6 4.1.8 6.2M13.7 3.9l1.7-1.5M16.6 5.2l2.1-.5" stroke="currentColor" stroke-width=".7" stroke-linecap="round"/><circle cx="13.1" cy="9.6" r=".8" fill="currentColor"/></svg>
+            </span>
+            <div class="legend-copy"><b>Umbra eel</b><small>Predator</small></div>
+            <span class="legend-count" id="legendHunter">—</span>
+          </div>
+        </div>
+
+        <div class="run-progress">
+          <div class="run-progress-head"><span>Observation arc</span><span id="progressLabel">GEN 000 / 240</span></div>
+          <div class="timeline" id="timeline">
+            <div class="timeline-track"><span class="timeline-fill" id="timelineFill"></span></div>
+            <span class="timeline-head" id="timelineHead"></span>
+            <div class="timeline-pins" id="timelinePins"></div>
+          </div>
+          <div class="timeline-labels"><span>sealed</span><span>disturbance</span><span>report</span></div>
+        </div>
+        <button class="report-button" id="viewReportBtn" type="button">Open run monograph →</button>
+      </div>
+    </section>
+
+    <aside class="fieldnotes" aria-label="Field notes and live telemetry">
+      <div class="notes-heading">
+        <div><span class="section-kicker">Field notes</span><h2>Vital signs</h2></div>
+        <span class="live-tag"><i></i>Rec.</span>
+      </div>
+
+      <section class="notes-block census-block">
+        <div class="block-head"><span>Living census</span><span>specimens</span></div>
+        <div class="census-row" style="--species:var(--flora)">
+          <span class="census-glyph" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M9 7V2.8M9 11v4.2M7 9H2.8M11 9h4.2M7.6 7.6 4.6 4.6M10.4 10.4l3 3M10.4 7.6l3-3M7.6 10.4l-3 3" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/><circle cx="9" cy="9" r="1.5" fill="currentColor"/><circle cx="9" cy="9" r="5.9" stroke="currentColor" stroke-opacity=".2" stroke-width=".6"/></svg></span>
+          <div class="census-copy"><div class="census-name"><b>Phlox moss</b><small>flora</small></div><div class="census-bar"><i id="censusFloraBar"></i></div></div>
+          <div class="census-value"><span id="censusFlora">—</span><small>cover %</small></div>
+        </div>
+        <div class="census-row" style="--species:var(--grazer)">
+          <span class="census-glyph" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M3.5 8.9c2-2.5 4.4-3.8 6.8-3.8 2.7 0 4.5 1.7 4.5 3.9 0 2.2-1.8 3.8-4.5 3.8-2.4 0-4.7-1.3-6.8-3.9Z" stroke="currentColor" stroke-width=".9"/><path d="m3.7 9-2 1.8M3.7 9l-2-1.8" stroke="currentColor" stroke-width=".7" stroke-linecap="round"/><circle cx="12.2" cy="8.5" r=".7" fill="currentColor"/></svg></span>
+          <div class="census-copy"><div class="census-name"><b>Glass grazer</b><small>herbivore</small></div><div class="census-bar"><i id="censusGrazerBar"></i></div></div>
+          <div class="census-value"><span id="censusGrazer">—</span><small>alive</small></div>
+        </div>
+        <div class="census-row" style="--species:var(--hunter)">
+          <span class="census-glyph" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M6.1 4c3.7-.2 6.3 1.9 6.3 4.9 0 2.9-2.4 4.9-5.7 4.9-1.4 0-2.6-.4-3.7-1.1 1.7-.5 2.8-1.8 2.8-3.6 0-1.9-1.1-3.3-3-3.7.7-.8 1.9-1.3 3.3-1.4Z" stroke="currentColor" stroke-width=".9"/><path d="m11.7 6 1.4-1.2M12.9 7.4l1.7-.4" stroke="currentColor" stroke-width=".7" stroke-linecap="round"/><circle cx="10.3" cy="8" r=".65" fill="currentColor"/></svg></span>
+          <div class="census-copy"><div class="census-name"><b>Umbra eel</b><small>predator</small></div><div class="census-bar"><i id="censusHunterBar"></i></div></div>
+          <div class="census-value"><span id="censusHunter">—</span><small>alive</small></div>
+        </div>
+      </section>
+
+      <section class="notes-block trace-block">
+        <div class="block-head"><span>Population trace</span><span id="traceWindow">240 g window</span></div>
+        <canvas id="liveTrace" role="img" aria-label="Live population curves for flora coverage, grazers and hunters"></canvas>
+        <div class="chart-key">
+          <span class="key-item" style="--key:var(--flora)"><i></i>flora</span>
+          <span class="key-item" style="--key:var(--grazer)"><i></i>grazer</span>
+          <span class="key-item" style="--key:var(--hunter)"><i></i>hunter</span>
+        </div>
+      </section>
+
+      <section class="notes-block schedule-block">
+        <div class="block-head"><span>Disturbance schedule</span><span>automatic</span></div>
+        <div class="schedule-row" style="--event: #d9a441">
+          <span class="schedule-icon" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.1" stroke="currentColor" stroke-width=".9"/><path d="M7 .8v1.5M7 11.7v1.5M.8 7h1.5M11.7 7h1.5M2.4 2.4l1.1 1.1M10.5 10.5l1.1 1.1M11.6 2.4l-1.1 1.1M3.5 10.5l-1.1 1.1" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg></span>
+          <div class="schedule-copy"><b>Drought</b><span>flora withdrawal</span></div>
+          <div class="schedule-when" id="schedDrought"><b>—</b>next</div>
+        </div>
+        <div class="schedule-row" style="--event: #b6a0d9">
+          <span class="schedule-icon" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="1.4" fill="currentColor" opacity=".8"/><circle cx="7" cy="7" r="4.2" stroke="currentColor" stroke-width=".8" stroke-dasharray="1 2.3"/><path d="M7 .7v1.4M7 11.9v1.4M.7 7h1.4M11.9 7h1.4" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/><circle cx="3.8" cy="3.8" r=".8" fill="currentColor"/><circle cx="10.2" cy="9.9" r=".7" fill="currentColor"/></svg></span>
+          <div class="schedule-copy"><b>Plague</b><span>grazer die-off</span></div>
+          <div class="schedule-when" id="schedPlague"><b>—</b>next</div>
+        </div>
+        <div class="schedule-row" style="--event: #74cbc6">
+          <span class="schedule-icon" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none"><path d="M.8 5.2c2.1 0 2.1 2.1 4.2 2.1s2.1-2.1 4.2-2.1 2.1 2.1 4 2.1M.8 9c2.1 0 2.1 2.1 4.2 2.1s2.1-2.1 4.2-2.1 2.1 2.1 4 2.1M.8 1.4c2.1 0 2.1 2.1 4.2 2.1s2.1-2.1 4.2-2.1 2.1 2.1 4 2.1" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg></span>
+          <div class="schedule-copy"><b>Surge</b><span>hadal wash</span></div>
+          <div class="schedule-when" id="schedSurge"><b>—</b>next</div>
+        </div>
+      </section>
+
+      <section class="notes-block chronicle-block">
+        <div class="block-head"><span>Chronicle</span><span id="chronicleCount">00 events</span></div>
+        <div class="chronicle-list" id="chronicleList">
+          <p class="empty-note">The chamber is quiet.</p>
+        </div>
+      </section>
+
+      <div class="notes-foot">
+        <span class="folio">Fol. <b>07</b></span>
+        <span>Deterministic ecology</span>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="statusbar">
+    <div><span class="status-chip" id="footerChip">Auto-run</span><span id="footerStatus">Initiation pending</span></div>
+    <div class="status-center"><span>PRNG</span><code>mulberry32</code><span class="sep">/</span><span>SEED</span><code id="footerSeed">0417</code><span class="sep">/</span><span>NO NETWORK</span></div>
+    <div class="shortcuts"><kbd>space</kbd> pause <span>·</span> <kbd>R</kbd> restart</div>
+  </footer>
+</div>
+
+<div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true"></div>
+
+<div class="dashboard" id="dashboard" role="dialog" aria-modal="true" aria-labelledby="dashTitle" aria-hidden="true">
+  <div class="dashboard-inner">
+    <div class="dash-topline dash-reveal">
+      <div class="dash-brand">
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="21.5" stroke="currentColor" stroke-opacity=".45" stroke-width=".7"/>
+            <path d="M24 13.5c3.7 4.1 5.9 7 5.9 10.5 0 3.4-2.4 6.2-5.9 7.5-3.5-1.3-5.9-4.1-5.9-7.5 0-3.5 2.2-6.4 5.9-10.5Z" stroke="currentColor" stroke-width=".8"/>
+            <circle cx="24" cy="24" r="2.2" fill="var(--flora)" fill-opacity=".8"/>
+          </svg>
+        </div>
+        <div>
+          <div class="dashboard-kicker">Morrow Institute · Run monograph</div>
+          <h2>Observations from the Nocturne Vivarium</h2>
+        </div>
+      </div>
+      <div class="dash-meta">
+        <div><span>Run</span><b id="dashRun">NV–0417</b></div>
+        <div><span>Seed</span><b id="dashSeed">0417</b></div>
+        <div><span>Horizon</span><b id="dashHorizon">240 gen</b></div>
+        <div><span>Recorded</span><b id="dashRecorded">—</b></div>
+      </div>
+      <div class="dash-controls">
+        <button class="text-button" id="dashPrint" type="button" title="Open a clean print view">Print plate</button>
+        <button class="text-button" id="dashClose" type="button" aria-label="Close run monograph">Close ×</button>
+      </div>
+    </div>
+
+    <div class="dash-hero dash-reveal">
+      <div>
+        <div class="dashboard-kicker">Observation complete · folio 08</div>
+        <h1 class="dash-title" id="dashTitle">The run,<br><em>unfolded.</em></h1>
+        <p class="dash-sub" id="dashSub">A closed-system study of appetite, inheritance, and weather. <span class="accent">The chamber was allowed to choose its own survivors.</span></p>
+        <div class="dash-stat-row">
+          <div class="dash-stat"><div class="metric-label">Generations</div><b><span id="dashGens">240</span><small>gen</small></b></div>
+          <div class="dash-stat"><div class="metric-label">Final grazing</div><b><span id="dashFinalPrey">0</span><small>alive</small></b></div>
+          <div class="dash-stat"><div class="metric-label">Final hunting</div><b><span id="dashFinalPred">0</span><small>alive</small></b></div>
+          <div class="dash-stat"><div class="metric-label">Disturbances</div><b><span id="dashEventCount">0</span><small>events</small></b></div>
+          <div class="dash-stat"><div class="metric-label">Births recorded</div><b><span id="dashBirths">0</span><small>total</small></b></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">Curator's reading</div>
+        <p id="dashVerdict">Awaiting the final census.</p>
+        <small>Mean and ±1σ are calculated across the living population at each generation.</small>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <section class="chart-panel dash-reveal" aria-labelledby="popChartTitle">
+        <div class="chart-panel-head">
+          <div class="chart-title-wrap">
+            <span class="fig-no">Fig. 01</span>
+            <div>
+              <h3 class="chart-title" id="popChartTitle">Population dynamics</h3>
+              <div class="chart-caption">Census at each generation · event marks in species-neutral ink</div>
+            </div>
+          </div>
+          <div class="chart-legend" aria-hidden="true">
+            <span class="key-item" style="--key:var(--flora)"><i></i>flora %</span>
+            <span class="key-item" style="--key:var(--grazer)"><i></i>grazer</span>
+            <span class="key-item" style="--key:var(--hunter)"><i></i>hunter</span>
+          </div>
+        </div>
+        <canvas id="populationChart" role="img" aria-label="Population over generations for flora coverage, grazers, and hunters, with catastrophe markers"></canvas>
+        <div class="pop-legend">
+          <div class="chart-legend">
+            <span class="key-item" style="--key:var(--flora)"><i></i>Phlox moss · coverage</span>
+            <span class="key-item" style="--key:var(--grazer)"><i></i>Glass grazers</span>
+            <span class="key-item" style="--key:var(--hunter)"><i></i>Umbra eels</span>
+            <span class="key-item" style="--key:var(--brass)"><i style="height:6px;width:1px;background:var(--brass)"></i>disturbance</span>
+          </div>
+          <div class="pop-readout" id="popReadout">Hover to inspect a generation <b>→</b></div>
+        </div>
+      </section>
+
+      <aside class="dossier dash-reveal" aria-label="Run dossier">
+        <div class="dossier-head"><h3>Run dossier</h3><span>Field record</span></div>
+        <div class="dossier-section">
+          <div class="dossier-label">Disturbance ledger</div>
+          <div class="event-ledger" id="eventLedger"></div>
+        </div>
+        <div class="dossier-section">
+          <div class="dossier-label">Dominant trait shifts</div>
+          <div class="trait-shifts" id="traitShifts"></div>
+        </div>
+        <div class="dossier-foot">
+          <p id="dashFootnote">A deterministic edition. The same seed will lead the chamber back to the same weather, the same hungers, and the same small extinctions.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="trait-section dash-reveal" aria-labelledby="traitTitle">
+      <div class="trait-section-head">
+        <div class="head-left">
+          <span class="fig-no">Fig. 02</span>
+          <h3 id="traitTitle">Trait drift by species</h3>
+          <p>mean line · ±1σ band · four inherited genes</p>
+        </div>
+        <div class="trait-legend"><i></i>spread <span class="mean-mark"></span>mean</div>
+      </div>
+      <div class="trait-grid" id="traitGrid"></div>
+    </section>
+
+    <div class="dash-bottom dash-reveal">
+      <p class="note">Every mark was drawn from the same deterministic run. No two chambers are ever quite alike.</p>
+      <div class="dash-actions">
+        <button class="text-button" id="dashNewSeed" type="button">New specimen</button>
+        <button class="text-button" id="dashInspect" type="button">Inspect habitat</button>
+        <button class="primary-button" id="dashReplay" type="button">Replay this seed →</button>
+        <span class="dash-folio">MIB / 09</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script id="sim-core">
+(function () {
+  "use strict";
+
+  const GRID_W = 112;
+  const GRID_H = 84;
+  const CELL_COUNT = GRID_W * GRID_H;
+  const MAX_PREY = 330;
+  const MAX_PREDATORS = 96;
+
+  const GENE_KEYS = ["speed", "vision", "metabolism", "threshold"];
+  const GENE_RANGES = {
+    prey: {
+      speed: [0.6, 3.2],
+      vision: [1.5, 13],
+      metabolism: [0.35, 2.2],
+      threshold: [13, 46]
+    },
+    predator: {
+      speed: [0.75, 4.0],
+      vision: [2, 16],
+      metabolism: [0.35, 2.2],
+      threshold: [32, 100]
+    }
+  };
+  const GENE_LABELS = {
+    speed: "Speed",
+    vision: "Vision",
+    metabolism: "Metabolism",
+    threshold: "Repro. threshold"
+  };
+  const GENE_UNITS = {
+    speed: "cells / gen",
+    vision: "cells",
+    metabolism: "O₂ / gen",
+    threshold: "energy"
+  };
+  const EVENT_META = {
+    drought: {
+      label: "Drought",
+      title: "Solstice deficit",
+      kicker: "Disturbance · prolonged dry season",
+      glyph: "☼",
+      color: "#d9a441",
+      wash: "radial-gradient(ellipse at 50% 40%, rgba(217,164,65,.22), transparent 66%)",
+      ephemeral: "canopy withdrawal"
+    },
+    plague: {
+      label: "Plague",
+      title: "Crimson spore",
+      kicker: "Disturbance · pathogenic bloom",
+      glyph: "✳",
+      color: "#b6a0d9",
+      wash: "radial-gradient(ellipse at 55% 45%, rgba(182,160,217,.2), transparent 66%)",
+      ephemeral: "grazer die-off"
+    },
+    surge: {
+      label: "Surge",
+      title: "Hadal wash",
+      kicker: "Disturbance · sediment pulse",
+      glyph: "≋",
+      color: "#74cbc6",
+      wash: "linear-gradient(162deg, rgba(116,203,198,.18), transparent 55%), radial-gradient(ellipse at 70% 65%, rgba(87,142,160,.14), transparent 62%)",
+      ephemeral: "mixed mortality"
+    }
+  };
+  const DEFAULT_CONFIG = {
+    mutation: 0.08,
+    plantRegrowth: 0.045,
+    generations: 240,
+    intervals: { drought: 130, plague: 190, surge: 90 }
+  };
+
+  const clamp = (value, min, max) => value < min ? min : value > max ? max : value;
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  function hashSeed(seed) {
+    const input = String(seed);
+    let h = 2166136261 >>> 0;
+    for (let i = 0; i < input.length; i++) {
+      h ^= input.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    h ^= h >>> 16;
+    h = Math.imul(h, 2246822507);
+    h ^= h >>> 13;
+    h = Math.imul(h, 3266489909);
+    h ^= h >>> 16;
+    return h >>> 0;
+  }
+
+  class SeededRandom {
+    constructor(seed) {
+      this.seed = String(seed);
+      this.state = hashSeed(this.seed) || 0x1a2b3c4d;
+    }
+    next() {
+      let t = this.state += 0x6d2b79f5;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    }
+    range(min, max) { return min + (max - min) * this.next(); }
+    int(maxExclusive) { return Math.floor(this.next() * maxExclusive); }
+    chance(probability) { return this.next() < probability; }
+    pick(list) { return list[this.int(list.length)]; }
+    gauss() {
+      let u = 0;
+      let v = 0;
+      while (u === 0) u = this.next();
+      while (v === 0) v = this.next();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+    shuffle(list) {
+      for (let i = list.length - 1; i > 0; i--) {
+        const j = this.int(i + 1);
+        const tmp = list[i];
+        list[i] = list[j];
+        list[j] = tmp;
+      }
+      return list;
+    }
+  }
+
+  const geneRange = (species, key) => GENE_RANGES[species][key];
+
+  function mutateGene(value, mutation, range, rng) {
+    if (mutation <= 0) return value;
+    const span = range[1] - range[0];
+    const next = value + rng.gauss() * mutation * span * 0.34;
+    return clamp(next, range[0], range[1]);
+  }
+
+  function average(values) {
+    if (!values.length) return null;
+    let total = 0;
+    for (let i = 0; i < values.length; i++) total += values[i];
+    return total / values.length;
+  }
+
+  function deviation(values, mean) {
+    if (values.length < 2 || mean == null) return null;
+    let total = 0;
+    for (let i = 0; i < values.length; i++) {
+      const d = values[i] - mean;
+      total += d * d;
+    }
+    return Math.sqrt(total / (values.length - 1));
+  }
+
+  function summarizeTraits(agents, species) {
+    const output = {};
+    for (const key of GENE_KEYS) {
+      const values = new Array(agents.length);
+      for (let i = 0; i < agents.length; i++) values[i] = agents[i].genes[key];
+      const mean = average(values);
+      output[key] = { mean, sd: deviation(values, mean) };
+    }
+    return output;
+  }
+
+  class VivariumSim {
+    constructor(options = {}) {
+      const intervals = Object.assign({}, DEFAULT_CONFIG.intervals, options.intervals || {});
+      this.seed = String(options.seed == null ? "417" : options.seed);
+      this.target = Math.max(1, Math.round(Number(options.generations ?? DEFAULT_CONFIG.generations) || DEFAULT_CONFIG.generations));
+      this.mutation = clamp(Number(options.mutation ?? DEFAULT_CONFIG.mutation), 0, 0.24);
+      this.plantRegrowth = clamp(Number(options.plantRegrowth ?? DEFAULT_CONFIG.plantRegrowth), 0.001, 0.2);
+      this.intervals = {
+        drought: clamp(Math.round(Number(intervals.drought) || 0), 0, 480),
+        plague: clamp(Math.round(Number(intervals.plague) || 0), 0, 480),
+        surge: clamp(Math.round(Number(intervals.surge) || 0), 0, 480)
+      };
+      this.rng = new SeededRandom(this.seed);
+      this.generation = 0;
+      this.plants = new Float32Array(CELL_COUNT);
+      this.prey = [];
+      this.predators = [];
+      this.nextId = 1;
+      this.nextEvent = { drought: Infinity, plague: Infinity, surge: Infinity };
+      this.active = { drought: 0, plague: 0, surge: 0 };
+      this.history = [];
+      this.eventLog = [];
+      this.totals = {
+        births: 0,
+        deaths: 0,
+        starved: 0,
+        aged: 0,
+        predated: 0,
+        plantBites: 0,
+        eventLosses: 0
+      };
+      this._lastPlantScan = null;
+      this._initializeSchedule();
+      this._seedHabitat();
+      this._record([]);
+    }
+
+    _initializeSchedule() {
+      for (const type of Object.keys(this.intervals)) {
+        this.nextEvent[type] = this.intervals[type] > 0 ? this.intervals[type] : Infinity;
+      }
+    }
+
+    _seedHabitat() {
+      const rng = this.rng;
+      const plants = this.plants;
+
+      const clumpCount = 90;
+      for (let c = 0; c < clumpCount; c++) {
+        const cx = rng.range(3, GRID_W - 4);
+        const cy = rng.range(3, GRID_H - 4);
+        const radius = rng.range(1.4, 6.2);
+        const strength = rng.range(0.35, 1);
+        const y0 = Math.max(0, Math.floor(cy - radius));
+        const y1 = Math.min(GRID_H - 1, Math.ceil(cy + radius));
+        const x0 = Math.max(0, Math.floor(cx - radius));
+        const x1 = Math.min(GRID_W - 1, Math.ceil(cx + radius));
+        for (let y = y0; y <= y1; y++) {
+          for (let x = x0; x <= x1; x++) {
+            const dx = x - cx;
+            const dy = y - cy;
+            const d = Math.sqrt(dx * dx + dy * dy) / radius;
+            if (d <= 1) {
+              const falloff = 1 - d * d;
+              const i = y * GRID_W + x;
+              const value = clamp(strength * falloff * rng.range(0.65, 1.15), 0, 1);
+              if (value > plants[i]) plants[i] = value;
+            }
+          }
+        }
+      }
+
+      for (let i = 0; i < 360; i++) {
+        const index = rng.int(CELL_COUNT);
+        if (plants[index] < 0.1) plants[index] = rng.range(0.12, 0.55);
+      }
+
+      const preyCount = 104;
+      for (let i = 0; i < preyCount; i++) {
+        const genes = {
+          speed: clamp(1.28 + rng.gauss() * 0.22, 0.6, 3.2),
+          vision: clamp(6.4 + rng.gauss() * 1.05, 1.5, 13),
+          metabolism: clamp(0.92 + rng.gauss() * 0.12, 0.35, 2.2),
+          threshold: clamp(29 + rng.gauss() * 2.8, 13, 46)
+        };
+        this.prey.push(this._createAgent("prey", rng.int(GRID_W), rng.int(GRID_H), genes, rng.range(17, 25)));
+      }
+
+      const predatorCount = 18;
+      for (let i = 0; i < predatorCount; i++) {
+        const genes = {
+          speed: clamp(1.92 + rng.gauss() * 0.22, 0.75, 4.0),
+          vision: clamp(8.1 + rng.gauss() * 1.1, 2, 16),
+          metabolism: clamp(0.92 + rng.gauss() * 0.12, 0.35, 2.2),
+          threshold: clamp(73 + rng.gauss() * 4.2, 32, 100)
+        };
+        this.predators.push(this._createAgent("predator", rng.int(GRID_W), rng.int(GRID_H), genes, rng.range(43, 56)));
+      }
+    }
+
+    _createAgent(species, x, y, genes, energy) {
+      const prey = species === "prey";
+      return {
+        id: this.nextId++,
+        species,
+        x: clamp(x, 0, GRID_W - 1),
+        y: clamp(y, 0, GRID_H - 1),
+        genes: {
+          speed: genes.speed,
+          vision: genes.vision,
+          metabolism: genes.metabolism,
+          threshold: genes.threshold
+        },
+        energy,
+        age: 0,
+        lifespan: prey ? 150 + this.rng.range(0, 60) : 190 + this.rng.range(0, 80),
+        cooldown: prey ? this.rng.range(0, 7) : this.rng.range(4, 14),
+        heading: this.rng.range(0, Math.PI * 2),
+        dead: false,
+        kills: 0
+      };
+    }
+
+    updateConfig(patch = {}) {
+      if (patch.mutation != null) this.mutation = clamp(Number(patch.mutation), 0, 0.24);
+      if (patch.plantRegrowth != null) this.plantRegrowth = clamp(Number(patch.plantRegrowth), 0.001, 0.2);
+      if (patch.generations != null) {
+        this.target = Math.max(1, Math.round(Number(patch.generations) || this.target));
+      }
+      if (patch.intervals) {
+        for (const type of Object.keys(this.intervals)) {
+          if (patch.intervals[type] == null) continue;
+          const nextInterval = clamp(Math.round(Number(patch.intervals[type]) || 0), 0, 480);
+          if (nextInterval === this.intervals[type]) continue;
+          this.intervals[type] = nextInterval;
+          this.nextEvent[type] = nextInterval > 0 ? this.generation + nextInterval : Infinity;
+        }
+      }
+    }
+
+    step() {
+      if (this.generation >= this.target) return [];
+      this.generation++;
+      for (const type of Object.keys(this.active)) {
+        if (this.active[type] > 0) this.active[type]--;
+      }
+
+      this._growPlants();
+      this._updatePrey();
+      this._updatePredators();
+      const events = this._fireDisturbances();
+      this._filterDead();
+      this._record(events);
+      return events;
+    }
+
+    _growPlants() {
+      const growth = this.plantRegrowth * (this.active.drought > 0 ? 0.16 : 1);
+      const plants = this.plants;
+      let coverage = 0;
+      let biomass = 0;
+
+      for (let y = 0; y < GRID_H; y++) {
+        for (let x = 0; x < GRID_W; x++) {
+          const i = y * GRID_W + x;
+          const value = plants[i];
+          if (value > 0) {
+            const next = Math.min(1, value + growth * (0.36 + 0.64 * (1 - value)));
+            plants[i] = next;
+            biomass += next;
+            if (next > 0.1) coverage++;
+          } else {
+            let neighbor = 0;
+            if (x > 0) neighbor = Math.max(neighbor, plants[i - 1]);
+            if (x < GRID_W - 1) neighbor = Math.max(neighbor, plants[i + 1]);
+            if (y > 0) neighbor = Math.max(neighbor, plants[i - GRID_W]);
+            if (y < GRID_H - 1) neighbor = Math.max(neighbor, plants[i + GRID_W]);
+            if (neighbor > 0.42 && this.rng.chance(growth * 0.9)) {
+              const sprout = Math.min(neighbor * 0.48, growth * 8 + 0.04);
+              plants[i] = sprout;
+              biomass += sprout;
+              coverage++;
+            }
+          }
+        }
+      }
+
+      this._lastPlantScan = {
+        coverage: coverage / CELL_COUNT * 100,
+        biomass: biomass / CELL_COUNT * 100
+      };
+    }
+
+    _movementSteps(agent) {
+      const speed = agent.genes.speed;
+      const whole = Math.floor(speed);
+      const frac = speed - whole;
+      return Math.max(1, whole + (this.rng.next() < frac ? 1 : 0));
+    }
+
+    _findPlant(agent) {
+      const radius = Math.ceil(agent.genes.vision);
+      const cx = agent.x;
+      const cy = agent.y;
+      const visionSq = agent.genes.vision * agent.genes.vision;
+      let best = null;
+      let bestScore = -Infinity;
+
+      for (let dy = -radius; dy <= radius; dy++) {
+        const y = cy + dy;
+        if (y < 0 || y >= GRID_H) continue;
+        for (let dx = -radius; dx <= radius; dx++) {
+          const x = cx + dx;
+          if (x < 0 || x >= GRID_W) continue;
+          const distSq = dx * dx + dy * dy;
+          if (distSq > visionSq) continue;
+          const i = y * GRID_W + x;
+          const plant = this.plants[i];
+          if (plant < 0.06) continue;
+          const dist = Math.sqrt(distSq);
+          const score = plant / (0.8 + dist * 0.72);
+          if (score > bestScore) {
+            bestScore = score;
+            best = { x, y, index: i, plant, dist };
+          }
+        }
+      }
+      return best;
+    }
+
+    _findThreat(agent) {
+      let nearest = null;
+      let nearestSq = agent.genes.vision * agent.genes.vision;
+      for (const predator of this.predators) {
+        if (predator.dead) continue;
+        const dx = predator.x - agent.x;
+        const dy = predator.y - agent.y;
+        const dSq = dx * dx + dy * dy;
+        if (dSq < nearestSq) {
+          nearestSq = dSq;
+          nearest = predator;
+        }
+      }
+      return nearest ? { predator: nearest, distance: Math.sqrt(nearestSq) } : null;
+    }
+
+    _findPreyTarget(agent) {
+      let nearest = null;
+      let bestScore = -Infinity;
+      const visionSq = agent.genes.vision * agent.genes.vision;
+      for (const prey of this.prey) {
+        if (prey.dead) continue;
+        const dx = prey.x - agent.x;
+        const dy = prey.y - agent.y;
+        const dSq = dx * dx + dy * dy;
+        if (dSq > visionSq) continue;
+        const dist = Math.sqrt(dSq);
+        const body = 0.55 + Math.min(1, prey.energy / Math.max(1, prey.genes.threshold)) * 0.45;
+        const score = body / (1 + dist * 0.85);
+        if (score > bestScore) {
+          bestScore = score;
+          nearest = prey;
+        }
+      }
+      return nearest;
+    }
+
+    _stepToward(agent, targetX, targetY, maxSteps, stopAtTarget, onArrive) {
+      let steps = 0;
+      for (let s = 0; s < maxSteps; s++) {
+        if (agent.x === targetX && agent.y === targetY) break;
+        let candidates = [];
+        let bestDist = Infinity;
+
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            if (dx === 0 && dy === 0) continue;
+            const nx = agent.x + dx;
+            const ny = agent.y + dy;
+            if (nx < 0 || nx >= GRID_W || ny < 0 || ny >= GRID_H) continue;
+            const ddx = targetX - nx;
+            const ddy = targetY - ny;
+            const dSq = ddx * ddx + ddy * ddy;
+            if (dSq + 0.0001 < bestDist) {
+              bestDist = dSq;
+              candidates = [{ x: nx, y: ny }];
+            } else if (Math.abs(dSq - bestDist) < 0.0001) {
+              candidates.push({ x: nx, y: ny });
+            }
+          }
+        }
+
+        if (candidates.length) {
+          const choice = candidates.length === 1 ? candidates[0] : candidates[this.rng.int(candidates.length)];
+          agent.x = choice.x;
+          agent.y = choice.y;
+        } else {
+          const angle = agent.heading + this.rng.range(-0.7, 0.7);
+          agent.x = clamp(agent.x + Math.round(Math.cos(angle)), 0, GRID_W - 1);
+          agent.y = clamp(agent.y + Math.round(Math.sin(angle)), 0, GRID_H - 1);
+        }
+
+        const dx = targetX - agent.x;
+        const dy = targetY - agent.y;
+        agent.heading = Math.atan2(dy, dx);
+        steps++;
+        if (stopAtTarget && agent.x === targetX && agent.y === targetY) {
+          if (onArrive) onArrive();
+          break;
+        }
+      }
+      return steps;
+    }
+
+    _wander(agent, maxSteps) {
+      let steps = 0;
+      for (let s = 0; s < maxSteps; s++) {
+        agent.heading += this.rng.range(-0.9, 0.9);
+        const nx = clamp(agent.x + Math.round(Math.cos(agent.heading)), 0, GRID_W - 1);
+        const ny = clamp(agent.y + Math.round(Math.sin(agent.heading)), 0, GRID_H - 1);
+        if (nx === agent.x && ny === agent.y) {
+          agent.heading += Math.PI * 0.7;
+        } else {
+          agent.x = nx;
+          agent.y = ny;
+          steps++;
+        }
+      }
+      return steps;
+    }
+
+    _consumePlant(agent) {
+      const index = agent.y * GRID_W + agent.x;
+      const available = this.plants[index];
+      if (available > 0.025) {
+        const bite = Math.min(available, 0.54);
+        this.plants[index] = Math.max(0, available - bite);
+        const gain = bite * (5.8 + agent.genes.metabolism * 0.55);
+        agent.energy += gain;
+        this.totals.plantBites += 1;
+        return bite;
+      }
+      return 0;
+    }
+
+    _updatePrey() {
+      const rng = this.rng;
+      const births = [];
+      rng.shuffle(this.prey);
+
+      for (const agent of this.prey) {
+        if (agent.dead) continue;
+        agent.age++;
+        if (agent.cooldown > 0) agent.cooldown--;
+
+        const threat = this._findThreat(agent);
+        const target = threat ? null : this._findPlant(agent);
+        const maxSteps = this._movementSteps(agent);
+        let moved = 0;
+
+        if (threat) {
+          const dx = agent.x - threat.predator.x;
+          const dy = agent.y - threat.predator.y;
+          const len = Math.sqrt(dx * dx + dy * dy) || 1;
+          const fleeX = clamp(Math.round(agent.x + (dx / len) * 7 + rng.range(-1.4, 1.4)), 0, GRID_W - 1);
+          const fleeY = clamp(Math.round(agent.y + (dy / len) * 7 + rng.range(-1.4, 1.4)), 0, GRID_H - 1);
+          moved = this._stepToward(agent, fleeX, fleeY, maxSteps + 1, false);
+        } else if (target && (target.x !== agent.x || target.y !== agent.y)) {
+          moved = this._stepToward(agent, target.x, target.y, maxSteps, true);
+        } else if (!target) {
+          moved = this._wander(agent, maxSteps);
+        } else {
+          agent.heading = rng.range(0, Math.PI * 2);
+        }
+
+        this._consumePlant(agent);
+
+        const cost = 0.64 + agent.genes.metabolism * 0.78 + agent.genes.vision * 0.018
+          + agent.genes.speed * 0.08 + moved * (0.105 + agent.genes.metabolism * 0.03);
+        agent.energy -= cost;
+
+        if (agent.energy >= agent.genes.threshold && agent.cooldown <= 0 && this.prey.length + births.length < MAX_PREY) {
+          const child = this._reproduce(agent, "prey");
+          if (child) {
+            births.push(child);
+            this.totals.births++;
+          }
+        }
+
+        if (agent.energy <= 0) {
+          agent.dead = true;
+          this.totals.starved++;
+          this._compost(agent, 0.13);
+        } else if (agent.age > agent.lifespan) {
+          agent.dead = true;
+          this.totals.aged++;
+          this._compost(agent, 0.2);
+        }
+      }
+
+      this.prey = this.prey.filter(agent => !agent.dead);
+      this.prey.push(...births);
+    }
+
+    _reproduce(parent, species) {
+      const births = species === "prey" ? MAX_PREY : MAX_PREDATORS;
+      const currentPopulation = species === "prey" ? this.prey.length : this.predators.length;
+      if (currentPopulation >= births) return null;
+
+      const mutation = this.mutation;
+      const rng = this.rng;
+      const genes = {};
+      for (const key of GENE_KEYS) {
+        genes[key] = mutateGene(parent.genes[key], mutation, geneRange(species, key), rng);
+      }
+
+      let px = parent.x;
+      let py = parent.y;
+      for (let i = 0; i < 10; i++) {
+        const nx = clamp(parent.x + rng.int(3) - 1, 0, GRID_W - 1);
+        const ny = clamp(parent.y + rng.int(3) - 1, 0, GRID_H - 1);
+        if (nx !== parent.x || ny !== parent.y) {
+          px = nx;
+          py = ny;
+          break;
+        }
+      }
+
+      const childEnergy = parent.energy * (species === "prey" ? 0.41 : 0.43);
+      parent.energy *= species === "prey" ? 0.55 : 0.56;
+      parent.cooldown = species === "prey" ? 11 : 18;
+
+      const child = this._createAgent(species, px, py, genes, childEnergy);
+      child.cooldown = species === "prey" ? rng.range(3, 6) : rng.range(7, 12);
+      child.heading = parent.heading + rng.range(-0.6, 0.6);
+      return child;
+    }
+
+    _updatePredators() {
+      const rng = this.rng;
+      const births = [];
+      rng.shuffle(this.predators);
+
+      for (const agent of this.predators) {
+        if (agent.dead) continue;
+        agent.age++;
+        if (agent.cooldown > 0) agent.cooldown--;
+
+        const target = this._findPreyTarget(agent);
+        const maxSteps = this._movementSteps(agent);
+        let moved = 0;
+        let caught = false;
+
+        if (target) {
+          for (let s = 0; s <= maxSteps; s++) {
+            if (target.dead) break;
+            const dx = target.x - agent.x;
+            const dy = target.y - agent.y;
+            const inReach = Math.abs(dx) <= 1 && Math.abs(dy) <= 1;
+            if (inReach) {
+              const catchChance = clamp(0.5 + (agent.genes.speed - target.genes.speed) * 0.22 + (agent.genes.vision - target.genes.vision) * 0.008, 0.22, 0.94);
+              if (rng.chance(catchChance)) {
+                const preyEnergy = target.energy;
+                target.dead = true;
+                this.totals.predated++;
+                agent.kills++;
+                agent.energy += 12 + preyEnergy * 0.6 + target.genes.speed * 0.55;
+                target.energy = 0;
+                this._compost(target, 0.05);
+                caught = true;
+                break;
+              }
+              target.energy -= 0.55;
+              target.heading += Math.PI * 0.75;
+              agent.energy -= 0.2;
+              const escapeX = clamp(target.x + rng.int(3) - 1, 0, GRID_W - 1);
+              const escapeY = clamp(target.y + rng.int(3) - 1, 0, GRID_H - 1);
+              target.x = escapeX;
+              target.y = escapeY;
+              moved++;
+              break;
+            }
+            if (s === maxSteps) break;
+            const beforeX = agent.x;
+            const beforeY = agent.y;
+            const nextX = clamp(agent.x + Math.sign(dx), 0, GRID_W - 1);
+            const nextY = clamp(agent.y + Math.sign(dy), 0, GRID_H - 1);
+            if (nextX !== beforeX || nextY !== beforeY) {
+              agent.x = nextX;
+              agent.y = nextY;
+              moved++;
+            } else {
+              break;
+            }
+            agent.heading = Math.atan2(dy, dx);
+          }
+        } else {
+          moved = this._wander(agent, maxSteps);
+        }
+
+        const cost = 0.64 + agent.genes.metabolism * 0.62 + agent.genes.vision * 0.021
+          + agent.genes.speed * 0.09 + moved * (0.115 + agent.genes.metabolism * 0.03);
+        agent.energy -= cost;
+
+        if (!caught && agent.energy >= agent.genes.threshold && agent.cooldown <= 0 && this.predators.length + births.length < MAX_PREDATORS) {
+          const child = this._reproduce(agent, "predator");
+          if (child) {
+            births.push(child);
+            this.totals.births++;
+          }
+        }
+
+        if (agent.energy <= 0) {
+          agent.dead = true;
+          this.totals.starved++;
+          this._compost(agent, 0.24);
+        } else if (agent.age > agent.lifespan) {
+          agent.dead = true;
+          this.totals.aged++;
+          this._compost(agent, 0.3);
+        }
+      }
+
+      this.predators = this.predators.filter(agent => !agent.dead);
+      this.predators.push(...births);
+    }
+
+    _compost(agent, amount) {
+      const index = agent.y * GRID_W + agent.x;
+      this.plants[index] = Math.min(1, this.plants[index] + amount);
+    }
+
+    _fireDisturbances() {
+      const events = [];
+      for (const type of ["drought", "plague", "surge"]) {
+        const interval = this.intervals[type];
+        if (interval <= 0) {
+          this.nextEvent[type] = Infinity;
+          continue;
+        }
+        if (this.generation < this.nextEvent[type]) continue;
+
+        const meta = EVENT_META[type];
+        const before = {
+          prey: this.prey.length,
+          predators: this.predators.length,
+          plants: this._plantMass()
+        };
+        let loss = "";
+        let lossPct = 0;
+
+        if (type === "drought") {
+          let lost = 0;
+          let total = 0;
+          for (let i = 0; i < CELL_COUNT; i++) {
+            const value = this.plants[i];
+            if (value <= 0) continue;
+            total += value;
+            if (this.rng.chance(0.68)) {
+              this.plants[i] = value * this.rng.range(0.04, 0.28);
+            } else {
+              this.plants[i] = value * this.rng.range(0.48, 0.85);
+            }
+            lost += value - this.plants[i];
+          }
+          this.active.drought = 9;
+          lossPct = total > 0 ? Math.round(lost / total * 100) : 0;
+          loss = `flora −${lossPct}%`;
+        } else if (type === "plague") {
+          let killed = 0;
+          for (const prey of this.prey) {
+            if (!prey.dead && this.rng.chance(0.34)) {
+              prey.dead = true;
+              killed++;
+              this.plants[prey.y * GRID_W + prey.x] = Math.min(1, this.plants[prey.y * GRID_W + prey.x] + 0.08);
+            }
+          }
+          this.active.plague = 5;
+          lossPct = before.prey > 0 ? Math.round(killed / before.prey * 100) : 0;
+          loss = `grazers −${lossPct}%`;
+          this.totals.eventLosses += killed;
+          this._filterDead();
+        } else {
+          let preyKilled = 0;
+          let predatorKilled = 0;
+          for (const prey of this.prey) {
+            if (!prey.dead && this.rng.chance(0.13)) {
+              prey.dead = true;
+              preyKilled++;
+            }
+          }
+          for (const predator of this.predators) {
+            if (!predator.dead && this.rng.chance(0.1)) {
+              predator.dead = true;
+              predatorKilled++;
+            }
+          }
+          let lost = 0;
+          let total = 0;
+          for (let i = 0; i < CELL_COUNT; i++) {
+            const value = this.plants[i];
+            if (value <= 0) continue;
+            total += value;
+            this.plants[i] = value * this.rng.range(0.5, 0.9);
+            lost += value - this.plants[i];
+          }
+          this.active.surge = 4;
+          lossPct = total > 0 ? Math.round(lost / total * 100) : 0;
+          loss = `mixed −${Math.round(Math.max(preyKilled / Math.max(1, before.prey), predatorKilled / Math.max(1, before.predators)) * 100)}% · flora −${lossPct}%`;
+          this.totals.eventLosses += preyKilled + predatorKilled;
+          this._filterDead();
+        }
+
+        const event = {
+          id: `${type}-${this.generation}`,
+          type,
+          generation: this.generation,
+          label: meta.label,
+          title: meta.title,
+          kicker: meta.kicker,
+          glyph: meta.glyph,
+          color: meta.color,
+          detail: loss,
+          lossPct
+        };
+        this.eventLog.push(event);
+        events.push(event);
+        this.nextEvent[type] += interval;
+        if (this.nextEvent[type] <= this.generation) this.nextEvent[type] = this.generation + interval;
+      }
+      return events;
+    }
+
+    _filterDead() {
+      const before = this.prey.length + this.predators.length;
+      this.prey = this.prey.filter(agent => !agent.dead);
+      this.predators = this.predators.filter(agent => !agent.dead);
+      this.totals.deaths += Math.max(0, before - this.prey.length - this.predators.length);
+    }
+
+    _plantMass() {
+      let mass = 0;
+      for (let i = 0; i < CELL_COUNT; i++) mass += this.plants[i];
+      return mass / CELL_COUNT * 100;
+    }
+
+    _record(events) {
+      let coverage = 0;
+      let biomass = 0;
+      for (let i = 0; i < CELL_COUNT; i++) {
+        const value = this.plants[i];
+        biomass += value;
+        if (value > 0.1) coverage++;
+      }
+
+      const entry = {
+        generation: this.generation,
+        events: events.map(event => event.type),
+        plants: coverage / CELL_COUNT * 100,
+        biomass: biomass / CELL_COUNT * 100,
+        prey: this.prey.length,
+        predators: this.predators.length,
+        traits: {
+          prey: summarizeTraits(this.prey, "prey"),
+          predator: summarizeTraits(this.predators, "predator")
+        }
+      };
+      this.history.push(entry);
+      this.latest = entry;
+      return entry;
+    }
+
+    getSnapshot() {
+      const latest = this.latest || this.history[this.history.length - 1];
+      return {
+        generation: this.generation,
+        target: this.target,
+        latest,
+        eventLog: this.eventLog.slice(),
+        nextEvent: Object.assign({}, this.nextEvent),
+        totals: Object.assign({}, this.totals),
+        config: {
+          mutation: this.mutation,
+          plantRegrowth: this.plantRegrowth,
+          intervals: Object.assign({}, this.intervals)
+        }
+      };
+    }
+
+    exportResult() {
+      return {
+        seed: this.seed,
+        generations: this.generation,
+        target: this.target,
+        history: this.history,
+        events: this.eventLog.slice(),
+        totals: Object.assign({}, this.totals),
+        config: {
+          mutation: this.mutation,
+          plantRegrowth: this.plantRegrowth,
+          intervals: Object.assign({}, this.intervals)
+        },
+        final: {
+          prey: this.prey.length,
+          predators: this.predators.length,
+          plants: this._lastPlantScan ? this._lastPlantScan.coverage : 0,
+          biomass: this._plantMass()
+        }
+      };
+    }
+
+    static runHeadless(options = {}) {
+      const sim = new VivariumSim(options);
+      sim.target = Math.max(1, Math.round(Number(options.generations ?? sim.target)));
+      const limit = Number(options.maxGenerations ?? sim.target);
+      while (sim.generation < Math.min(sim.target, limit)) sim.step();
+      return sim.exportResult();
+    }
+
+    static compareSeeds(seed, generations = 240, options = {}) {
+      const a = VivariumSim.runHeadless(Object.assign({}, options, { seed, generations }));
+      const b = VivariumSim.runHeadless(Object.assign({}, options, { seed, generations }));
+      return {
+        identical: JSON.stringify(a) === JSON.stringify(b),
+        a,
+        b
+      };
+    }
+  }
+
+  const api = {
+    Simulation: VivariumSim,
+    SeededRandom,
+    hashSeed,
+    GENE_KEYS,
+    GENE_LABELS,
+    GENE_UNITS,
+    GENE_RANGES,
+    GRID_W,
+    GRID_H,
+    CELL_COUNT,
+    MAX_PREY,
+    MAX_PREDATORS,
+    EVENT_META,
+    DEFAULT_CONFIG,
+    runHeadless: options => VivariumSim.runHeadless(options),
+    compareSeeds: (seed, generations, options) => VivariumSim.compareSeeds(seed, generations, options),
+    create: options => new VivariumSim(options)
+  };
+
+  if (typeof window !== "undefined") window.Vivarium = api;
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+})();
+</script>
+<script id="interface">
+/* interface is defined below */
+</script>
+</body>
+</html>

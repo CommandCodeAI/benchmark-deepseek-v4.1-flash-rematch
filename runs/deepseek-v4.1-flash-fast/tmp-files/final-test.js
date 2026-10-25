@@ -1,0 +1,32 @@
+const { chromium } = require('/opt/node22/lib/node_modules/playwright');
+(async () => {
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+  const errors = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type()==='error') errors.push(m.text()); });
+  await page.goto('http://127.0.0.1:8123/index.html', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(1200);
+  await page.keyboard.press('Space');
+  await page.waitForTimeout(250);
+  const paused = await page.evaluate(() => ({state: document.getElementById('runState').textContent, t: window.__vitrine.app.sim.tick}));
+  await page.keyboard.press('Space');
+  const oldSeed = await page.evaluate(() => window.__vitrine.app.sim.seed);
+  await page.keyboard.press('r');
+  await page.waitForTimeout(350);
+  const newSeed = await page.evaluate(() => window.__vitrine.app.sim.seed);
+  console.log('space pause:', paused, 'reseed:', oldSeed !== newSeed, newSeed);
+  await page.evaluate(() => window.__vitrine.finish());
+  await page.waitForTimeout(1700);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(300);
+  console.log('escape close:', await page.evaluate(() => ({hidden: document.getElementById('archive').hidden, open: window.__vitrine.app.archiveOpen, focus: document.activeElement.id})));
+  await page.click('#archiveBtn');
+  await page.waitForTimeout(400);
+  console.log('reopen:', await page.evaluate(() => ({hidden: document.getElementById('archive').hidden, open: window.__vitrine.app.archiveOpen, focus: document.activeElement.id})));
+  await page.screenshot({ path: '/tmp/final-archive-top2.png' });
+  // focus trap check
+  await page.evaluate(() => document.getElementById('copySeed').focus());
+  await page.keyboard.press('Tab');
+  console.log('trap last->first:', await page.evaluate(() => document.activeElement.id || document.activeElement.className));
+  console.log('errors', errors);
+  await browser.close();
+})();

@@ -1,0 +1,4963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Succession in vitro — a sealed ecology</title>
+<style>
+:root {
+  --ink-950: #07100e;
+  --ink-925: #081310;
+  --ink-900: #0b1613;
+  --ink-850: #101d19;
+  --ink-800: #14231f;
+  --ink-750: #192b26;
+  --bone: #ece6d6;
+  --bone-2: #c6c2b2;
+  --bone-3: #929a8d;
+  --bone-4: #80887b;
+  --brass: #c3a56f;
+  --brass-hi: #e2c997;
+  --brass-dim: #7b6644;
+  --brass-ghost: rgba(195, 165, 111, 0.14);
+  --lichen: #c1d98b;
+  --moth: #a5dacb;
+  --beetle: #e18b69;
+  --drought: #d7a04c;
+  --plague: #c0a2d6;
+  --frost: #9fcbdd;
+  --line: rgba(195, 165, 111, 0.26);
+  --line-soft: rgba(195, 165, 111, 0.13);
+  --line-faint: rgba(195, 165, 111, 0.07);
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Bitstream Charter", Caladea, Georgia, "DejaVu Serif", serif;
+  --mono: "JetBrains Mono", "SFMono-Regular", "Cascadia Mono", "Segoe UI Mono", "Liberation Mono", Menlo, Consolas, monospace;
+  --page: min(1280px, calc(100% - 64px));
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ev: var(--drought);
+}
+
+* { box-sizing: border-box; }
+figure { margin: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ink-950);
+  color: var(--bone);
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(195, 165, 111, 0.28); color: #fff8e8; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+svg { display: block; }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%);
+  white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: fixed; top: 10px; left: 10px; z-index: 300;
+  padding: 10px 14px; background: var(--bone); color: var(--ink-950);
+  font: 500 11px/1 var(--mono); letter-spacing: 0.08em; text-decoration: none;
+  transform: translateY(-160%); transition: transform 0.16s var(--ease);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* ------- backdrop ------- */
+
+.backdrop {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% -18%, #1a2b25 0%, rgba(20, 35, 30, 0.35) 38%, transparent 64%),
+    radial-gradient(60% 46% at 88% 106%, rgba(91, 72, 37, 0.2) 0%, transparent 70%),
+    linear-gradient(180deg, #0a1411 0%, #07100e 58%, #06100d 100%);
+}
+.backdrop::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.045;
+  mix-blend-mode: soft-light;
+}
+.backdrop-grid {
+  position: absolute; inset: -1px;
+  background-image:
+    linear-gradient(to right, rgba(195, 165, 111, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(195, 165, 111, 0.045) 1px, transparent 1px);
+  background-size: 96px 96px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 34%, #000 10%, transparent 78%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 34%, #000 10%, transparent 78%);
+}
+.backdrop-orbit {
+  position: absolute; width: 760px; height: 760px; right: -250px; top: -300px;
+  border-radius: 50%; border: 1px solid rgba(195, 165, 111, 0.09);
+  box-shadow: 0 0 0 44px rgba(195, 165, 111, 0.018), 0 0 0 45px rgba(195, 165, 111, 0.05);
+}
+.backdrop-orbit::before {
+  content: ""; position: absolute; inset: 74px; border-radius: 50%;
+  border: 1px dashed rgba(195, 165, 111, 0.07);
+}
+
+/* ------- masthead ------- */
+
+.masthead {
+  width: var(--page);
+  margin: 0 auto;
+  padding: 30px 0 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.42fr) minmax(0, 0.72fr);
+  gap: 46px;
+  align-items: end;
+}
+
+.kicker {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0;
+  font: 500 9px/1 var(--mono);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.kicker .rule { display: block; width: 34px; height: 1px; background: var(--brass); opacity: 0.62; }
+.kicker .dim { color: var(--bone-3); letter-spacing: 0.17em; }
+
+h1 {
+  margin: 16px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(44px, 5.1vw, 70px);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.032em;
+  color: var(--bone);
+  text-wrap: balance;
+}
+h1 em { font-style: italic; color: var(--brass-hi); letter-spacing: -0.018em; }
+
+.masthead-side { padding-bottom: 5px; }
+.dek {
+  margin: 0 0 16px;
+  max-width: 44ch;
+  padding-left: 16px;
+  border-left: 1px solid var(--line);
+  color: var(--bone-2);
+  font-size: 14.5px;
+  line-height: 1.62;
+  text-wrap: pretty;
+}
+.masthead-meta {
+  display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center;
+  padding-left: 17px;
+  font: 500 8px/1.4 var(--mono);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+}
+.masthead-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--brass-dim); }
+.masthead-meta .brass { color: var(--brass); }
+
+/* ------- apparatus ------- */
+
+.apparatus {
+  position: relative;
+  width: var(--page);
+  margin: 0 auto 46px;
+  padding: 8px;
+  border: 1px solid rgba(195, 165, 111, 0.34);
+  background: linear-gradient(180deg, rgba(20, 34, 29, 0.88), rgba(8, 17, 14, 0.97));
+  box-shadow:
+    0 40px 90px -46px rgba(0, 0, 0, 0.95),
+    0 2px 0 rgba(255, 255, 255, 0.025) inset,
+    0 0 0 7px var(--ink-950) inset,
+    0 0 0 8px rgba(195, 165, 111, 0.11) inset;
+}
+.apparatus-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 328px;
+  border: 1px solid var(--line-soft);
+  background: #091310;
+  min-height: 0;
+}
+.plate-label {
+  position: absolute;
+  z-index: 4;
+  top: -13px; left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 15px 5px;
+  background: var(--ink-950);
+  border: 1px solid rgba(195, 165, 111, 0.32);
+  color: var(--brass);
+  font: 500 8px/1 var(--mono);
+  letter-spacing: 0.22em;
+  white-space: nowrap;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+.plate-label::before, .plate-label::after {
+  content: ""; position: absolute; top: 50%; width: 3px; height: 3px;
+  background: var(--brass); transform: translateY(-50%) rotate(45deg); opacity: 0.6;
+}
+.plate-label::before { left: -8px; }
+.plate-label::after { right: -8px; }
+.rivet {
+  position: absolute; z-index: 3; width: 6px; height: 6px; border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #e2c997, #7b6644 58%, #2b2317 100%);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.rivet.tl { top: 3px; left: 3px; } .rivet.tr { top: 3px; right: 3px; }
+.rivet.bl { bottom: 3px; left: 3px; } .rivet.br { bottom: 3px; right: 3px; }
+
+/* ------- chamber ------- */
+
+.chamber {
+  min-width: 0;
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  background:
+    radial-gradient(90% 70% at 48% -10%, rgba(49, 78, 66, 0.3), transparent 62%),
+    linear-gradient(180deg, rgba(9, 19, 16, 0.3), rgba(7, 15, 13, 0.8));
+}
+
+.chamber-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 16px; min-height: 42px;
+}
+.legend { display: flex; flex-wrap: wrap; gap: 9px 22px; min-width: 0; }
+.legend-item {
+  display: grid;
+  grid-template-columns: 17px auto;
+  grid-template-rows: auto auto;
+  column-gap: 7px;
+  align-items: center;
+  min-width: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.legend-item.is-lost { opacity: 0.42; }
+.legend-glyph { grid-row: 1 / span 2; width: 18px; height: 18px; color: var(--sp); }
+.legend-name {
+  display: flex; align-items: baseline; gap: 6px;
+  font: 500 9.5px/1.2 var(--mono);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--bone-2);
+  white-space: nowrap;
+}
+.legend-name .count {
+  font-size: 12px; letter-spacing: 0.01em;
+  color: var(--sp);
+  font-variant-numeric: tabular-nums;
+}
+.legend-name .lost {
+  font-size: 7px; letter-spacing: 0.12em; color: var(--bone-3);
+  border: 1px solid var(--line-soft); padding: 1px 3px;
+}
+.legend-latin {
+  font: italic 10.5px/1.2 var(--serif);
+  color: var(--bone-3);
+  letter-spacing: 0.015em;
+  white-space: nowrap;
+}
+
+.clock { display: flex; align-items: flex-start; gap: 12px; flex: 0 0 auto; }
+.clock-read { text-align: right; }
+.run-state {
+  display: flex; align-items: center; justify-content: flex-end; gap: 5px;
+  font: 500 7.5px/1 var(--mono);
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+  margin-bottom: 4px;
+  transition: color 0.25s var(--ease);
+}
+.run-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--lichen);
+  box-shadow: 0 0 0 0 rgba(193, 217, 139, 0.5);
+  animation: breathe 3.4s ease-in-out infinite;
+}
+.is-paused .run-dot { background: var(--brass); animation: none; }
+.is-paused .run-state { color: var(--brass); }
+.is-complete .run-dot { background: var(--brass); animation: none; }
+.is-complete .run-state { color: var(--brass); }
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(193, 217, 139, 0.34); opacity: 0.8; }
+  50% { box-shadow: 0 0 0 4px rgba(193, 217, 139, 0); opacity: 1; }
+}
+.clock-gen {
+  font: 400 19px/1 var(--serif);
+  letter-spacing: 0.005em;
+  font-variant-numeric: tabular-nums;
+  color: var(--bone);
+  white-space: nowrap;
+}
+.clock-gen .slash { color: var(--bone-4); font-size: 13px; margin: 0 3px; }
+.clock-gen .of { color: var(--bone-2); }
+.clock-tick {
+  margin-top: 4px;
+  font: 500 7.5px/1 var(--mono);
+  letter-spacing: 0.15em;
+  color: var(--bone-4);
+  white-space: nowrap;
+}
+.clock-divider { width: 1px; align-self: stretch; background: var(--line-faint); }
+
+/* ------- glass ------- */
+
+.glass {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 200px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(195, 165, 111, 0.28);
+  background: #06100d;
+  box-shadow:
+    0 0 0 4px rgba(7, 16, 14, 0.9),
+    0 0 0 5px rgba(195, 165, 111, 0.07),
+    0 18px 45px -25px rgba(0, 0, 0, 0.9),
+    inset 0 0 60px rgba(0, 0, 0, 0.45);
+  outline: none;
+}
+.glass:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 4px; }
+.glass canvas#world { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 1; }
+.glass-inner-line {
+  position: absolute; inset: 7px; z-index: 5; pointer-events: none;
+  border: 1px solid rgba(195, 165, 111, 0.075);
+}
+.glass-sheen {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background:
+    linear-gradient(119deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.014) 16%, transparent 34%, transparent 67%, rgba(255, 255, 255, 0.018) 100%),
+    radial-gradient(90% 42% at 22% 0%, rgba(206, 226, 207, 0.045), transparent 70%);
+  mix-blend-mode: screen;
+  opacity: 0.85;
+}
+.glass-sheen::after {
+  content: "";
+  position: absolute; left: -20%; top: -60%;
+  width: 34%; height: 220%;
+  transform: rotate(18deg);
+  background: linear-gradient(90deg, transparent, rgba(238, 236, 213, 0.035), transparent);
+  animation: sheen-drift 22s ease-in-out infinite;
+}
+@keyframes sheen-drift {
+  0%, 100% { transform: translateX(0) rotate(18deg); opacity: 0.5; }
+  50% { transform: translateX(330%) rotate(18deg); opacity: 1; }
+}
+.glass-vignette {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background:
+    radial-gradient(ellipse 78% 66% at 50% 48%, transparent 48%, rgba(2, 8, 7, 0.36) 82%, rgba(1, 6, 5, 0.68) 100%),
+    linear-gradient(180deg, rgba(1, 6, 5, 0.28), transparent 18%, transparent 80%, rgba(1, 6, 5, 0.34));
+}
+.event-tint {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(90% 80% at 50% -10%, var(--ev) 0%, transparent 64%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 70%, var(--ev) 160%);
+  mix-blend-mode: screen;
+  transition: opacity 1.4s var(--ease);
+}
+.glass.is-live .event-tint { opacity: 0.19; }
+.glass.is-live::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: var(--ev); opacity: 0.65; z-index: 6;
+  box-shadow: 0 0 18px var(--ev);
+}
+
+.glass-tag, .loupe-hint {
+  position: absolute; z-index: 6; bottom: 10px;
+  font: 500 7px/1 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(236, 230, 214, 0.46);
+  pointer-events: none;
+}
+.glass-tag { left: 13px; }
+.loupe-hint { right: 13px; transition: opacity 0.3s var(--ease); }
+.glass.inspecting .loupe-hint { opacity: 0; }
+
+.event-banner {
+  position: absolute; z-index: 8; top: 13px; left: 50%;
+  width: min(430px, calc(100% - 28px));
+  transform: translate(-50%, -10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.32s var(--ease), transform 0.45s var(--ease), visibility 0.32s;
+  background: rgba(7, 16, 13, 0.93);
+  border: 1px solid color-mix(in srgb, var(--ev) 52%, transparent);
+  box-shadow: 0 20px 48px -18px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(7px);
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 10px 12px 10px 11px;
+  pointer-events: none;
+}
+.event-banner::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--ev);
+}
+.event-banner.is-visible { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.ev-glyph { flex: 0 0 22px; width: 22px; height: 22px; color: var(--ev); margin-top: 1px; }
+.ev-glyph svg, .log-glyph svg { width: 100%; height: 100%; }
+.ev-body { min-width: 0; }
+.ev-kicker {
+  font: 500 7px/1 var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ev);
+}
+.ev-title {
+  margin-top: 3px;
+  font: 400 17px/1.05 var(--serif);
+  letter-spacing: -0.005em;
+  color: var(--bone);
+}
+.ev-note {
+  margin-top: 3px;
+  font: italic 400 10.5px/1.35 var(--serif);
+  color: var(--bone-2);
+}
+.ev-loss { font-style: normal; font-family: var(--mono); font-size: 8px; letter-spacing: 0.06em; color: var(--bone-3); }
+
+.glass-note {
+  position: absolute; z-index: 7; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  background: rgba(7, 16, 13, 0.86);
+  color: var(--brass-hi);
+  font: italic 400 13px/1.3 var(--serif);
+  text-align: center;
+  pointer-events: none;
+  max-width: 80%;
+}
+
+.spec-card {
+  position: absolute; z-index: 9;
+  width: 214px;
+  padding: 8px 9px 7px;
+  background: rgba(6, 14, 12, 0.95);
+  border: 1px solid rgba(195, 165, 111, 0.38);
+  box-shadow: 0 18px 44px -16px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  pointer-events: none;
+  backdrop-filter: blur(5px);
+}
+.spec-card[hidden] { display: none; }
+.spec-head { display: flex; align-items: baseline; gap: 6px; padding-bottom: 5px; border-bottom: 1px solid var(--line-faint); }
+.spec-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sp); box-shadow: 0 0 7px color-mix(in srgb, var(--sp) 50%, transparent); align-self: center; }
+.spec-name { font: italic 400 11.5px/1.15 var(--serif); color: var(--bone); }
+.spec-role { margin-left: auto; font: 500 6.5px/1 var(--mono); letter-spacing: 0.14em; color: var(--bone-3); text-transform: uppercase; }
+.spec-genes { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 9px; margin-top: 6px; }
+.spec-gene { display: grid; grid-template-columns: 1fr auto; gap: 2px 5px; align-items: center; }
+.spec-gene dt { font: 500 6.5px/1 var(--mono); letter-spacing: 0.1em; color: var(--bone-4); }
+.spec-gene dd { margin: 0; font: 500 8px/1 var(--mono); color: var(--bone-2); font-variant-numeric: tabular-nums; }
+.spec-bar { grid-column: 1 / -1; height: 1px; background: rgba(195, 165, 111, 0.12); }
+.spec-bar i { display: block; height: 100%; background: var(--sp); opacity: 0.72; }
+.spec-foot {
+  display: flex; justify-content: space-between; gap: 8px;
+  margin-top: 7px; padding-top: 5px; border-top: 1px solid var(--line-faint);
+  font: 500 6.5px/1 var(--mono); letter-spacing: 0.08em; color: var(--bone-4);
+  font-variant-numeric: tabular-nums;
+}
+.spec-foot b { color: var(--bone-2); font-weight: 500; }
+
+.headless-panel {
+  position: absolute; inset: 0; z-index: 7;
+  display: grid; place-items: center;
+  background: rgba(5, 12, 10, 0.82);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+.headless-panel[hidden] { display: none; }
+.recording {
+  text-align: center;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 13px 28px;
+}
+.recording .rec-dot {
+  display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--beetle); box-shadow: 0 0 9px rgba(225, 139, 105, 0.7);
+  margin-right: 7px; vertical-align: 1px;
+}
+.recording .rec-title {
+  font: 500 8px/1 var(--mono); letter-spacing: 0.2em; color: var(--beetle);
+  text-transform: uppercase;
+}
+.recording .rec-note {
+  margin-top: 8px; font: italic 400 11px/1.4 var(--serif); color: var(--bone-3);
+}
+.recording .rec-count {
+  margin-top: 8px; font: 400 17px/1 var(--serif); color: var(--bone);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------- timeline ------- */
+
+.timeline {
+  position: relative;
+  height: 44px;
+  margin-top: 1px;
+  flex: 0 0 auto;
+}
+.timeline-rail {
+  position: absolute; left: 0; right: 0; top: 18px; height: 1px;
+  background: rgba(195, 165, 111, 0.3);
+}
+.timeline-fill {
+  position: absolute; left: 0; top: 0; height: 1px; width: 0;
+  background: linear-gradient(90deg, var(--brass-dim), var(--brass-hi));
+  box-shadow: 0 0 7px rgba(226, 201, 151, 0.24);
+  transition: width 0.3s linear;
+}
+.timeline-ticks { position: absolute; left: 0; right: 0; top: 15px; height: 7px; pointer-events: none; z-index: 1; }
+.timeline-ticks i {
+  position: absolute; bottom: 0; width: 1px; height: 4px;
+  background: rgba(195, 165, 111, 0.23);
+  transform: translateX(-50%);
+}
+.timeline-ticks i.major { height: 7px; background: rgba(195, 165, 111, 0.42); }
+.timeline-head {
+  position: absolute; top: 13px; width: 1px; height: 11px;
+  background: var(--brass-hi);
+  box-shadow: 0 0 8px rgba(226, 201, 151, 0.45);
+  transform: translateX(-50%);
+  z-index: 3;
+  transition: left 0.3s linear;
+}
+.timeline-head::before {
+  content: ""; position: absolute; left: 50%; top: -4px;
+  width: 4px; height: 4px; background: var(--brass-hi);
+  transform: translateX(-50%) rotate(45deg);
+}
+.timeline-scale {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; justify-content: space-between; align-items: baseline;
+  font: 500 6.5px/1 var(--mono); letter-spacing: 0.08em;
+  color: var(--bone-4);
+  font-variant-numeric: tabular-nums;
+}
+.timeline-scale span:first-child { color: var(--bone-3); }
+.timeline-scale span:last-child { color: var(--bone-3); }
+.event-markers { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.event-marker {
+  position: absolute; top: 0; transform: translateX(-50%);
+  width: 24px; height: 24px; padding: 0; border: 0; background: none;
+  color: var(--ev);
+  cursor: help; pointer-events: auto;
+}
+.event-marker::before {
+  content: ""; position: absolute; left: 50%; top: 13px;
+  width: 5px; height: 5px; background: currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 7px color-mix(in srgb, currentColor 45%, transparent);
+}
+.event-marker::after {
+  content: attr(data-num); position: absolute; left: 50%; top: -5px;
+  transform: translateX(-50%);
+  font: 500 6px/1 var(--mono); letter-spacing: 0.04em;
+  color: currentColor; opacity: 0.8;
+}
+.event-marker .stem {
+  position: absolute; left: 50%; top: 15px; width: 1px; height: 7px;
+  background: currentColor; opacity: 0.3;
+}
+.event-marker:hover, .event-marker:focus-visible { color: color-mix(in srgb, var(--ev) 82%, white); }
+.event-marker:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 1px; border-radius: 2px; }
+.next-marker {
+  position: absolute; top: 13px; width: 5px; height: 5px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: 1px solid rgba(195, 165, 111, 0.4);
+  z-index: 2; pointer-events: none;
+}
+.rescue-marker {
+  position: absolute; top: 19px; width: 4px; height: 4px; border-radius: 50%;
+  border: 1px solid rgba(226, 201, 151, 0.45);
+  transform: translateX(-50%);
+  z-index: 2; pointer-events: none;
+}
+.marker-tip {
+  position: absolute; left: 50%; bottom: calc(100% + 5px);
+  transform: translateX(-50%) translateY(3px);
+  width: max-content; max-width: 220px;
+  padding: 6px 8px;
+  background: #0a1512; border: 1px solid var(--line);
+  font: 400 9.5px/1.45 var(--serif); color: var(--bone-2);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: 0.14s var(--ease); z-index: 20;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55);
+}
+.marker-tip b { display: block; font: 500 7px/1.4 var(--mono); letter-spacing: 0.14em; color: var(--ev); text-transform: uppercase; }
+.event-marker:hover .marker-tip, .event-marker:focus-visible .marker-tip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+/* ------- chamber foot ------- */
+
+.chamber-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 28px;
+  flex-wrap: wrap;
+}
+.disturbances { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.micro-label {
+  font: 500 7.5px/1.2 var(--mono);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bone-4);
+  white-space: nowrap;
+}
+.disturbances > .micro-label { margin-right: 3px; }
+.dist {
+  --dist-color: var(--drought);
+  position: relative;
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 27px; padding: 0 8px;
+  border: 1px solid rgba(195, 165, 111, 0.12);
+  background: rgba(255, 255, 255, 0.012);
+  color: var(--bone-3);
+  font: 500 8px/1 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.dist svg { width: 12px; height: 12px; opacity: 0.62; }
+.dist .led { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: 0.35; margin-left: 1px; }
+.dist[aria-checked="true"] {
+  color: var(--dist-color);
+  border-color: color-mix(in srgb, var(--dist-color) 34%, transparent);
+  background: color-mix(in srgb, var(--dist-color) 7%, transparent);
+}
+.dist[aria-checked="true"] svg { opacity: 0.92; }
+.dist[aria-checked="true"] .led { opacity: 1; box-shadow: 0 0 6px currentColor; }
+.dist:hover { border-color: color-mix(in srgb, var(--dist-color) 55%, transparent); }
+.dist::after {
+  content: attr(data-tip);
+  position: absolute; left: 0; bottom: calc(100% + 7px);
+  width: max-content; max-width: 210px;
+  padding: 6px 8px;
+  background: #0a1512; border: 1px solid var(--line);
+  font: 400 9.5px/1.45 var(--serif); color: var(--bone-2);
+  text-transform: none; letter-spacing: normal;
+  opacity: 0; visibility: hidden; transform: translateY(3px);
+  transition: 0.14s var(--ease); pointer-events: none; z-index: 30;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55);
+}
+.dist:hover::after, .dist:focus-visible::after { opacity: 1; visibility: visible; transform: translateY(0); }
+.next-event {
+  display: flex; align-items: baseline; gap: 7px;
+  white-space: nowrap;
+}
+.next-event .value {
+  font: 500 8.5px/1 var(--mono);
+  letter-spacing: 0.09em;
+  color: var(--brass);
+  font-variant-numeric: tabular-nums;
+}
+.next-event .sub { font: 500 7px/1 var(--mono); letter-spacing: 0.09em; color: var(--bone-4); }
+
+/* ------- console ------- */
+
+.console {
+  min-width: 0;
+  border-left: 1px solid var(--line-soft);
+  padding: 11px 15px 9px;
+  display: flex; flex-direction: column; gap: 9px;
+  background:
+    linear-gradient(180deg, rgba(22, 37, 32, 0.56), rgba(9, 17, 15, 0.74)),
+    repeating-linear-gradient(90deg, transparent 0 33px, rgba(195, 165, 111, 0.022) 33px 34px);
+}
+.console-head {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--line-soft);
+  flex: 0 0 auto;
+}
+.console-title { display: flex; flex-direction: column; gap: 4px; }
+.console-title .micro-label { color: var(--brass); letter-spacing: 0.2em; }
+.serial {
+  font: 500 7.5px/1 var(--mono);
+  letter-spacing: 0.14em;
+  color: var(--bone-4);
+  text-transform: uppercase;
+}
+.transport {
+  position: relative;
+  width: 40px; height: 40px; flex: 0 0 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(195, 165, 111, 0.42);
+  background: radial-gradient(circle at 36% 28%, #2c4038 0%, #14231f 48%, #0c1714 100%);
+  color: var(--brass-hi);
+  display: grid; place-items: center;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.09),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+    0 2px 9px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s var(--ease), box-shadow 0.2s;
+}
+.transport:hover { border-color: var(--brass-hi); box-shadow: inset 0 1px 1px rgba(255,255,255,.12), 0 0 16px rgba(195,165,111,.14), 0 2px 9px rgba(0,0,0,.4); }
+.transport:active { transform: scale(0.96); }
+.transport svg { width: 13px; height: 13px; }
+.transport .icon-play { display: none; margin-left: 1px; }
+.transport.is-paused .icon-pause { display: none; }
+.transport.is-paused .icon-play { display: block; }
+.console-body {
+  display: flex; flex-direction: column; gap: 9px;
+  min-height: 0;
+}
+.control { position: relative; padding-top: 1px; }
+.control + .control { border-top: 1px solid rgba(195, 165, 111, 0.075); padding-top: 8px; }
+.control-label-row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  min-height: 12px;
+}
+.label-wrap { display: flex; align-items: center; gap: 5px; min-width: 0; }
+.control-label {
+  font: 500 9px/1.2 var(--mono);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--bone-2);
+  white-space: nowrap;
+}
+.control-value {
+  font: 500 12.5px/1 var(--mono);
+  letter-spacing: 0.02em;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.control-value .unit {
+  font-size: 7.5px;
+  letter-spacing: 0.06em;
+  color: var(--bone-3);
+  margin-left: 3px;
+  text-transform: uppercase;
+}
+.control-caption {
+  font: 500 7px/1 var(--mono);
+  letter-spacing: 0.12em;
+  color: var(--bone-4);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.info {
+  width: 15px; height: 15px; padding: 0;
+  display: grid; place-items: center;
+  border: 1px solid rgba(195, 165, 111, 0.24);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--bone-4);
+  font: 500 8px/1 var(--mono);
+  cursor: help;
+  transition: color 0.2s, border-color 0.2s;
+}
+.info:hover { color: var(--brass-hi); border-color: var(--brass); }
+
+.control-slide { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+.range-shell { position: relative; flex: 1 1 auto; min-width: 0; height: 24px; display: flex; align-items: center; }
+.range-ticks {
+  position: absolute; left: 0; right: 0; top: 50%; height: 5px;
+  transform: translateY(-50%);
+  background: repeating-linear-gradient(90deg, rgba(195, 165, 111, 0.2) 0 1px, transparent 1px calc(100% / 10));
+  pointer-events: none;
+  z-index: 0;
+}
+input[type="range"] {
+  position: relative; z-index: 1;
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 24px; margin: 0; padding: 0;
+  background: transparent; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px; border-radius: 1px;
+  background: linear-gradient(90deg, rgba(195, 165, 111, 0.46), rgba(195, 165, 111, 0.16));
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.3);
+}
+input[type="range"]::-moz-range-track {
+  height: 2px; border-radius: 1px;
+  background: linear-gradient(90deg, rgba(195, 165, 111, 0.46), rgba(195, 165, 111, 0.16));
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 10px; height: 16px; margin-top: -7px;
+  border-radius: 1px;
+  border: 1px solid #f0dbaa;
+  background: linear-gradient(180deg, #e8d19c 0%, #b6975f 55%, #8d7145 100%);
+  box-shadow: 0 0 0 2px rgba(8, 17, 14, 0.9), 0 0 10px rgba(195, 165, 111, 0.2);
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 10px; height: 16px; border-radius: 1px;
+  border: 1px solid #f0dbaa;
+  background: linear-gradient(180deg, #e8d19c 0%, #b6975f 55%, #8d7145 100%);
+  box-shadow: 0 0 0 2px rgba(8, 17, 14, 0.9), 0 0 10px rgba(195, 165, 111, 0.2);
+}
+input[type="range"]:hover::-webkit-slider-thumb { border-color: #fff1cc; box-shadow: 0 0 0 2px rgba(8, 17, 14, 0.9), 0 0 14px rgba(226, 201, 151, 0.32); }
+input[type="range"]:hover::-moz-range-thumb { border-color: #fff1cc; box-shadow: 0 0 0 2px rgba(8, 17, 14, 0.9), 0 0 14px rgba(226, 201, 151, 0.32); }
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--brass-hi);
+  outline-offset: 3px;
+}
+input[type="range"]:active::-webkit-slider-thumb { background: linear-gradient(180deg, #f6e3b4, #caa86d 60%, #9d7c4b); }
+input[type="range"]:active::-moz-range-thumb { background: linear-gradient(180deg, #f6e3b4, #caa86d 60%, #9d7c4b); }
+
+.control-scale {
+  display: flex; justify-content: space-between;
+  margin-top: 1px;
+  font: 400 7px/1 var(--mono);
+  letter-spacing: 0.055em;
+  color: var(--bone-4);
+  opacity: 0.78;
+  font-variant-numeric: tabular-nums;
+}
+.spark { width: 58px; height: 18px; flex: 0 0 58px; margin-left: 8px; overflow: visible; }
+.spark .base { stroke: rgba(195, 165, 111, 0.18); stroke-width: 1; fill: none; }
+.spark .line { stroke: var(--brass-hi); stroke-width: 1.1; fill: none; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: 0.82; }
+.spark .area { fill: rgba(195, 165, 111, 0.075); stroke: none; }
+.spark .dot { fill: var(--brass-hi); }
+.spark .tick { stroke: var(--brass); stroke-width: 1; opacity: 0.55; }
+.spark .tick.on { stroke: var(--brass-hi); opacity: 0.95; }
+
+.tip {
+  position: absolute; left: -2px; right: -2px; bottom: calc(100% - 2px);
+  z-index: 40;
+  padding: 8px 9px;
+  background: #0a1512;
+  border: 1px solid rgba(195, 165, 111, 0.32);
+  color: var(--bone-2);
+  font: 400 10.5px/1.48 var(--serif);
+  opacity: 0; visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.15s var(--ease), transform 0.15s var(--ease), visibility 0.15s;
+  pointer-events: none;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
+}
+.control:hover > .tip, .control:focus-within > .tip { opacity: 1; visibility: visible; transform: translateY(0); }
+.tip b { color: var(--brass-hi); font-weight: 500; }
+
+/* seed + horizon steppers */
+.seed-control .control-label-row { margin-bottom: 5px; }
+.stepper {
+  display: grid;
+  grid-template-columns: 27px minmax(0, 1fr) 27px 28px;
+  gap: 4px;
+  align-items: stretch;
+}
+.step-btn {
+  height: 28px; padding: 0;
+  display: grid; place-items: center;
+  border: 1px solid rgba(195, 165, 111, 0.2);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--bone-2);
+  cursor: pointer;
+  transition: 0.15s;
+}
+.step-btn:hover { border-color: var(--brass); color: var(--brass-hi); background: rgba(195, 165, 111, 0.06); }
+.step-btn:active { transform: translateY(1px); }
+.step-btn svg { width: 9px; height: 9px; }
+.seed-display {
+  display: flex; align-items: center; justify-content: center; gap: 2px;
+  min-width: 0;
+  height: 28px;
+  border-top: 1px solid rgba(195, 165, 111, 0.19);
+  border-bottom: 1px solid rgba(195, 165, 111, 0.19);
+  background: rgba(0, 0, 0, 0.18);
+  font: 500 13px/1 var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--brass-hi);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.seed-display .zero { color: var(--brass-dim); }
+.reseed {
+  height: 28px; padding: 0;
+  display: grid; place-items: center;
+  border: 1px solid rgba(195, 165, 111, 0.3);
+  background: rgba(195, 165, 111, 0.045);
+  color: var(--brass);
+  cursor: pointer;
+  transition: 0.15s;
+}
+.reseed:hover { color: var(--brass-hi); border-color: var(--brass-hi); background: rgba(195, 165, 111, 0.09); }
+.reseed svg { width: 12px; height: 12px; }
+.seed-flash { animation: seed-flash 0.7s var(--ease); }
+@keyframes seed-flash {
+  0% { background: rgba(195, 165, 111, 0.18); }
+  100% { background: rgba(0, 0, 0, 0.18); }
+}
+.spark-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin-top: 4px;
+}
+.spark-row .micro {
+  font: 500 7px/1 var(--mono); letter-spacing: 0.11em; color: var(--bone-4);
+  text-transform: uppercase; white-space: nowrap;
+}
+.spark-row .spark { margin-left: 0; flex: 1 1 auto; width: auto; height: 15px; }
+
+.horizon-stepper {
+  display: grid;
+  grid-template-columns: 27px minmax(0, 1fr) 27px;
+  gap: 4px;
+  margin-top: 5px;
+}
+.horizon-track {
+  position: relative; height: 28px;
+  border-top: 1px solid rgba(195, 165, 111, 0.19);
+  border-bottom: 1px solid rgba(195, 165, 111, 0.19);
+  background: rgba(0, 0, 0, 0.18);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.horizon-track .fill {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: linear-gradient(90deg, rgba(195, 165, 111, 0.07), rgba(195, 165, 111, 0.16));
+  border-right: 1px solid rgba(226, 201, 151, 0.5);
+  transition: width 0.3s linear;
+}
+.horizon-track .value {
+  position: relative; z-index: 1;
+  font: 500 11px/1 var(--mono); letter-spacing: 0.04em; color: var(--bone);
+  font-variant-numeric: tabular-nums;
+}
+.horizon-track .value span { color: var(--bone-3); font-size: 7.5px; letter-spacing: 0.06em; margin-left: 3px; }
+
+/* tempo dial */
+.tempo-control .control-label-row { margin-bottom: 2px; }
+.tempo-body { display: flex; align-items: center; gap: 12px; }
+.dial {
+  position: relative;
+  width: 96px; height: 96px; flex: 0 0 96px;
+  border-radius: 50%;
+  outline: none;
+  cursor: grab;
+}
+.dial:active { cursor: grabbing; }
+.dial:focus-within { box-shadow: 0 0 0 1px var(--brass-hi), 0 0 18px rgba(195, 165, 111, 0.14); }
+.dial svg { width: 100%; height: 100%; overflow: visible; }
+.dial .face {
+  fill: radial-gradient(circle, rgba(24, 40, 34, 0.7), rgba(8, 17, 14, 0.9));
+  fill: rgba(10, 20, 17, 0.7);
+  stroke: rgba(195, 165, 111, 0.18);
+  stroke-width: 1;
+}
+.dial .tick { stroke: rgba(195, 165, 111, 0.32); stroke-width: 1; }
+.dial .tick.major { stroke: rgba(195, 165, 111, 0.62); }
+.dial .arc-bg { fill: none; stroke: rgba(195, 165, 111, 0.14); stroke-width: 2; }
+.dial .arc { fill: none; stroke: var(--brass-hi); stroke-width: 2; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(226, 201, 151, 0.28)); }
+.dial .needle { stroke: var(--brass-hi); stroke-width: 1.2; stroke-linecap: round; }
+.dial .cap { fill: var(--brass-hi); }
+.dial .dial-center {
+  position: absolute; inset: 0;
+  display: flex; align-items: baseline; justify-content: center;
+  padding-top: 38px;
+  pointer-events: none;
+}
+.dial .dial-x { font: 400 11px/1 var(--mono); color: var(--bone-3); margin-right: 1px; }
+.dial .dial-value { font: 400 21px/1 var(--serif); color: var(--bone); font-variant-numeric: tabular-nums; }
+.dial input[type="range"] {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  cursor: inherit;
+  margin: 0;
+  pointer-events: none;
+}
+.dial input[type="range"]:focus-visible { outline: none; }
+.dial-limits {
+  position: absolute; left: 1px; right: 1px; bottom: -1px;
+  display: flex; justify-content: space-between;
+  font: 400 6px/1 var(--mono); color: var(--bone-4);
+  pointer-events: none;
+}
+.tempo-meta { min-width: 0; flex: 1 1 auto; }
+.tempo-meta .micro-label { display: block; color: var(--bone-4); letter-spacing: 0.14em; }
+.tempo-actual {
+  display: flex; align-items: baseline; gap: 4px; margin-top: 3px;
+  font: 400 17px/1 var(--serif); color: var(--bone);
+  font-variant-numeric: tabular-nums;
+}
+.tempo-actual .unit { font: 500 6.5px/1 var(--mono); letter-spacing: 0.08em; color: var(--bone-3); text-transform: uppercase; }
+.tempo-meta .spark { width: 100%; height: 18px; margin: 6px 0 2px; flex: none; }
+.tempo-meta .micro { font: 500 6.5px/1 var(--mono); letter-spacing: 0.11em; color: var(--bone-4); text-transform: uppercase; }
+
+/* toggles */
+.switch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.switch-btn {
+  position: relative;
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  min-height: 30px; padding: 0 7px;
+  border: 1px solid rgba(195, 165, 111, 0.11);
+  background: rgba(255, 255, 255, 0.012);
+  cursor: pointer;
+  text-align: left;
+}
+.switch-btn:hover { border-color: rgba(195, 165, 111, 0.32); }
+.switch-label {
+  font: 500 7px/1.25 var(--mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bone-3);
+  transition: color 0.2s;
+}
+.switch-btn[aria-checked="true"] .switch-label { color: var(--bone-2); }
+.switch-rail {
+  position: relative; flex: 0 0 26px; width: 26px; height: 13px;
+  border: 1px solid rgba(195, 165, 111, 0.22);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.28);
+  transition: 0.22s var(--ease);
+}
+.switch-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #767c6f;
+  transition: 0.22s var(--ease);
+}
+.switch-btn[aria-checked="true"] .switch-rail {
+  border-color: rgba(195, 165, 111, 0.52);
+  background: rgba(195, 165, 111, 0.13);
+}
+.switch-btn[aria-checked="true"] .switch-knob {
+  left: 15px; background: var(--brass-hi);
+  box-shadow: 0 0 6px rgba(226, 201, 151, 0.5);
+}
+.switch-btn::after {
+  content: attr(data-tip);
+  position: absolute; left: 0; bottom: calc(100% + 7px);
+  width: max-content; max-width: 210px;
+  padding: 6px 8px;
+  background: #0a1512; border: 1px solid var(--line);
+  font: 400 9.5px/1.45 var(--serif); color: var(--bone-2);
+  opacity: 0; visibility: hidden; transform: translateY(3px);
+  transition: 0.14s var(--ease); pointer-events: none; z-index: 30;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55);
+}
+.switch-btn:hover::after, .switch-btn:focus-visible::after { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.console-foot {
+  margin-top: auto; padding-top: 7px;
+  border-top: 1px solid var(--line-faint);
+  flex: 0 0 auto;
+}
+.keys {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 7px;
+  font: 500 7px/1.4 var(--mono); letter-spacing: 0.07em; color: var(--bone-4);
+  text-transform: uppercase;
+}
+kbd {
+  display: inline-block;
+  padding: 2px 4px;
+  border: 1px solid rgba(195, 165, 111, 0.17);
+  border-bottom-color: rgba(195, 165, 111, 0.28);
+  background: rgba(255, 255, 255, 0.02);
+  font: 500 6px/1 var(--mono); letter-spacing: 0.06em; color: var(--bone-2);
+}
+.fineprint {
+  margin: 5px 0 0;
+  font: 400 7px/1.5 var(--mono);
+  letter-spacing: 0.035em;
+  color: var(--bone-4);
+}
+.console-toggle {
+  display: none;
+  width: 100%; min-height: 38px; margin-top: 2px;
+  align-items: center; justify-content: space-between;
+  border: 1px solid var(--line-soft);
+  background: rgba(255, 255, 255, 0.015);
+  color: var(--brass);
+  font: 500 7.5px/1 var(--mono); letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0 10px; cursor: pointer;
+}
+.console-toggle svg { width: 10px; height: 10px; transition: transform 0.25s var(--ease); }
+
+/* ------- archive ------- */
+
+.archive {
+  position: fixed; inset: 0; z-index: 100;
+  overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain;
+  background:
+    radial-gradient(100% 68% at 50% -10%, #172720 0%, rgba(15, 27, 23, 0.35) 45%, transparent 70%),
+    linear-gradient(180deg, #08120f, #06100d 70%, #07110e);
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
+}
+.archive[hidden] { display: none; }
+.archive.is-open { opacity: 1; }
+.archive::after {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.035; mix-blend-mode: soft-light;
+}
+.archive-bar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 12px 32px;
+  background: linear-gradient(180deg, rgba(6, 15, 13, 0.97) 30%, rgba(6, 15, 13, 0.65) 74%, transparent);
+  backdrop-filter: blur(6px);
+}
+.archive-bar .micro-label { color: var(--brass); letter-spacing: 0.2em; }
+.archive-close {
+  display: inline-flex; align-items: center; gap: 7px;
+  min-height: 38px; padding: 0 12px;
+  border: 1px solid var(--line-soft);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--bone-2);
+  font: 500 8px/1 var(--mono); letter-spacing: 0.13em; text-transform: uppercase;
+  cursor: pointer;
+}
+.archive-close:hover { border-color: var(--brass); color: var(--brass-hi); }
+.archive-close svg { width: 10px; height: 10px; }
+.archive-inner { position: relative; z-index: 1; max-width: 1220px; margin: 0 auto; padding: 10px 32px 64px; }
+.archive-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 36px; align-items: end;
+  padding: 20px 0 22px;
+  border-bottom: 1px solid var(--line);
+}
+.archive-head h2 {
+  margin: 12px 0 0;
+  font: 400 clamp(36px, 4.2vw, 58px)/0.98 var(--serif);
+  letter-spacing: -0.025em;
+  color: var(--bone);
+  text-wrap: balance;
+}
+.archive-head h2 em { font-style: italic; color: var(--brass-hi); }
+.archive-dek {
+  margin: 13px 0 0;
+  max-width: 65ch;
+  color: var(--bone-2);
+  font: 400 15px/1.64 var(--serif);
+  text-wrap: pretty;
+}
+.archive-meta {
+  display: grid; grid-template-columns: auto auto; gap: 13px 30px;
+  padding-left: 22px; border-left: 1px solid var(--line);
+}
+.meta-item { display: flex; flex-direction: column; gap: 5px; }
+.meta-item .micro-label { color: var(--bone-4); font-size: 8px; }
+.meta-item .meta-value {
+  font: 500 10.5px/1.25 var(--mono); letter-spacing: 0.06em; color: var(--bone-2);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.archive-actions {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line-faint);
+}
+.action-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 42px; padding: 0 16px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--bone);
+  font: 500 8px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.18s var(--ease);
+}
+.btn:hover { border-color: var(--brass-hi); background: rgba(195, 165, 111, 0.06); color: var(--brass-hi); }
+.btn.primary {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: #0a1210;
+  font-weight: 600;
+}
+.btn.primary:hover { background: var(--brass-hi); border-color: var(--brass-hi); color: #07100e; }
+.btn.ghost { border-color: transparent; color: var(--bone-3); }
+.btn.ghost:hover { border-color: var(--line-soft); color: var(--bone); background: rgba(255,255,255,.01); }
+.btn svg { width: 11px; height: 11px; }
+
+.archive-grid {
+  display: grid; grid-template-columns: minmax(0, 1.58fr) minmax(280px, 0.72fr);
+  gap: 14px; margin-top: 16px;
+}
+.panel {
+  position: relative;
+  border: 1px solid var(--line-soft);
+  background:
+    linear-gradient(180deg, rgba(18, 31, 27, 0.58), rgba(8, 17, 14, 0.7));
+  padding: 13px 14px 9px;
+}
+.panel::before {
+  content: ""; position: absolute; inset: 5px; pointer-events: none;
+  border: 1px solid rgba(195, 165, 111, 0.045);
+}
+.figure-head {
+  position: relative; z-index: 1;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+  margin-bottom: 7px;
+}
+.figure-title {
+  font: 400 20px/1.15 var(--serif);
+  letter-spacing: -0.01em; color: var(--bone);
+}
+.figure-note {
+  font: 500 7.5px/1.4 var(--mono); letter-spacing: 0.12em;
+  color: var(--bone-4); text-transform: uppercase; text-align: right;
+}
+.legend-inline { display: flex; flex-wrap: wrap; gap: 6px 15px; align-items: center; margin-bottom: 4px; }
+.legend-chip { display: inline-flex; align-items: center; gap: 5px; font: 500 7.5px/1 var(--mono); letter-spacing: 0.09em; text-transform: uppercase; color: var(--bone-3); }
+.legend-chip i { width: 10px; height: 1px; background: currentColor; }
+.legend-chip.plant { color: var(--lichen); }
+.legend-chip.prey { color: var(--moth); }
+.legend-chip.pred { color: var(--beetle); }
+.chart-wrap { position: relative; width: 100%; }
+.census-panel { display: flex; flex-direction: column; }
+.chart-wrap.census { flex: 1 1 auto; min-height: 300px; }
+.chart-wrap.drift { height: 520px; }
+.archive-reopen { display: flex; width: 100%; min-height: 32px; margin-bottom: 7px; border-color: rgba(195,165,111,.34); color: var(--brass-hi); }
+.archive-reopen[hidden] { display: none; }
+.apparatus.is-complete .console-body { opacity: 0.52; }
+.apparatus.is-complete .chamber-foot { opacity: 0.72; }
+.apparatus.is-complete .console-foot .keys,
+.apparatus.is-complete .console-foot .fineprint { opacity: 0.5; }
+.chart-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.panel-ledger { display: flex; flex-direction: column; gap: 11px; }
+.snapshot-wrap {
+  position: relative; aspect-ratio: 16 / 9; border: 1px solid rgba(195, 165, 111, 0.2);
+  background: #06100d; overflow: hidden;
+}
+.snapshot-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.snapshot-tag {
+  position: absolute; left: 7px; bottom: 6px; z-index: 2;
+  font: 500 6px/1 var(--mono); letter-spacing: 0.14em; color: rgba(236, 230, 214, 0.55);
+  text-transform: uppercase;
+}
+.verdict {
+  padding-top: 9px; border-top: 1px solid var(--line-faint);
+}
+.verdict-label { font: 500 7.5px/1 var(--mono); letter-spacing: 0.16em; color: var(--brass); text-transform: uppercase; }
+.verdict-line { margin-top: 6px; font: italic 400 18px/1.25 var(--serif); color: var(--bone); }
+.verdict-body { margin: 5px 0 0; font: 400 12.5px/1.55 var(--serif); color: var(--bone-2); }
+.log-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.log-list li { display: grid; grid-template-columns: 13px 1fr auto; gap: 8px; align-items: start; }
+.log-glyph { width: 13px; height: 13px; color: var(--ev); margin-top: 1px; }
+.log-main { font: 400 11.5px/1.4 var(--serif); color: var(--bone-2); }
+.log-main b { font: 500 7.5px/1.4 var(--mono); letter-spacing: 0.09em; color: var(--bone); text-transform: uppercase; display: block; }
+.log-gen { font: 500 7.5px/1.4 var(--mono); letter-spacing: 0.04em; color: var(--bone-4); font-variant-numeric: tabular-nums; }
+.log-empty { font: italic 400 11.5px/1.4 var(--serif); color: var(--bone-3); }
+.rescue-note { font: 400 10.5px/1.5 var(--serif); color: var(--bone-3); border-top: 1px solid var(--line-faint); padding-top: 7px; }
+.rescue-note b { color: var(--brass); font-weight: 500; }
+
+.drift-panel { margin-top: 14px; }
+.drift-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 3px; }
+.drift-note { font: 400 10px/1.45 var(--serif); color: var(--bone-3); margin: 0 0 5px; }
+
+.archive-foot {
+  display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+  margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--line-faint);
+  font: 500 7.5px/1.5 var(--mono); letter-spacing: 0.08em; color: var(--bone-4);
+  text-transform: uppercase;
+}
+.drift-note { font-size: 11px; }
+
+/* ------- focus ------- */
+
+button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--brass-hi);
+  outline-offset: 3px;
+}
+button:focus:not(:focus-visible), input:focus:not(:focus-visible) { outline: none; }
+
+/* ------- responsive ------- */
+
+@media (max-width: 1120px) {
+  :root { --page: calc(100% - 40px); }
+  .masthead { grid-template-columns: 1fr; gap: 18px; padding-top: 24px; }
+  .masthead-side { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+  .dek { margin-bottom: 0; max-width: 58ch; }
+  .masthead-meta { padding-bottom: 1px; justify-content: flex-end; text-align: right; }
+  .apparatus-inner { grid-template-columns: 1fr; }
+  .console { border-left: 0; border-top: 1px solid var(--line-soft); padding: 12px 15px 10px; }
+  .console-toggle { display: flex; }
+  .console-body { gap: 12px; }
+  .console.is-collapsed .console-body,
+  .console.is-collapsed .console-foot { display: none; }
+  .console.is-collapsed .console-toggle svg { transform: rotate(180deg); }
+  .console-head { padding-bottom: 7px; }
+  .gate { display: none; }
+}
+
+@media (max-width: 760px) {
+  :root { --page: calc(100% - 24px); }
+  body { font-size: 15px; }
+  .masthead { padding: 20px 0 12px; gap: 14px; }
+  h1 { font-size: clamp(36px, 10.6vw, 52px); margin-top: 12px; }
+  .kicker { font-size: 7.5px; letter-spacing: 0.17em; gap: 8px; }
+  .kicker .rule { width: 22px; }
+  .masthead-side { display: block; }
+  .dek { font-size: 13px; padding-left: 12px; }
+  .masthead-meta { justify-content: flex-start; text-align: left; padding-left: 13px; margin-top: 10px; font-size: 7px; }
+  .apparatus { padding: 6px; margin-bottom: 28px; box-shadow: 0 0 0 5px var(--ink-950) inset, 0 0 0 6px rgba(195,165,111,.1) inset; }
+  .plate-label { font-size: 6.5px; padding: 5px 10px 4px; top: -11px; letter-spacing: 0.18em; }
+  .chamber { padding: 9px 8px 8px; gap: 8px; }
+  .chamber-head { gap: 8px; min-height: 0; flex-direction: column; }
+  .legend { gap: 8px 14px; }
+  .legend-item { grid-template-columns: 15px auto; column-gap: 6px; }
+  .legend-glyph { width: 15px; height: 15px; }
+  .legend-name { font-size: 7.5px; letter-spacing: 0.11em; }
+  .legend-latin { font-size: 9px; }
+  .clock { width: 100%; justify-content: space-between; align-items: flex-end; flex-direction: row-reverse; }
+  .clock-divider { display: none; }
+  .clock-read { text-align: left; }
+  .run-state { justify-content: flex-start; }
+  .clock-gen { font-size: 16px; }
+  .clock-tick { font-size: 6.5px; }
+  .glass { min-height: 186px; }
+  .glass-tag, .loupe-hint { font-size: 6px; letter-spacing: 0.12em; }
+  .loupe-hint { display: none; }
+  .event-banner { top: 10px; padding: 8px 9px; gap: 8px; }
+  .ev-glyph { width: 18px; height: 18px; flex-basis: 18px; }
+  .ev-title { font-size: 14px; }
+  .ev-note { font-size: 9.5px; }
+  .spec-card { width: 190px; }
+  .timeline { height: 44px; }
+  .timeline-scale { font-size: 6px; }
+  .range-shell, input[type="range"] { height: 40px; }
+  .step-btn, .reseed, .seed-display, .horizon-track { height: 38px; }
+  .switch-btn { min-height: 40px; }
+  .transport { width: 44px; height: 44px; flex-basis: 44px; }
+  .dist { height: 32px; }
+  .info { width: 22px; height: 22px; font-size: 10px; }
+  .console-toggle { min-height: 42px; }
+  .chamber-foot { align-items: flex-start; gap: 7px; }
+  .disturbances { gap: 4px; }
+  .dist { height: 30px; padding: 0 6px; font-size: 7px; gap: 4px; }
+  .dist svg { width: 11px; height: 11px; }
+  .disturbances > .micro-label { width: 100%; margin-bottom: 1px; }
+  .next-event { margin-left: auto; }
+  .console { padding: 10px 11px 8px; gap: 8px; }
+  .console-toggle { min-height: 36px; }
+  .control-label { font-size: 7.5px; }
+  .control-value { font-size: 10.5px; }
+  .seed-display { font-size: 11px; }
+  .stepper { grid-template-columns: 29px minmax(0, 1fr) 29px 30px; }
+  .horizon-stepper { grid-template-columns: 29px minmax(0, 1fr) 29px; }
+  .step-btn, .reseed { height: 32px; }
+  .seed-display { height: 32px; }
+  .horizon-track { height: 32px; }
+  .spark { width: 48px; flex-basis: 48px; }
+  .dial { width: 90px; height: 90px; flex-basis: 90px; }
+  .dial .dial-center { padding-top: 35px; }
+  .switch-grid { gap: 6px; }
+  .switch-btn { min-height: 34px; }
+  .console-foot { padding-top: 6px; }
+  .keys { font-size: 6px; }
+  .fineprint { font-size: 6px; }
+  .archive-bar { padding: 10px 14px; }
+  .archive-close { min-height: 44px; }
+  .archive-inner { padding: 4px 14px 46px; }
+  .archive-head { grid-template-columns: 1fr; gap: 18px; padding: 16px 0 18px; }
+  .archive-head h2 { font-size: clamp(34px, 10vw, 46px); }
+  .archive-dek { font-size: 12.5px; }
+  .archive-meta { padding-left: 0; border-left: 0; grid-template-columns: 1fr 1fr; gap: 9px 16px; }
+  .archive-grid { grid-template-columns: 1fr; }
+  .chart-wrap.census { height: 240px; }
+  .archive-actions { align-items: stretch; }
+  .action-group { width: 100%; }
+  .action-group .btn { flex: 1 1 auto; }
+  .action-group .btn.ghost { flex: 1 1 100%; }
+  .figure-title { font-size: 16px; }
+  .figure-note { font-size: 6px; }
+  .panel { padding: 11px 10px 8px; }
+  .archive-foot { font-size: 6px; }
+}
+
+@media (max-height: 840px) and (min-width: 1121px) {
+  .masthead { padding: 14px 0 10px; gap: 30px; }
+  h1 { font-size: clamp(40px, 4.3vw, 58px); }
+  .dek { font-size: 12.5px; line-height: 1.5; max-width: 52ch; margin-bottom: 8px; }
+  .masthead-meta { font-size: 7.5px; gap: 5px 10px; }
+  .apparatus { margin-bottom: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .glass-sheen::after { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="backdrop" aria-hidden="true">
+  <div class="backdrop-grid"></div>
+  <div class="backdrop-orbit"></div>
+</div>
+
+<a class="skip-link" href="#apparatus">Skip to the vitrine</a>
+
+<header class="masthead">
+  <div class="masthead-main">
+    <p class="kicker"><span class="rule"></span> Pl. VII <span class="dim">· the seventh vitrine</span></p>
+    <h1>Succession <em>in vitro</em></h1>
+  </div>
+  <div class="masthead-side">
+    <p class="dek">A sealed economy of lichen, moths and hunting beetles. Every birth, meal and disturbance descends from one seed. Set a horizon, let the chamber run, then read the plate.</p>
+    <div class="masthead-meta">
+      <span>Field apparatus Nº 7</span>
+      <span class="dot"></span>
+      <span>Seeded observation</span>
+      <span class="dot"></span>
+      <span class="brass">Living culture</span>
+    </div>
+  </div>
+</header>
+
+<main id="apparatus" class="apparatus" aria-label="The seventh vitrine, a sealed ecosystem simulation">
+  <div class="plate-label">VITRINE Nº 7 · A CLOSED ECONOMY</div>
+  <span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span>
+
+  <div class="apparatus-inner">
+    <section class="chamber" aria-label="Living chamber">
+      <div class="chamber-head">
+        <div class="legend" aria-label="Species census">
+          <div class="legend-item" id="legendPlant" style="--sp: var(--lichen)">
+            <svg class="legend-glyph" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 16.4V6.6M10 11.2 6.3 7.2M10 12.4l4-4.4M10 8.2 8.1 4.1M10 9.6l3-3.2" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+              <circle cx="5.8" cy="6.5" r="1.1" fill="currentColor"/><circle cx="14.4" cy="7.6" r="1" fill="currentColor"/><circle cx="10" cy="3.8" r="0.9" fill="currentColor"/>
+              <path d="M7 16.4h6" stroke="currentColor" stroke-width="0.7" opacity=".45"/>
+            </svg>
+            <div class="legend-name">Virella <span class="count" data-count="plants">37%</span></div>
+            <div class="legend-latin">lichen crust</div>
+          </div>
+          <div class="legend-item" id="legendPrey" style="--sp: var(--moth)">
+            <svg class="legend-glyph" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="10" cy="11" r="3.2" stroke="currentColor" stroke-width="1"/>
+              <path d="M7.8 8.2 6 4.4M12.2 8.2 14 4.4M10 14.2v2.2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+              <circle cx="6" cy="4.4" r="0.9" fill="currentColor"/><circle cx="14" cy="4.4" r="0.9" fill="currentColor"/>
+            </svg>
+            <div class="legend-name">Tinea <span class="count" data-count="prey">160</span></div>
+            <div class="legend-latin">grazer moth</div>
+          </div>
+          <div class="legend-item" id="legendPred" style="--sp: var(--beetle)">
+            <svg class="legend-glyph" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 2.6 14.8 15l-4.8-3-4.8 3L10 2.6Z" fill="currentColor"/>
+              <path d="M10 7v10" stroke="#07100e" stroke-width="0.7" opacity=".55"/>
+              <path d="M5.2 12.2 2.7 14M14.8 12.2 17.3 14" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+            </svg>
+            <div class="legend-name">Carabus <span class="count" data-count="pred">14</span></div>
+            <div class="legend-latin">hunting beetle</div>
+          </div>
+        </div>
+        <div class="clock">
+          <div class="clock-read">
+            <div class="run-state" id="runStateBox"><span class="run-dot"></span><span id="runState">Observing</span></div>
+            <div class="clock-gen">GEN <span id="clockGen">00</span><span class="slash">/</span><span class="of" id="clockTarget">40</span></div>
+            <div class="clock-tick"><span id="clockTick">TICK 000,000</span> · <span id="clockTempo">×6</span></div>
+          </div>
+          <div class="clock-divider" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="glass" id="glass" tabindex="0" role="img" aria-label="Live ecosystem: 37 percent lichen cover, 160 grazers and 14 hunters at generation 0.">
+        <canvas id="world" aria-hidden="true"></canvas>
+        <div class="glass-inner-line" aria-hidden="true"></div>
+        <div class="glass-sheen" aria-hidden="true"></div>
+        <div class="event-tint" aria-hidden="true"></div>
+        <div class="glass-vignette" aria-hidden="true"></div>
+        <div class="event-banner" id="eventBanner" aria-hidden="true">
+          <div class="ev-glyph" id="eventGlyph"></div>
+          <div class="ev-body">
+            <div class="ev-kicker" id="eventKicker">Disturbance I · generation 9</div>
+            <div class="ev-title" id="eventTitle">Drought</div>
+            <div class="ev-note" id="eventNote"></div>
+          </div>
+        </div>
+        <div class="glass-note" id="glassNote" hidden></div>
+        <div class="glass-tag">Fig. I · live culture</div>
+        <div class="loupe-hint">Loupe · move to inspect</div>
+        <div class="spec-card" id="specCard" hidden>
+          <div class="spec-head"><span class="spec-dot"></span><span class="spec-name" id="specName"></span><span class="spec-role" id="specRole"></span></div>
+          <dl class="spec-genes" id="specGenes"></dl>
+          <div class="spec-foot"><span>AGE <b id="specAge"></b></span><span>ENERGY <b id="specEnergy"></b></span></div>
+        </div>
+        <div class="headless-panel" id="headlessPanel" hidden>
+          <div class="recording">
+            <div class="rec-title"><span class="rec-dot"></span>Field suspended</div>
+            <div class="rec-count" id="headlessCount">0 grazers · 0 hunters</div>
+            <div class="rec-note">The chamber is running blind.<br>Logic continues; the plate is not drawn.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline" id="timeline" role="group" aria-label="Generation record">
+        <div class="timeline-rail">
+          <div class="timeline-fill" id="timelineFill"></div>
+        </div>
+        <div class="timeline-ticks" id="timelineTicks" aria-hidden="true"></div>
+        <div class="next-marker" id="nextMarker" aria-hidden="true"></div>
+        <div class="timeline-head" id="timelineHead"></div>
+        <div class="event-markers" id="eventMarkers"></div>
+        <div class="timeline-scale" id="timelineScale" aria-hidden="true"></div>
+        <span class="sr-only" id="timelineEnd">Generation 0 of 40</span>
+      </div>
+
+      <div class="chamber-foot">
+        <div class="disturbances" role="group" aria-label="Armed disturbances">
+          <span class="micro-label">Armed</span>
+          <button class="dist" type="button" role="switch" aria-checked="true" data-event="drought" data-tip="Drought: the crust withdraws and regrowth stalls for a generation and a half. Applied at the interval you set.">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="7.2" r="2.8" stroke="currentColor"/><path d="M8 1.6v1.8M8 11.2v1.8M2.6 7.2h1.8M11.6 7.2h1.8M4.1 3.3l1.3 1.3M10.6 9.8l1.3 1.3M11.9 3.3l-1.3 1.3M5.4 9.8l-1.3 1.3" stroke="currentColor" stroke-linecap="round"/><path d="M5.3 14.6h5.4" stroke="currentColor" opacity=".5"/></svg>
+            Drought <span class="led"></span>
+          </button>
+          <button class="dist" type="button" role="switch" aria-checked="true" data-event="plague" data-tip="Plague: a spore bloom moves through the grazers, taking roughly a third of the line.">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="5" cy="5.2" r="1.7" stroke="currentColor"/><circle cx="11.2" cy="6.4" r="1.2" stroke="currentColor"/><circle cx="7.4" cy="11.6" r="1.4" stroke="currentColor"/><circle cx="12.6" cy="11.8" r=".8" fill="currentColor"/><path d="M6.3 6.5l1.2 3.6M10.6 7.4l-2.2 3.1M11.9 7.5l.4 2.4" stroke="currentColor" opacity=".55"/></svg>
+            Plague <span class="led"></span>
+          </button>
+          <button class="dist" type="button" role="switch" aria-checked="true" data-event="frost" data-tip="Frost: a cold front crosses the glass, thinning both animal lines and dulling the lichen.">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.8v12.4M2.6 4.9l10.8 6.2M13.4 4.9 2.6 11.1" stroke="currentColor" stroke-linecap="round"/><path d="M8 4.2 6.3 2.8M8 4.2l1.7-1.4M8 11.8l-1.7 1.4M8 11.8l1.7 1.4M4.3 6.2 2.2 5.8M4.3 9.8l-2.1.4M11.7 6.2l2.1-.4M11.7 9.8l2.1.4" stroke="currentColor" stroke-linecap="round" opacity=".6"/></svg>
+            Frost <span class="led"></span>
+          </button>
+        </div>
+        <div class="next-event">
+          <span class="micro-label">Next</span>
+          <span class="value" id="nextEvent">GEN 09</span>
+          <span class="sub" id="nextEventSub">IN 9 GEN</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="console" id="console" aria-label="Control fascia">
+      <div class="console-head">
+        <div class="console-title">
+          <span class="micro-label">Control fascia</span>
+          <span class="serial">Nº 07 · calibrated</span>
+        </div>
+        <button class="transport" id="pauseBtn" type="button" aria-pressed="false" aria-label="Pause observation">
+          <svg class="icon-pause" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5 3.2v9.6M11 3.2v9.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3l8 5-8 5V3Z" fill="currentColor"/></svg>
+        </button>
+      </div>
+
+      <button class="console-toggle" id="consoleToggle" type="button" aria-expanded="true" aria-controls="consoleBody">
+        <span>Instrument controls</span>
+        <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 7l4-4 4 4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+      </button>
+
+      <div class="console-body" id="consoleBody">
+        <div class="control seed-control">
+          <div class="control-label-row">
+            <span class="label-wrap"><span class="control-label" id="seedLabel">Seed</span><button class="info" type="button" aria-label="About the seed" aria-describedby="seedTip">?</button></span>
+            <span class="control-caption">deterministic</span>
+          </div>
+          <div class="stepper">
+            <button class="step-btn" id="seedDown" type="button" aria-label="Previous seed">
+              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 6h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="seed-display" id="seedDisplay"><span class="zero">0x</span><span id="seedValue">7A3F 09C1</span></div>
+            <button class="step-btn" id="seedUp" type="button" aria-label="Next seed">
+              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 3v6M3 6h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </button>
+            <button class="reseed" id="reseedBtn" type="button" aria-label="Draw a new seed" title="Draw a new seed">
+              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M11.5 5.6A4.6 4.6 0 1 0 11.8 8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M11.9 2.5v3.4H8.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="spark-row">
+            <svg class="spark" id="sparkSeed" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <span class="micro">PRNG signature</span>
+          </div>
+          <div class="tip" id="seedTip" role="tooltip">Every placement, mutation, meal and disturbance is drawn from <b>this number</b>. The same seed and settings replay the same history, regardless of tempo or pause. Changing it begins a new observation.</div>
+        </div>
+
+        <div class="control">
+          <div class="control-label-row">
+            <span class="label-wrap"><span class="control-label" id="horizonLabel">Horizon</span><button class="info" type="button" aria-label="About the horizon" aria-describedby="horizonTip">?</button></span>
+            <span class="control-value"><span id="horizonValue">40</span><span class="unit">gen</span></span>
+          </div>
+          <div class="horizon-stepper">
+            <button class="step-btn" id="genDown" type="button" aria-label="Reduce generations by five">
+              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 6h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="horizon-track"><span class="fill" id="horizonFill"></span><span class="value"><span id="horizonTrackValue">40</span><span>GEN</span></span></div>
+            <button class="step-btn" id="genUp" type="button" aria-label="Increase generations by five">
+              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 3v6M3 6h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <div class="tip" id="horizonTip" role="tooltip">The run ends at this generation and the archive opens. A generation is <b>300 ticks</b> of chamber time. Raising the horizon mid-run lets the succession continue.</div>
+        </div>
+
+        <div class="control">
+          <div class="control-label-row">
+            <span class="label-wrap"><label class="control-label" for="mutation">Mutation</label><button class="info" type="button" aria-label="About mutation rate">?</button></span>
+            <output class="control-value" for="mutation" id="mutationOut">6.0<span class="unit">%/birth</span></output>
+          </div>
+          <div class="control-slide">
+            <div class="range-shell">
+              <div class="range-ticks" aria-hidden="true"></div>
+              <input type="range" id="mutation" min="0" max="15" step="0.5" value="6" aria-describedby="mutationTip" aria-valuetext="6 percent per birth">
+            </div>
+            <svg class="spark" id="sparkMutation" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"></svg>
+          </div>
+          <div class="control-scale" aria-hidden="true"><span>0</span><span>7.5</span><span>15</span></div>
+          <div class="tip" id="mutationTip" role="tooltip">The chance that any one gene shifts at birth. Each gene is nudged by a bell-shaped step; offspring inherit the result. Higher values widen the trait spread. Applies to the next birth.</div>
+        </div>
+
+        <div class="control">
+          <div class="control-label-row">
+            <span class="label-wrap"><label class="control-label" for="regrowth">Lichen regrowth</label><button class="info" type="button" aria-label="About lichen regrowth">?</button></span>
+            <output class="control-value" for="regrowth" id="regrowthOut">4.0<span class="unit">/gen</span></output>
+          </div>
+          <div class="control-slide">
+            <div class="range-shell">
+              <div class="range-ticks" aria-hidden="true"></div>
+              <input type="range" id="regrowth" min="0" max="10" step="0.1" value="4" aria-describedby="regrowthTip" aria-valuetext="4 units per generation">
+            </div>
+            <svg class="spark" id="sparkRegrowth" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"></svg>
+          </div>
+          <div class="control-scale" aria-hidden="true"><span>0 · bare</span><span>10 · lush</span></div>
+          <div class="tip" id="regrowthTip" role="tooltip">The pace at which lichen returns to grazed ground. Refuge crevices regrow faster. Raising it feeds the grazers; lowering it starves them into the open.</div>
+        </div>
+
+        <div class="control">
+          <div class="control-label-row">
+            <span class="label-wrap"><label class="control-label" for="interval">Disturbance interval</label><button class="info" type="button" aria-label="About the disturbance interval">?</button></span>
+            <output class="control-value" for="interval" id="intervalOut">9<span class="unit">gen</span></output>
+          </div>
+          <div class="control-slide">
+            <div class="range-shell">
+              <div class="range-ticks" aria-hidden="true"></div>
+              <input type="range" id="interval" min="4" max="30" step="1" value="9" aria-describedby="intervalTip" aria-valuetext="every 9 generations">
+            </div>
+            <svg class="spark" id="sparkInterval" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"></svg>
+          </div>
+          <div class="control-scale" aria-hidden="true"><span>4</span><span>17</span><span>30</span></div>
+          <div class="tip" id="intervalTip" role="tooltip">How often a disturbance is drawn, in generations. Armed disturbances take turns: drought, plague, frost. Disabled ones are passed over. The next event is marked on the record.</div>
+        </div>
+
+        <div class="control tempo-control">
+          <div class="control-label-row">
+            <span class="label-wrap"><span class="control-label" id="tempoLabel">Tempo</span><button class="info" type="button" aria-label="About tempo" aria-describedby="tempoTip">?</button></span>
+          </div>
+          <div class="tempo-body">
+            <div class="dial" id="dial">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="face" cx="60" cy="60" r="47"></circle>
+                <g id="dialTicks"></g>
+                <path class="arc-bg" id="dialArcBg" d=""></path>
+                <path class="arc" id="dialArc" d=""></path>
+                <line class="needle" id="dialNeedle" x1="60" y1="60" x2="60" y2="28"></line>
+                <circle class="cap" cx="60" cy="60" r="2.4"></circle>
+              </svg>
+              <div class="dial-center"><span class="dial-x">×</span><span class="dial-value" id="dialValue">6</span></div>
+              <div class="dial-limits" aria-hidden="true"><span>1</span><span>32</span></div>
+              <input type="range" id="tempo" min="1" max="32" step="1" value="6" aria-labelledby="tempoLabel" aria-describedby="tempoTip" aria-valuetext="6 times, 360 ticks per second">
+            </div>
+            <div class="tempo-meta">
+              <span class="micro-label">Actual</span>
+              <div class="tempo-actual"><span id="actualTicks">360</span><span class="unit">ticks/sec</span></div>
+              <svg class="spark" id="sparkTempo" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <span class="micro">Measured rate</span>
+            </div>
+          </div>
+          <div class="tip" id="tempoTip" role="tooltip">Observation speed, from one to thirty-two times the base rate of 60 ticks per second. The simulation is stepped in fixed ticks; tempo never changes the outcome of a seeded run.</div>
+        </div>
+
+        <div class="switch-grid">
+          <button class="switch-btn" id="traceToggle" type="button" role="switch" aria-checked="true" data-tip="Draw a short motion tail behind each creature. Rendering only; the ecology is untouched.">
+            <span class="switch-label">Trace motion</span>
+            <span class="switch-rail"><span class="switch-knob"></span></span>
+          </button>
+          <button class="switch-btn" id="renderToggle" type="button" role="switch" aria-checked="true" data-tip="Suspend drawing; the chamber keeps stepping without a renderer. Toggle with H.">
+            <span class="switch-label">Render field</span>
+            <span class="switch-rail"><span class="switch-knob"></span></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="console-foot">
+        <button class="btn archive-reopen" id="archiveBtn" type="button" hidden>Open archive</button>
+        <div class="keys"><kbd>space</kbd> pause <kbd>R</kbd> reseed <kbd>H</kbd> field</div>
+        <p class="fineprint">300 ticks / generation · 8 gene means under observation</p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<section class="archive" id="archive" role="dialog" aria-modal="true" aria-labelledby="archiveTitle" hidden>
+  <div class="archive-bar">
+    <span class="micro-label">Archive · plate VII</span>
+    <button class="archive-close" id="archiveClose" type="button">
+      Return to vitrine
+      <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 9l6-6M4.2 3H9v4.8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+  <div class="archive-inner">
+    <header class="archive-head">
+      <div>
+        <p class="kicker"><span class="rule"></span> Observation complete <span class="dim">· the plate closes</span></p>
+        <h2 id="archiveTitle">Forty generations, <em>sealed.</em></h2>
+        <p class="archive-dek" id="archiveDek"></p>
+      </div>
+      <div class="archive-meta" aria-label="Run metadata">
+        <div class="meta-item"><span class="micro-label">Seed</span><span class="meta-value" id="metaSeed">7A3F 09C1</span></div>
+        <div class="meta-item"><span class="micro-label">Horizon</span><span class="meta-value" id="metaHorizon">40 GEN</span></div>
+        <div class="meta-item"><span class="micro-label">Disturbances</span><span class="meta-value" id="metaEvents">04</span></div>
+        <div class="meta-item"><span class="micro-label">Checksum</span><span class="meta-value" id="metaChecksum">0000 0000</span></div>
+      </div>
+    </header>
+
+    <div class="archive-grid">
+      <figure class="panel census-panel">
+        <div class="figure-head">
+          <span class="figure-title">Census</span>
+          <span class="figure-note">Individuals / ground cover · per generation</span>
+        </div>
+        <div class="legend-inline" aria-hidden="true">
+          <span class="legend-chip plant"><i></i>Lichen cover</span>
+          <span class="legend-chip prey"><i></i>Grazers</span>
+          <span class="legend-chip pred"><i></i>Hunters</span>
+        </div>
+        <div class="chart-wrap census"><canvas id="censusChart" role="img" aria-labelledby="censusLabel" aria-describedby="censusSummary"></canvas></div>
+        <span class="sr-only" id="censusLabel">Population census chart</span>
+        <p class="sr-only" id="censusSummary"></p>
+      </figure>
+
+      <aside class="panel panel-ledger" aria-label="Archive ledger">
+        <div class="snapshot-wrap">
+          <canvas id="archiveWorld" aria-label="The chamber at the final generation"></canvas>
+          <span class="snapshot-tag" id="snapshotTag">Final state · gen 40</span>
+        </div>
+        <div class="verdict">
+          <span class="verdict-label">Verdict</span>
+          <div class="verdict-line" id="verdictLine"></div>
+          <p class="verdict-body" id="verdictBody"></p>
+        </div>
+        <div>
+          <span class="verdict-label">Disturbance ledger</span>
+          <ul class="log-list" id="eventLog"></ul>
+        </div>
+        <p class="rescue-note" id="rescueNote"></p>
+      </aside>
+    </div>
+
+    <figure class="panel drift-panel">
+      <div class="figure-head">
+        <span class="figure-title">Trait drift</span>
+        <span class="figure-note">Mean and ±1σ spread · gene value 0–1</span>
+      </div>
+      <p class="drift-note">Each panel traces one gene through the archive. The solid line is the population mean; the pale band is one standard deviation either side; the dotted rule marks the opening mean. Disturbances cross every panel as a hairline.</p>
+      <div class="chart-wrap drift" id="driftWrap"><canvas id="driftChart" role="img" aria-labelledby="driftLabel" aria-describedby="driftSummary"></canvas></div>
+      <span class="sr-only" id="driftLabel">Trait drift matrix</span>
+      <p class="sr-only" id="driftSummary"></p>
+    </figure>
+
+    <div class="archive-actions">
+      <div class="action-group">
+        <button class="btn primary" id="repeatBtn" type="button">Repeat this seed</button>
+        <button class="btn" id="newBtn" type="button">New specimen</button>
+        <button class="btn ghost" id="copySeed" type="button">Copy seed</button>
+      </div>
+      <span class="micro-label" id="archiveState">Archived at generation 40</span>
+    </div>
+
+    <footer class="archive-foot">
+      <span>Succession in vitro · vitrine Nº 7</span>
+      <span id="archiveFootSeed">Seed 7A3F 09C1 · deterministic replay</span>
+    </footer>
+  </div>
+</section>
+
+<div class="sr-only" id="liveRegion" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ======================================================================
+     THE SIMULATION
+     Pure logic. No DOM, no rendering, no wall clock. Every random draw is
+     made from the seed, so an identical seed + settings replays exactly.
+     ====================================================================== */
+
+  const GRID_W = 128;
+  const GRID_H = 72;
+  const CELLS = GRID_W * GRID_H;
+  const TICKS_PER_GEN = 300;
+  const TAU = Math.PI * 2;
+  const GENE_KEYS = ['speed', 'vision', 'metabolism', 'repro'];
+  const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a |= 0;
+      a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function gaussian(rng) {
+    let u = 0;
+    let v = 0;
+    while (u === 0) u = rng();
+    while (v === 0) v = rng();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(TAU * v);
+  }
+
+  const GENE_BASE = {
+    prey: { speed: 0.42, vision: 0.5, metabolism: 0.45, repro: 0.51 },
+    pred: { speed: 0.66, vision: 0.68, metabolism: 0.5, repro: 0.54 }
+  };
+
+  const GENES = [
+    { key: 'speed', label: 'Speed', code: 'SPD' },
+    { key: 'vision', label: 'Vision', code: 'VIS' },
+    { key: 'metabolism', label: 'Metabolism', code: 'MET' },
+    { key: 'repro', label: 'Repro. threshold', code: 'REP' }
+  ];
+
+  const SIM_DEFAULTS = {
+    seed: 0x7a3f09c1,
+    mutation: 0.06,
+    regrowth: 4,
+    eventInterval: 9,
+    targetGenerations: 40,
+    preyInit: 160,
+    predInit: 14,
+    enabled: { drought: true, plague: true, frost: true }
+  };
+
+  function makeGenome(rng, species, spread = 0.085) {
+    const base = GENE_BASE[species];
+    const genes = {};
+    for (const key of GENE_KEYS) {
+      genes[key] = clamp(base[key] + gaussian(rng) * spread, 0.04, 0.96);
+    }
+    return genes;
+  }
+
+  class Simulation {
+    constructor(options = {}) {
+      const opts = Object.assign({}, SIM_DEFAULTS, options);
+      this.seed = opts.seed >>> 0;
+      this.mutation = opts.mutation;
+      this.regrowth = opts.regrowth;
+      this.eventInterval = opts.eventInterval;
+      this.targetGenerations = opts.targetGenerations;
+      this.enabled = Object.assign({}, opts.enabled);
+      this.preyInit = opts.preyInit;
+      this.predInit = opts.predInit;
+
+      this.rng = mulberry32(this.seed);
+      this.gen = 0;
+      this.tick = 0;
+      this.finished = false;
+      this.droughtTicks = 0;
+      this.eventCycle = 0;
+      this.events = [];
+      this.rescues = [];
+      this.history = [];
+      this.preyAlive = 0;
+      this.predAlive = 0;
+
+      this.plants = new Float32Array(CELLS);
+      this.refuge = new Uint8Array(CELLS);
+      this.prey = [];
+      this.pred = [];
+
+      this.buildRefuges();
+      this.buildFlora();
+      for (let i = 0; i < this.preyInit; i++) this.prey.push(this.makeAgent('prey'));
+      for (let i = 0; i < this.predInit; i++) this.pred.push(this.makeAgent('pred'));
+      this.preyAlive = this.prey.length;
+      this.predAlive = this.pred.length;
+      this.sample();
+    }
+
+    buildRefuges() {
+      const rng = this.rng;
+      this.refuge.fill(0);
+      for (let c = 0; c < 7; c++) {
+        const cx = rng() * GRID_W;
+        const cy = rng() * GRID_H;
+        const radius = 4 + rng() * 6;
+        const r2 = radius * radius;
+        for (let y = 0; y < GRID_H; y++) {
+          let dy = y - cy;
+          if (dy > GRID_H / 2) dy -= GRID_H;
+          if (dy < -GRID_H / 2) dy += GRID_H;
+          for (let x = 0; x < GRID_W; x++) {
+            let dx = x - cx;
+            if (dx > GRID_W / 2) dx -= GRID_W;
+            if (dx < -GRID_W / 2) dx += GRID_W;
+            if (dx * dx + dy * dy < r2) this.refuge[y * GRID_W + x] = 1;
+          }
+        }
+      }
+    }
+
+    buildFlora() {
+      const rng = this.rng;
+      this.plants.fill(0);
+      for (let c = 0; c < 56; c++) {
+        const cx = rng() * GRID_W;
+        const cy = rng() * GRID_H;
+        const radius = 6 + rng() * 15;
+        const amp = 0.45 + rng() * 0.55;
+        for (let y = 0; y < GRID_H; y++) {
+          let dy = y - cy;
+          if (dy > GRID_H / 2) dy -= GRID_H;
+          if (dy < -GRID_H / 2) dy += GRID_H;
+          if (Math.abs(dy) > radius) continue;
+          for (let x = 0; x < GRID_W; x++) {
+            let dx = x - cx;
+            if (dx > GRID_W / 2) dx -= GRID_W;
+            if (dx < -GRID_W / 2) dx += GRID_W;
+            const d = Math.hypot(dx, dy);
+            if (d < radius) {
+              const value = amp * Math.pow(1 - d / radius, 1.4);
+              const i = y * GRID_W + x;
+              if (value > this.plants[i]) this.plants[i] = value;
+            }
+          }
+        }
+      }
+      for (let i = 0; i < CELLS; i++) {
+        if (this.plants[i] < 0.03 && rng() < 0.23) this.plants[i] = 0.06 + rng() * 0.24;
+        if (this.refuge[i] && this.plants[i] > 0.55) this.plants[i] *= 0.72;
+      }
+    }
+
+    makeAgent(species, x, y, genes) {
+      const rng = this.rng;
+      return {
+        species,
+        x: x === undefined ? rng() * GRID_W : x,
+        y: y === undefined ? rng() * GRID_H : y,
+        heading: rng() * TAU,
+        genes: genes || makeGenome(rng, species),
+        energy: species === 'prey' ? 0.62 + rng() * 0.2 : 1.5 + rng() * 0.3,
+        age: 0,
+        cooldown: rng() * 90,
+        biteCd: (rng() * 4) | 0,
+        killCd: (rng() * 40) | 0,
+        scan: 0,
+        target: null,
+        fleeing: false,
+        lastMeal: 0,
+        meals: 0,
+        alive: true
+      };
+    }
+
+    cellIndex(x, y) {
+      const ix = (((x | 0) % GRID_W) + GRID_W) % GRID_W;
+      const iy = (((y | 0) % GRID_H) + GRID_H) % GRID_H;
+      return iy * GRID_W + ix;
+    }
+
+    plantAt(x, y) {
+      return this.plants[this.cellIndex(x, y)];
+    }
+
+    buildHash(list, cell = 12) {
+      const hx = Math.ceil(GRID_W / cell);
+      const hy = Math.ceil(GRID_H / cell);
+      const buckets = new Array(hx * hy);
+      for (let i = 0; i < buckets.length; i++) buckets[i] = [];
+      for (const agent of list) {
+        if (!agent.alive) continue;
+        const bx = ((agent.x / cell) | 0) % hx;
+        const by = ((agent.y / cell) | 0) % hy;
+        buckets[by * hx + bx].push(agent);
+      }
+      return { buckets, hx, hy, cell };
+    }
+
+    nearestFromHash(hash, x, y, radius) {
+      const { buckets, hx, hy, cell } = hash;
+      const r = Math.ceil(radius / cell);
+      const cx = (x / cell) | 0;
+      const cy = (y / cell) | 0;
+      let best = null;
+      let bestD = radius * radius;
+      for (let oy = -r; oy <= r; oy++) {
+        for (let ox = -r; ox <= r; ox++) {
+          const bx = (((cx + ox) % hx) + hx) % hx;
+          const by = (((cy + oy) % hy) + hy) % hy;
+          for (const agent of buckets[by * hx + bx]) {
+            if (!agent.alive) continue;
+            let dx = agent.x - x;
+            let dy = agent.y - y;
+            if (dx > GRID_W / 2) dx -= GRID_W;
+            if (dx < -GRID_W / 2) dx += GRID_W;
+            if (dy > GRID_H / 2) dy -= GRID_H;
+            if (dy < -GRID_H / 2) dy += GRID_H;
+            const d = dx * dx + dy * dy;
+            if (d < bestD) {
+              bestD = d;
+              best = agent;
+            }
+          }
+        }
+      }
+      return best ? { agent: best, dist: Math.sqrt(bestD) } : null;
+    }
+
+    step() {
+      if (this.finished) return;
+      const rng = this.rng;
+      this.tick++;
+
+      const growthRate = this.droughtTicks > 0 ? this.regrowth * 0.25 : this.regrowth;
+      const growthEvents = Math.round(growthRate * 34);
+      for (let k = 0; k < growthEvents; k++) {
+        const i = (rng() * CELLS) | 0;
+        const p = this.plants[i];
+        const boost = this.refuge[i] ? 2 : 1;
+        if (p < 1) {
+          this.plants[i] = Math.min(1, p + boost * (0.03 + 0.022 * rng()) * (1 - p) * (0.3 + 0.7 * p));
+        }
+      }
+      for (let k = 0; k < Math.round(growthEvents * 0.16); k++) {
+        const i = (rng() * CELLS) | 0;
+        if (!this.refuge[i]) continue;
+        const p = this.plants[i];
+        this.plants[i] = Math.min(1, p + (0.05 + 0.03 * rng()) * (1 - p));
+      }
+      if (this.droughtTicks > 0) this.droughtTicks--;
+
+      const preyHash = this.buildHash(this.prey);
+      const predHash = this.buildHash(this.pred);
+
+      /* grazers */
+      for (const a of this.prey) {
+        if (!a.alive) continue;
+        a.age++;
+        a.cooldown--;
+        a.biteCd--;
+        a.scan--;
+        const g = a.genes;
+        const speedMax = 0.30 + g.speed * 1.02;
+        const vision = 3.2 + g.vision * 13;
+        let desired = a.heading;
+        let fleeing = false;
+
+        const threat = this.nearestFromHash(predHash, a.x, a.y, vision * 0.7);
+        if (threat) {
+          desired = Math.atan2(a.y - threat.agent.y, a.x - threat.agent.x) + (rng() - 0.5) * 0.5;
+          fleeing = true;
+          a.target = null;
+          let refugeTarget = null;
+          let refugeDist = Infinity;
+          for (let s = 0; s < 6; s++) {
+            const angle = rng() * TAU;
+            const radius = Math.sqrt(rng()) * vision;
+            const tx = (a.x + Math.cos(angle) * radius + GRID_W) % GRID_W;
+            const ty = (a.y + Math.sin(angle) * radius + GRID_H) % GRID_H;
+            if (this.refuge[this.cellIndex(tx, ty)] && radius < refugeDist) {
+              refugeDist = radius;
+              refugeTarget = { x: tx, y: ty };
+            }
+          }
+          if (refugeTarget) {
+            let dx = refugeTarget.x - a.x;
+            let dy = refugeTarget.y - a.y;
+            if (dx > GRID_W / 2) dx -= GRID_W;
+            if (dx < -GRID_W / 2) dx += GRID_W;
+            if (dy > GRID_H / 2) dy -= GRID_H;
+            if (dy < -GRID_H / 2) dy += GRID_H;
+            desired = Math.atan2(dy, dx);
+          }
+        } else if (a.scan <= 0) {
+          a.scan = 8 + ((rng() * 8) | 0);
+          let bestX = 0;
+          let bestY = 0;
+          let best = this.plantAt(a.x, a.y) * 1.2;
+          for (let s = 0; s < 7; s++) {
+            const angle = rng() * TAU;
+            const radius = Math.sqrt(rng()) * vision;
+            const tx = a.x + Math.cos(angle) * radius;
+            const ty = a.y + Math.sin(angle) * radius;
+            const value = this.plantAt(tx, ty);
+            if (value > best) {
+              best = value;
+              bestX = tx;
+              bestY = ty;
+            }
+          }
+          a.target = best > 0.04 ? { x: bestX, y: bestY } : null;
+        }
+
+        if (!threat && a.target) {
+          let dx = a.target.x - a.x;
+          let dy = a.target.y - a.y;
+          if (dx > GRID_W / 2) dx -= GRID_W;
+          if (dx < -GRID_W / 2) dx += GRID_W;
+          if (dy > GRID_H / 2) dy -= GRID_H;
+          if (dy < -GRID_H / 2) dy += GRID_H;
+          if (Math.hypot(dx, dy) < 1.4) {
+            a.scan = 0;
+            a.target = null;
+          } else {
+            desired = Math.atan2(dy, dx);
+          }
+        } else if (!threat) {
+          desired = a.heading + (rng() - 0.5) * 0.55;
+        }
+
+        a.fleeing = fleeing;
+        let diff = ((desired - a.heading + Math.PI * 3) % TAU) - Math.PI;
+        a.heading += clamp(diff, -0.36, 0.36);
+        const speed = speedMax * (fleeing ? 1.22 : 1) * (a.energy < 0.25 ? 0.6 : 1);
+        a.x = (a.x + Math.cos(a.heading) * speed + GRID_W) % GRID_W;
+        a.y = (a.y + Math.sin(a.heading) * speed + GRID_H) % GRID_H;
+
+        if (a.biteCd <= 0) {
+          const i = this.cellIndex(a.x, a.y);
+          const available = this.plants[i];
+          if (available > 0.02) {
+            const bite = Math.min(available, 0.03);
+            this.plants[i] = available - bite;
+            a.energy = Math.min(2.0, a.energy + bite * 2.8);
+            a.lastMeal = this.gen;
+            a.biteCd = 7;
+          }
+        }
+
+        a.energy -= 0.0018 + 0.0032 * g.metabolism + 0.0022 * g.speed + 0.0010 * g.vision + (fleeing ? 0.0018 : 0);
+
+        if (a.energy > 1.5 + g.repro * 0.75 && a.cooldown <= 0 && this.preyAlive < 800) {
+          const childEnergy = a.energy * 0.34;
+          a.energy *= 0.55;
+          a.cooldown = 500 + ((rng() * 80) | 0);
+          const child = this.makeAgent(
+            'prey',
+            a.x + (rng() - 0.5) * 2,
+            a.y + (rng() - 0.5) * 2,
+            this.mutate(g)
+          );
+          child.energy = childEnergy;
+          child.cooldown = 100;
+          this.prey.push(child);
+          this.preyAlive++;
+        }
+
+        if (a.energy <= 0) {
+          a.alive = false;
+          this.preyAlive--;
+        } else if (a.age > 900) {
+          a.alive = false;
+          this.preyAlive--;
+        }
+      }
+
+      /* hunters */
+      for (const a of this.pred) {
+        if (!a.alive) continue;
+        a.age++;
+        a.cooldown--;
+        a.killCd--;
+        const g = a.genes;
+        const speedMax = 0.32 + g.speed * 0.98;
+        const vision = 4 + g.vision * 16;
+
+        a.scan--;
+        if (a.scan <= 0 || !a.target || !a.target.agent.alive) {
+          const found = this.nearestFromHash(preyHash, a.x, a.y, vision);
+          a.target = found ? { agent: found.agent } : null;
+          a.scan = 2 + ((rng() * 2) | 0);
+        }
+
+        let nearDist = Infinity;
+        let desired = a.heading;
+        if (a.target) {
+          let dx = a.target.agent.x - a.x;
+          let dy = a.target.agent.y - a.y;
+          if (dx > GRID_W / 2) dx -= GRID_W;
+          if (dx < -GRID_W / 2) dx += GRID_W;
+          if (dy > GRID_H / 2) dy -= GRID_H;
+          if (dy < -GRID_H / 2) dy += GRID_H;
+          nearDist = Math.hypot(dx, dy);
+          desired = Math.atan2(dy, dx);
+        } else {
+          desired = a.heading + (rng() - 0.5) * 0.3;
+        }
+
+        let diff = ((desired - a.heading + Math.PI * 3) % TAU) - Math.PI;
+        a.heading += clamp(diff, -0.3, 0.3);
+        const speed = speedMax * (nearDist < 5 ? 1.24 : 1) * (a.energy < 0.25 ? 0.6 : 1);
+        a.x = (a.x + Math.cos(a.heading) * speed + GRID_W) % GRID_W;
+        a.y = (a.y + Math.sin(a.heading) * speed + GRID_H) % GRID_H;
+
+        if (nearDist < 1.1 && a.killCd <= 0 && a.target && a.target.agent.alive) {
+          const victim = a.target.agent;
+          const cover = this.plantAt(victim.x, victim.y);
+          const inRefuge = this.refuge[this.cellIndex(victim.x, victim.y)] === 1;
+          if (rng() < (inRefuge ? 0.72 : 0.06 + 0.55 * cover)) {
+            a.killCd = 18;
+          } else {
+            victim.alive = false;
+            this.preyAlive--;
+            a.meals++;
+            a.lastMeal = this.gen;
+            a.energy = Math.min(4, a.energy + 0.8 + victim.energy * 0.25);
+            a.killCd = 105 + ((rng() * 45) | 0);
+          }
+        }
+
+        a.energy -= 0.0012 + 0.0020 * g.metabolism + 0.0018 * g.speed + 0.0008 * g.vision;
+
+        const mealQuota = 4 + g.repro * 5;
+        if (a.meals >= mealQuota && a.cooldown <= 0 && a.energy > 0.7 && this.predAlive < 100) {
+          const childEnergy = Math.min(1, a.energy * 0.32);
+          a.meals = 0;
+          a.energy *= 0.62;
+          a.cooldown = 900 + ((rng() * 140) | 0);
+          const child = this.makeAgent(
+            'pred',
+            a.x + (rng() - 0.5) * 2.4,
+            a.y + (rng() - 0.5) * 2.4,
+            this.mutate(g)
+          );
+          child.energy = childEnergy;
+          child.cooldown = 400;
+          this.pred.push(child);
+          this.predAlive++;
+        }
+
+        if (a.energy <= 0) {
+          a.alive = false;
+          this.predAlive--;
+        } else if (a.age > 3000) {
+          a.alive = false;
+          this.predAlive--;
+        }
+      }
+
+      if ((this.tick & 63) === 0) {
+        this.prey = this.prey.filter(a => a.alive);
+        this.pred = this.pred.filter(a => a.alive);
+      }
+
+      if (this.tick % TICKS_PER_GEN === 0) {
+        this.gen++;
+        this.prey = this.prey.filter(a => a.alive);
+        this.pred = this.pred.filter(a => a.alive);
+        this.preyAlive = this.prey.length;
+        this.predAlive = this.pred.length;
+        this.applyRescue();
+        this.maybeEvent();
+        this.sample();
+        if (this.gen >= this.targetGenerations) this.finished = true;
+      }
+    }
+
+    applyRescue() {
+      const beforePrey = this.prey.length;
+      const beforePred = this.pred.length;
+      if (this.prey.length > 0 && this.prey.length < 22) {
+        for (let i = 0; i < 7; i++) {
+          const src = this.prey[(this.rng() * this.prey.length) | 0];
+          const child = this.makeAgent(
+            'prey',
+            src.x + (this.rng() - 0.5) * 6,
+            src.y + (this.rng() - 0.5) * 6,
+            this.mutate(src.genes)
+          );
+          child.cooldown = 150;
+          this.prey.push(child);
+          this.preyAlive++;
+        }
+      } else if (this.prey.length === 0) {
+        for (let i = 0; i < 8; i++) {
+          this.prey.push(this.makeAgent('prey'));
+          this.preyAlive++;
+        }
+      }
+      if (this.pred.length > 0 && this.pred.length < 3) {
+        for (let i = 0; i < 2; i++) {
+          const src = this.pred[(this.rng() * this.pred.length) | 0];
+          const child = this.makeAgent(
+            'pred',
+            src.x + (this.rng() - 0.5) * 6,
+            src.y + (this.rng() - 0.5) * 6,
+            this.mutate(src.genes)
+          );
+          child.cooldown = 250;
+          this.pred.push(child);
+          this.predAlive++;
+        }
+      } else if (this.pred.length === 0 && this.prey.length > 40) {
+        for (let i = 0; i < 2; i++) {
+          this.pred.push(this.makeAgent('pred'));
+          this.predAlive++;
+        }
+      }
+      const addedPrey = this.prey.length - beforePrey;
+      const addedPred = this.pred.length - beforePred;
+      if (addedPrey > 0 || addedPred > 0) {
+        this.rescues.push({ gen: this.gen, prey: addedPrey, pred: addedPred });
+      }
+    }
+
+    mutate(genes) {
+      const out = {};
+      for (const key of GENE_KEYS) {
+        out[key] = clamp(genes[key] + gaussian(this.rng) * this.mutation * 0.38, 0.03, 0.97);
+      }
+      return out;
+    }
+
+    maybeEvent() {
+      if (this.gen <= 0 || !this.eventInterval || this.gen % this.eventInterval !== 0) return;
+      const order = ['drought', 'plague', 'frost'];
+      let type = null;
+      for (let k = 0; k < 3; k++) {
+        const candidate = order[(this.eventCycle + k) % 3];
+        if (this.enabled[candidate]) {
+          type = candidate;
+          this.eventCycle = (this.eventCycle + k + 1) % 3;
+          break;
+        }
+      }
+      if (!type) return;
+
+      const beforePrey = this.preyAlive;
+      const beforePred = this.predAlive;
+      let plantBefore = 0;
+      for (let i = 0; i < CELLS; i++) plantBefore += this.plants[i];
+      const losses = { prey: 0, pred: 0, plants: 0 };
+
+      if (type === 'drought') {
+        for (let i = 0; i < CELLS; i++) this.plants[i] *= 0.66;
+        this.droughtTicks = Math.round(TICKS_PER_GEN * 1.5);
+        let after = 0;
+        for (let i = 0; i < CELLS; i++) after += this.plants[i];
+        losses.plants = plantBefore > 0 ? (plantBefore - after) / plantBefore : 0;
+      } else if (type === 'plague') {
+        let killed = 0;
+        for (const a of this.prey) {
+          if (a.alive && this.rng() < 0.34) {
+            a.alive = false;
+            killed++;
+          }
+        }
+        this.prey = this.prey.filter(a => a.alive);
+        this.preyAlive = this.prey.length;
+        losses.prey = beforePrey > 0 ? killed / beforePrey : 0;
+      } else {
+        let preyKilled = 0;
+        let predKilled = 0;
+        for (const a of this.prey) {
+          if (a.alive && this.rng() < 0.2) {
+            a.alive = false;
+            preyKilled++;
+          }
+        }
+        for (const a of this.pred) {
+          if (a.alive && this.rng() < 0.15) {
+            a.alive = false;
+            predKilled++;
+          }
+        }
+        for (let i = 0; i < CELLS; i++) this.plants[i] *= 0.88;
+        this.prey = this.prey.filter(a => a.alive);
+        this.pred = this.pred.filter(a => a.alive);
+        this.preyAlive = this.prey.length;
+        this.predAlive = this.pred.length;
+        losses.prey = beforePrey > 0 ? preyKilled / beforePrey : 0;
+        losses.pred = beforePred > 0 ? predKilled / beforePred : 0;
+        losses.plants = 0.12;
+      }
+
+      this.events.push({ gen: this.gen, type, losses });
+    }
+
+    nextEventGen() {
+      if (!this.eventInterval) return null;
+      const next = (Math.floor(this.gen / this.eventInterval) + 1) * this.eventInterval;
+      if (next > this.targetGenerations) return null;
+      return next;
+    }
+
+    sample() {
+      let plantTotal = 0;
+      for (let i = 0; i < CELLS; i++) plantTotal += this.plants[i];
+      const genes = {};
+      for (const species of ['prey', 'pred']) {
+        const list = (species === 'prey' ? this.prey : this.pred).filter(a => a.alive);
+        genes[species] = {};
+        for (const key of GENE_KEYS) {
+          let mean = 0;
+          for (const a of list) mean += a.genes[key];
+          mean /= Math.max(1, list.length);
+          let variance = 0;
+          for (const a of list) variance += (a.genes[key] - mean) ** 2;
+          variance /= Math.max(1, list.length);
+          genes[species][key] = {
+            mean: list.length ? mean : 0,
+            sd: list.length ? Math.sqrt(variance) : 0
+          };
+        }
+      }
+      this.history.push({
+        gen: this.gen,
+        plants: plantTotal / CELLS,
+        prey: this.preyAlive,
+        pred: this.predAlive,
+        genes
+      });
+    }
+
+    livePlantCover() {
+      let total = 0;
+      for (let i = 0; i < CELLS; i++) total += this.plants[i];
+      return total / CELLS;
+    }
+
+    checksum() {
+      let h = 2166136261 >>> 0;
+      h = Math.imul(h ^ this.gen, 16777619) >>> 0;
+      h = Math.imul(h ^ this.tick, 16777619) >>> 0;
+      for (let i = 0; i < CELLS; i += 5) {
+        h = Math.imul(h ^ Math.round(this.plants[i] * 255), 16777619) >>> 0;
+      }
+      for (const a of this.prey) {
+        if (!a.alive) continue;
+        h = Math.imul(h ^ ((a.x * 73856093) ^ (a.y * 19349663) ^ Math.round(a.energy * 1000)), 16777619) >>> 0;
+        for (const key of GENE_KEYS) {
+          h = Math.imul(h ^ Math.round(a.genes[key] * 1000), 16777619) >>> 0;
+        }
+      }
+      for (const a of this.pred) {
+        if (!a.alive) continue;
+        h = Math.imul(h ^ ((a.x * 73856093) ^ (a.y * 19349663) ^ Math.round(a.energy * 1000)), 16777619) >>> 0;
+        for (const key of GENE_KEYS) {
+          h = Math.imul(h ^ Math.round(a.genes[key] * 1000), 16777619) >>> 0;
+        }
+      }
+      return h >>> 0;
+    }
+  }
+
+  /* ======================================================================
+     PALETTE AND SMALL UTILITIES
+     ====================================================================== */
+
+  const COLOR = {
+    ink: '#07100e',
+    ink2: '#0b1613',
+    bone: '#ece6d6',
+    bone2: '#c6c2b2',
+    bone3: '#929a8d',
+    bone4: '#6c7468',
+    brass: '#c3a56f',
+    brassHi: '#e2c997',
+    brassDim: '#7b6644',
+    line: 'rgba(195,165,111,0.18)',
+    lineFaint: 'rgba(195,165,111,0.07)',
+    lichen: '#c1d98b',
+    moth: '#a5dacb',
+    beetle: '#e18b69',
+    drought: '#d7a04c',
+    plague: '#c0a2d6',
+    frost: '#9fcbdd'
+  };
+
+  const SPECIES = {
+    plants: { name: 'Virella repens', short: 'Virella', role: 'Lichen crust', color: COLOR.lichen, tag: 'PLANT' },
+    prey: { name: 'Tinea vagans', short: 'Tinea', role: 'Grazer moth', color: COLOR.moth, tag: 'GRAZER' },
+    pred: { name: 'Carabus vorax', short: 'Carabus', role: 'Hunting beetle', color: COLOR.beetle, tag: 'HUNTER' }
+  };
+
+  const EVENT_META = {
+    drought: {
+      name: 'Drought',
+      color: COLOR.drought,
+      glyph: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="10.4" r="4.1" stroke="currentColor" stroke-width="1.1"/><path d="M12 2.4v2.6M12 15.8v2.6M3.9 10.4h2.6M17.5 10.4h2.6M6.2 4.6l1.9 1.9M15.9 14.3l1.9 1.9M17.8 4.6l-1.9 1.9M8.1 14.3l-1.9 1.9" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M7.7 21.6h8.6" stroke="currentColor" stroke-width="1" opacity=".45"/></svg>'
+    },
+    plague: {
+      name: 'Plague',
+      color: COLOR.plague,
+      glyph: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="7.6" cy="7.8" r="2.5" stroke="currentColor" stroke-width="1.1"/><circle cx="16.8" cy="9.6" r="1.7" stroke="currentColor" stroke-width="1.1"/><circle cx="11" cy="17.4" r="2.1" stroke="currentColor" stroke-width="1.1"/><circle cx="18.9" cy="17.7" r="1.1" fill="currentColor"/><path d="M9.6 9.6l1.4 5.4M15.4 11l-2.2 4.6M17.9 11.2l.6 4.1" stroke="currentColor" stroke-width="1" opacity=".48"/></svg>'
+    },
+    frost: {
+      name: 'Frost',
+      color: COLOR.frost,
+      glyph: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.7v18.6M3.9 7.4l16.2 9.2M20.1 7.4 3.9 16.6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M12 6.3 9.4 4.2M12 6.3l2.6-2.1M12 17.7l-2.6 2.1M12 17.7l2.6 2.1M6.4 9.3 3.3 8.7M6.4 14.7l-3.1.6M17.6 9.3l3.1-.6M17.6 14.7l3.1.6" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".58"/></svg>'
+    }
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+  const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const pad3 = (n) => String(n).padStart(3, '0').replace(/^0+(?=\d{3})/, '');
+  const seedHex = (seed) => (seed >>> 0).toString(16).toUpperCase().padStart(8, '0');
+  const seedGroups = (seed) => {
+    const h = seedHex(seed);
+    return h.slice(0, 4) + ' ' + h.slice(4);
+  };
+  const roman = (num) => {
+    const map = [
+      [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'],
+      [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']
+    ];
+    let n = num;
+    let out = '';
+    for (const [value, glyph] of map) {
+      while (n >= value) { out += glyph; n -= value; }
+    }
+    return out;
+  };
+  const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ======================================================================
+     WORLD RENDERER
+     Reads the simulation, owns no ecology. Can draw to any canvas, which is
+     how the final specimen thumbnail is made.
+     ====================================================================== */
+
+  class WorldRenderer {
+    constructor(canvas, options = {}) {
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d');
+      this.snapshot = !!options.snapshot;
+      this.w = 0;
+      this.h = 0;
+      this.dpr = 1;
+      this.scale = 1;
+      this.offX = 0;
+      this.offY = 0;
+      this.terrain = null;
+      this.sim = null;
+      this.pointer = { x: 0, y: 0, active: false };
+      this.hover = null;
+      this.trace = true;
+      this.time = 0;
+      this.plantLayer = document.createElement('canvas');
+      this.plantLayerCtx = this.plantLayer.getContext('2d');
+      this.plantLayerDirty = true;
+      this.plantLayerStamp = 0;
+      this.cellNoise = new Uint8Array(CELLS);
+      for (let i = 0; i < CELLS; i++) {
+        const x = i % GRID_W;
+        const y = (i / GRID_W) | 0;
+        this.cellNoise[i] = ((x * 374761393 + y * 668265263) ^ (x * y * 1274126177)) & 255;
+      }
+      this.lastLens = null;
+    }
+
+    setSim(sim) {
+      this.sim = sim;
+      this.resize();
+      this.buildTerrain();
+    }
+
+    resize() {
+      const rect = this.canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const W = Math.round(rect.width * dpr);
+      const H = Math.round(rect.height * dpr);
+      if (this.canvas.width !== W || this.canvas.height !== H) {
+        this.canvas.width = W;
+        this.canvas.height = H;
+      }
+      this.dpr = dpr;
+      this.w = rect.width;
+      this.h = rect.height;
+      this.scale = Math.min(this.w / GRID_W, this.h / GRID_H);
+      this.offX = (this.w - GRID_W * this.scale) / 2;
+      this.offY = (this.h - GRID_H * this.scale) / 2;
+      const lw = Math.round(this.w * dpr);
+      const lh = Math.round(this.h * dpr);
+      if (this.plantLayer.width !== lw || this.plantLayer.height !== lh) {
+        this.plantLayer.width = lw;
+        this.plantLayer.height = lh;
+      }
+      this.plantLayerDirty = true;
+      if (this.sim) this.buildTerrain();
+    }
+
+    buildTerrain() {
+      if (!this.w || !this.h) return;
+      const dpr = this.dpr;
+      const tc = document.createElement('canvas');
+      tc.width = Math.round(this.w * dpr);
+      tc.height = Math.round(this.h * dpr);
+      const c = tc.getContext('2d');
+      c.scale(dpr, dpr);
+      const s = this.scale;
+      const ox = this.offX;
+      const oy = this.offY;
+
+      // engraved survey lattice
+      c.strokeStyle = 'rgba(195,165,111,0.045)';
+      c.lineWidth = 0.6;
+      for (let gx = 0; gx <= GRID_W; gx += 8) {
+        const x = ox + gx * s;
+        c.beginPath();
+        c.moveTo(x, oy);
+        c.lineTo(x, oy + GRID_H * s);
+        c.stroke();
+      }
+      for (let gy = 0; gy <= GRID_H; gy += 8) {
+        const y = oy + gy * s;
+        c.beginPath();
+        c.moveTo(ox, y);
+        c.lineTo(ox + GRID_W * s, y);
+        c.stroke();
+      }
+      c.fillStyle = 'rgba(195,165,111,0.09)';
+      for (let gx = 0; gx <= GRID_W; gx += 16) {
+        for (let gy = 0; gy <= GRID_H; gy += 16) {
+          c.fillRect(ox + gx * s - 0.5, oy + gy * s - 0.5, 1.2, 1.2);
+        }
+      }
+
+      // basalt outcrops, softened through a low-resolution mask
+      const sim = this.sim;
+      if (sim) {
+        const mask = document.createElement('canvas');
+        mask.width = GRID_W;
+        mask.height = GRID_H;
+        const mctx = mask.getContext('2d');
+        const img = mctx.createImageData(GRID_W, GRID_H);
+        for (let y = 0; y < GRID_H; y++) {
+          for (let x = 0; x < GRID_W; x++) {
+            const i = y * GRID_W + x;
+            if (!sim.refuge[i]) continue;
+            const n = ((x * 92821) ^ (y * 68917)) & 255;
+            const o = i * 4;
+            img.data[o] = 37 + (n & 8);
+            img.data[o + 1] = 41 + (n % 8);
+            img.data[o + 2] = 34 + (n % 6);
+            img.data[o + 3] = 170 + (n % 26);
+          }
+        }
+        mctx.putImageData(img, 0, 0);
+        c.imageSmoothingEnabled = true;
+        c.shadowColor = 'rgba(0,0,0,0.35)';
+        c.shadowBlur = 7;
+        c.shadowOffsetY = 2;
+        c.drawImage(mask, 0, 0, GRID_W, GRID_H, ox, oy, GRID_W * s, GRID_H * s);
+        c.shadowColor = 'transparent';
+        c.shadowBlur = 0;
+        c.shadowOffsetY = 0;
+
+        // stone grain
+        c.fillStyle = 'rgba(180,172,136,0.095)';
+        for (let y = 0; y < GRID_H; y++) {
+          for (let x = 0; x < GRID_W; x++) {
+            const i = y * GRID_W + x;
+            if (!sim.refuge[i]) continue;
+            const n = ((x * 37 + y * 71) ^ (x * y)) & 31;
+            if (n > 2) continue;
+            c.fillRect(ox + x * s + s * (0.2 + (n % 4) * 0.16), oy + y * s + s * (0.25 + (n % 3) * 0.18), 0.8, 0.8);
+          }
+        }
+
+        // a dotted survey rim, not a hard cell outline
+        c.fillStyle = 'rgba(195,165,111,0.34)';
+        c.beginPath();
+        for (let y = 0; y < GRID_H; y++) {
+          for (let x = 0; x < GRID_W; x++) {
+            const i = y * GRID_W + x;
+            if (!sim.refuge[i]) continue;
+            const edge = (y === 0 || !sim.refuge[i - GRID_W]) || (y === GRID_H - 1 || !sim.refuge[i + GRID_W]) ||
+              (x === 0 || !sim.refuge[i - 1]) || (x === GRID_W - 1 || !sim.refuge[i + 1]);
+            if (!edge) continue;
+            if (((x + y) & 1) !== 0) continue;
+            c.rect(ox + x * s + s * 0.4, oy + y * s + s * 0.4, 1.1, 1.1);
+          }
+        }
+        c.fill();
+
+        // mineral hatch
+        c.strokeStyle = 'rgba(195,182,145,0.065)';
+        c.lineWidth = 0.45;
+        c.beginPath();
+        for (let y = 0; y < GRID_H; y++) {
+          for (let x = 0; x < GRID_W; x++) {
+            const i = y * GRID_W + x;
+            if (!sim.refuge[i]) continue;
+            if (((x * 5 + y * 3) & 7) !== 0) continue;
+            const px = ox + x * s;
+            const py = oy + y * s;
+            c.moveTo(px + s * 0.18, py + s * 0.68);
+            c.lineTo(px + s * 0.82, py + s * 0.16);
+          }
+        }
+        c.stroke();
+
+        c.strokeStyle = 'rgba(215,198,154,0.13)';
+        c.lineWidth = 0.7;
+        c.beginPath();
+        for (let y = 0; y < GRID_H; y++) {
+          for (let x = 0; x < GRID_W; x++) {
+            const i = y * GRID_W + x;
+            if (!sim.refuge[i]) continue;
+            if (y === 0 || !sim.refuge[i - GRID_W]) {
+              c.moveTo(ox + x * s, oy + y * s + 0.5);
+              c.lineTo(ox + (x + 1) * s, oy + y * s + 0.5);
+            }
+          }
+        }
+        c.stroke();
+      }
+
+      this.terrain = tc;
+    }
+
+    paintPlantLayer(sim) {
+      const c = this.plantLayerCtx;
+      const dpr = this.dpr;
+      const w = this.w;
+      const h = this.h;
+      const s = this.scale;
+      const ox = this.offX;
+      const oy = this.offY;
+      const noise = this.cellNoise;
+      c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      c.clearRect(0, 0, w, h);
+
+      // dim ground wash to bind the spores into patches
+      if (!this.washCanvas) {
+        this.washCanvas = document.createElement('canvas');
+        this.washCanvas.width = GRID_W;
+        this.washCanvas.height = GRID_H;
+        this.washImage = this.washCanvas.getContext('2d').createImageData(GRID_W, GRID_H);
+      }
+      const wc = this.washCanvas.getContext('2d');
+      const wd = this.washImage.data;
+      for (let i = 0; i < CELLS; i++) {
+        const p = sim.plants[i];
+        const o = i * 4;
+        if (p < 0.02) {
+          wd[o + 3] = 0;
+          continue;
+        }
+        wd[o] = 76;
+        wd[o + 1] = 100;
+        wd[o + 2] = 60;
+        wd[o + 3] = Math.min(255, (p * 0.27 * 255) | 0);
+      }
+      wc.putImageData(this.washImage, 0, 0);
+      c.imageSmoothingEnabled = true;
+      c.globalAlpha = 0.95;
+      c.drawImage(this.washCanvas, 0, 0, GRID_W, GRID_H, ox, oy, GRID_W * s, GRID_H * s);
+      c.globalAlpha = 1;
+
+      const bands = [
+        { min: 0.015, max: 0.24, color: 'rgba(115,137,80,0.36)', dots: 2, size: 1.15 },
+        { min: 0.24, max: 0.5, color: 'rgba(151,181,102,0.46)', dots: 3, size: 1.4 },
+        { min: 0.5, max: 2, color: 'rgba(198,225,149,0.58)', dots: 4, size: 1.65 }
+      ];
+
+      for (const band of bands) {
+        c.fillStyle = band.color;
+        c.beginPath();
+        for (let y = 0; y < GRID_H; y++) {
+          for (let x = 0; x < GRID_W; x++) {
+            const i = y * GRID_W + x;
+            const p = sim.plants[i];
+            if (p < band.min || p >= band.max) continue;
+            const n = noise[i];
+            const extra = p > 0.78 ? 1 : 0;
+            const count = band.dots + extra;
+            for (let d = 0; d < count; d++) {
+              const bits = (n >> (d * 2)) & 3;
+              const offX = (bits / 3 - 0.5) * s * 0.78;
+              const offY = (((n >> (d * 2 + 1)) & 3) / 3 - 0.5) * s * 0.78;
+              c.rect(ox + x * s + s * 0.5 + offX, oy + y * s + s * 0.5 + offY, band.size, band.size);
+            }
+          }
+        }
+        c.fill();
+      }
+
+      // botanical sprigs at the densest points
+      c.strokeStyle = 'rgba(210,232,160,0.34)';
+      c.lineWidth = 0.55;
+      c.beginPath();
+      let sprigs = 0;
+      for (let y = 2; y < GRID_H - 2 && sprigs < 260; y++) {
+        for (let x = 2; x < GRID_W - 2 && sprigs < 260; x++) {
+          const i = y * GRID_W + x;
+          if (sim.plants[i] < 0.4) continue;
+          const hash = (x * 73856093) ^ (y * 19349663);
+          if ((hash & 511) > 5) continue;
+          const px = ox + x * s;
+          const py = oy + y * s;
+          c.moveTo(px, py + Math.max(1.1, s * 0.18));
+          c.lineTo(px, py - Math.max(1.1, s * 0.18));
+          c.moveTo(px, py);
+          c.lineTo(px - Math.max(1, s * 0.17), py - Math.max(0.9, s * 0.15));
+          c.moveTo(px + 0.2, py - s * 0.05);
+          c.lineTo(px + Math.max(1.1, s * 0.17), py - Math.max(1.2, s * 0.19));
+          sprigs++;
+        }
+      }
+      c.stroke();
+
+      this.plantLayerDirty = false;
+    }
+
+    draw(sim, options = {}) {
+      if (!this.w) this.resize();
+      if (!this.w) return;
+      const ctx = this.ctx;
+      const w = this.w;
+      const h = this.h;
+      const s = this.scale;
+      const ox = this.offX;
+      const oy = this.offY;
+      const dpr = this.dpr;
+
+      if (!this.snapshot) this.trace = options.trace !== false;
+      this.hover = options.hover || null;
+      this.time = (this.time + 1) % 100000;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      const bg = ctx.createLinearGradient(0, 0, 0, h);
+      bg.addColorStop(0, '#091712');
+      bg.addColorStop(0.45, '#06110e');
+      bg.addColorStop(1, '#050c0a');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      const glow = ctx.createRadialGradient(w * 0.34, h * 0.06, 0, w * 0.34, h * 0.06, w * 0.8);
+      glow.addColorStop(0, 'rgba(64,101,77,0.09)');
+      glow.addColorStop(0.45, 'rgba(35,58,46,0.03)');
+      glow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, h);
+
+      const stamp = performance.now();
+      if (this.plantLayerDirty || stamp - this.plantLayerStamp > 90) {
+        this.paintPlantLayer(sim);
+        this.plantLayerStamp = stamp;
+      }
+      if (this.plantLayer.width) {
+        ctx.drawImage(this.plantLayer, 0, 0, this.plantLayer.width, this.plantLayer.height, 0, 0, w, h);
+      }
+
+      if (this.terrain) {
+        ctx.drawImage(this.terrain, 0, 0, this.terrain.width, this.terrain.height, 0, 0, w, h);
+      }
+
+      if (!this.snapshot && w > 430) this.drawScaleBar();
+
+      const alivePrey = [];
+      for (const a of sim.prey) if (a.alive) alivePrey.push(a);
+      const alivePred = [];
+      for (const a of sim.pred) if (a.alive) alivePred.push(a);
+
+      if (this.trace) this.drawTraces(alivePrey, alivePred);
+      this.drawPrey(alivePrey);
+      this.drawPredators(alivePred);
+
+      if (this.hover && this.hover.alive) this.drawHoverRing(this.hover);
+      if (!this.snapshot && this.pointer.active) this.drawLoupe(options);
+    }
+
+    drawScaleBar() {
+      const ctx = this.ctx;
+      const len = this.scale * 10;
+      const x = 16;
+      const y = 17;
+      ctx.save();
+      ctx.strokeStyle = 'rgba(226,201,151,0.35)';
+      ctx.fillStyle = 'rgba(226,201,151,0.5)';
+      ctx.shadowColor = 'rgba(0,0,0,0.65)';
+      ctx.shadowBlur = 3;
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + len, y);
+      ctx.moveTo(x, y - 2.5);
+      ctx.lineTo(x, y + 2.5);
+      ctx.moveTo(x + len, y - 2.5);
+      ctx.lineTo(x + len, y + 2.5);
+      ctx.stroke();
+      ctx.font = '500 6px "JetBrains Mono", monospace';
+      ctx.letterSpacing = '1px';
+      ctx.fillText('10 CELLS', x, y + 10);
+      ctx.restore();
+    }
+
+    drawTraces(prey, pred) {
+      const ctx = this.ctx;
+      const s = this.scale;
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(165,218,203,0.11)';
+      ctx.lineWidth = 0.55;
+      ctx.beginPath();
+      for (const a of prey) {
+        const x = this.offX + a.x * s;
+        const y = this.offY + a.y * s;
+        const len = (1.4 + a.genes.speed * 4.2);
+        ctx.moveTo(x - Math.cos(a.heading) * len, y - Math.sin(a.heading) * len);
+        ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(225,139,105,0.16)';
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      for (const a of pred) {
+        const x = this.offX + a.x * s;
+        const y = this.offY + a.y * s;
+        const len = (3 + a.genes.speed * 6);
+        ctx.moveTo(x - Math.cos(a.heading) * len, y - Math.sin(a.heading) * len);
+        ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    drawPrey(list) {
+      if (!list.length) return;
+      const ctx = this.ctx;
+      const s = this.scale;
+      const ox = this.offX;
+      const oy = this.offY;
+      const base = Math.max(1.25, Math.min(2.45, s * 0.24));
+      ctx.save();
+      ctx.lineWidth = base < 1.7 ? 0.65 : 0.78;
+      ctx.strokeStyle = 'rgba(126,224,201,0.84)';
+      ctx.beginPath();
+      for (const a of list) {
+        const r = base * (0.84 + Math.min(0.42, a.energy * 0.18));
+        const x = ox + a.x * s;
+        const y = oy + a.y * s;
+        ctx.moveTo(x + r, y);
+        ctx.arc(x, y, r, 0, TAU);
+      }
+      ctx.stroke();
+
+      if (s > 4.2) {
+        ctx.strokeStyle = 'rgba(146,218,200,0.28)';
+        ctx.lineWidth = 0.45;
+        ctx.beginPath();
+        for (const a of list) {
+          const r = base * (0.84 + Math.min(0.42, a.energy * 0.18));
+          const x = ox + a.x * s;
+          const y = oy + a.y * s;
+          const hx = Math.cos(a.heading);
+          const hy = Math.sin(a.heading);
+          for (const side of [-0.55, 0.55]) {
+            const c = Math.cos(a.heading + side);
+            const si = Math.sin(a.heading + side);
+            ctx.moveTo(x + hx * r * 0.9, y + hy * r * 0.9);
+            ctx.lineTo(x + c * r * 2.1, y + si * r * 2.1);
+          }
+        }
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = 'rgba(196,242,227,0.42)';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      for (const a of list) {
+        const x = ox + a.x * s;
+        const y = oy + a.y * s;
+        const hx = Math.cos(a.heading);
+        const hy = Math.sin(a.heading);
+        const r = base * 0.62;
+        ctx.moveTo(x - hx * r, y - hy * r);
+        ctx.lineTo(x + hx * r, y + hy * r);
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(205,243,230,0.46)';
+      ctx.beginPath();
+      for (const a of list) {
+        const r = Math.max(0.45, base * 0.17);
+        const x = ox + a.x * s;
+        const y = oy + a.y * s;
+        ctx.moveTo(x + r, y);
+        ctx.arc(x, y, r, 0, TAU);
+      }
+      ctx.fill();
+      ctx.restore();
+    }
+
+    drawPredators(list) {
+      if (!list.length) return;
+      const ctx = this.ctx;
+      const s = this.scale;
+      const ox = this.offX;
+      const oy = this.offY;
+      const len = Math.max(5.0, Math.min(9.6, s * 1.08));
+      ctx.save();
+      ctx.fillStyle = 'rgba(232,143,110,0.11)';
+      ctx.beginPath();
+      for (const a of list) {
+        const x = ox + a.x * s;
+        const y = oy + a.y * s;
+        ctx.moveTo(x + len * 0.55, y);
+        ctx.arc(x, y, len * 0.55, 0, TAU);
+      }
+      ctx.fill();
+      ctx.fillStyle = 'rgba(232,143,110,0.97)';
+      ctx.strokeStyle = 'rgba(7,16,14,0.8)';
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      for (const a of list) {
+        const x = ox + a.x * s;
+        const y = oy + a.y * s;
+        const fx = Math.cos(a.heading);
+        const fy = Math.sin(a.heading);
+        const rx = -fy;
+        const ry = fx;
+        const half = len * 0.34;
+        const tipX = x + fx * len * 0.66;
+        const tipY = y + fy * len * 0.66;
+        const backX = x - fx * len * 0.46;
+        const backY = y - fy * len * 0.46;
+        const notchX = x - fx * len * 0.12;
+        const notchY = y - fy * len * 0.12;
+        ctx.moveTo(tipX, tipY);
+        ctx.lineTo(backX + rx * half, backY + ry * half);
+        ctx.lineTo(notchX, notchY);
+        ctx.lineTo(backX - rx * half, backY - ry * half);
+        ctx.closePath();
+      }
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(255,218,190,0.8)';
+      ctx.beginPath();
+      for (const a of list) {
+        const x = ox + a.x * s;
+        const y = oy + a.y * s;
+        const fx = Math.cos(a.heading);
+        const fy = Math.sin(a.heading);
+        const hr = Math.max(0.6, len * 0.08);
+        ctx.moveTo(x + fx * len * 0.36 + hr, y + fy * len * 0.36);
+        ctx.arc(x + fx * len * 0.36, y + fy * len * 0.36, hr, 0, TAU);
+      }
+      ctx.fill();
+      ctx.restore();
+    }
+
+    drawHoverRing(agent) {
+      const ctx = this.ctx;
+      const s = this.scale;
+      const x = this.offX + agent.x * s;
+      const y = this.offY + agent.y * s;
+      const isPred = agent.species === 'pred';
+      const r = isPred ? 10 : 8;
+      ctx.save();
+      ctx.strokeStyle = 'rgba(226,201,151,0.88)';
+      ctx.lineWidth = 0.85;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, TAU);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(226,201,151,0.38)';
+      ctx.lineWidth = 0.6;
+      ctx.setLineDash([1.4, 2.4]);
+      ctx.beginPath();
+      ctx.arc(x, y, r + 3.5, 0, TAU);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      for (const ang of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
+        ctx.moveTo(x + Math.cos(ang) * (r - 2.2), y + Math.sin(ang) * (r - 2.2));
+        ctx.lineTo(x + Math.cos(ang) * (r + 1.6), y + Math.sin(ang) * (r + 1.6));
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    drawLoupe(options) {
+      const ctx = this.ctx;
+      const w = this.w;
+      const h = this.h;
+      const r = Math.max(40, Math.min(62, w * 0.074));
+      const cx = clamp(this.pointer.x, r + 6, w - r - 6);
+      const cy = clamp(this.pointer.y, r + 6, h - r - 6);
+      const zoom = 1.82;
+      const dpr = this.dpr;
+      this.lastLens = { x: cx, y: cy, r };
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, TAU);
+      ctx.clip();
+      ctx.filter = 'brightness(1.12) contrast(1.04) saturate(1.06)';
+      const sw = ((r * 2) / zoom) * dpr;
+      ctx.drawImage(
+        this.canvas,
+        cx * dpr - sw / 2,
+        cy * dpr - sw / 2,
+        sw,
+        sw,
+        cx - r,
+        cy - r,
+        r * 2,
+        r * 2
+      );
+      ctx.filter = 'none';
+      const shade = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.35, r * 0.1, cx, cy, r);
+      shade.addColorStop(0, 'rgba(255,255,255,0.035)');
+      shade.addColorStop(0.6, 'rgba(0,0,0,0)');
+      shade.addColorStop(1, 'rgba(0,0,0,0.36)');
+      ctx.fillStyle = shade;
+      ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+      ctx.restore();
+
+      ctx.save();
+      ctx.strokeStyle = 'rgba(0,0,0,0.62)';
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r + 1.2, 0, TAU);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(226,201,151,0.9)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r + 1.2, 0, TAU);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(226,201,151,0.25)';
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r - 2.4, 0, TAU);
+      ctx.stroke();
+      ctx.beginPath();
+      for (let k = 0; k < 12; k++) {
+        const ang = (k / 12) * TAU;
+        const inner = r + (k % 3 === 0 ? 3 : 4.6);
+        const outer = r + 6.5;
+        ctx.moveTo(cx + Math.cos(ang) * inner, cy + Math.sin(ang) * inner);
+        ctx.lineTo(cx + Math.cos(ang) * outer, cy + Math.sin(ang) * outer);
+      }
+      ctx.strokeStyle = 'rgba(226,201,151,0.48)';
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,248,228,0.24)';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r - 1.4, Math.PI * 1.08, Math.PI * 1.55);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  /* ======================================================================
+     ARCHIVE CHARTS
+     Canvas only, same ink and brass language as the chamber.
+     ====================================================================== */
+
+  const MONO_FONT = '"JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace';
+  const SERIF_FONT = '"Bitstream Charter", "Iowan Old Style", Palatino, Georgia, serif';
+  const monoFont = (size, weight = 500) => `${weight} ${size}px ${MONO_FONT}`;
+  const serifFont = (size, style = '400') => `${style} ${size}px ${SERIF_FONT}`;
+
+  function rgba(hex, alpha) {
+    const h = hex.replace('#', '');
+    const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+    const r = (n >> 16) & 255;
+    const g = (n >> 8) & 255;
+    const b = n & 255;
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+
+  function fitCanvas(canvas) {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const W = Math.round(rect.width * dpr);
+    const H = Math.round(rect.height * dpr);
+    if (canvas.width !== W || canvas.height !== H) {
+      canvas.width = W;
+      canvas.height = H;
+    }
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    return { ctx, w: rect.width, h: rect.height, dpr };
+  }
+
+  function niceMax(value) {
+    if (value <= 0) return 10;
+    const power = Math.pow(10, Math.floor(Math.log10(value)));
+    const n = value / power;
+    let m;
+    if (n <= 1) m = 1;
+    else if (n <= 2) m = 2;
+    else if (n <= 2.5) m = 2.5;
+    else if (n <= 5) m = 5;
+    else m = 10;
+    return m * power;
+  }
+
+  function drawSpeciesGlyph(ctx, species, x, y, size, color) {
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 0.9;
+    const cx = x + size * 0.5;
+    const cy = y + size * 0.5;
+    if (species === 'prey') {
+      ctx.beginPath();
+      ctx.arc(cx, cy + size * 0.06, size * 0.25, 0, TAU);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx - size * 0.12, cy - size * 0.15);
+      ctx.lineTo(cx - size * 0.32, cy - size * 0.44);
+      ctx.moveTo(cx + size * 0.12, cy - size * 0.15);
+      ctx.lineTo(cx + size * 0.32, cy - size * 0.44);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(cx - size * 0.32, cy - size * 0.44, size * 0.06, 0, TAU);
+      ctx.arc(cx + size * 0.32, cy - size * 0.44, size * 0.06, 0, TAU);
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - size * 0.42);
+      ctx.lineTo(cx + size * 0.3, cy + size * 0.38);
+      ctx.lineTo(cx, cy + size * 0.15);
+      ctx.lineTo(cx - size * 0.3, cy + size * 0.38);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(cx - size * 0.28, cy + size * 0.16);
+      ctx.lineTo(cx - size * 0.44, cy + size * 0.3);
+      ctx.moveTo(cx + size * 0.28, cy + size * 0.16);
+      ctx.lineTo(cx + size * 0.44, cy + size * 0.3);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawCensusChart(canvas, sim) {
+    const fit = fitCanvas(canvas);
+    if (!fit) return;
+    const { ctx, w, h } = fit;
+    const hist = sim.history;
+    if (!hist.length) return;
+    const target = Math.max(1, hist[hist.length - 1].gen);
+    const compact = w < 560;
+    const left = compact ? 31 : 42;
+    const right = compact ? 33 : 45;
+    const top = compact ? 22 : 26;
+    const bottom = compact ? 22 : 26;
+    const pw = w - left - right;
+    const ph = h - top - bottom;
+    if (pw <= 10 || ph <= 10) return;
+    const maxCount = niceMax(Math.max(10, ...hist.map(d => Math.max(d.prey, d.pred))));
+    const countY = (v) => top + ph - (v / maxCount) * ph;
+    const coverY = (v) => top + ph - clamp01(v) * ph;
+    const genX = (g) => left + (g / target) * pw;
+
+    ctx.save();
+    ctx.font = monoFont(compact ? 7 : 7.5, 500);
+    ctx.textBaseline = 'middle';
+    ctx.lineWidth = 1;
+
+    // horizontal grid and axis labels
+    const rows = 4;
+    for (let i = 0; i <= rows; i++) {
+      const y = top + (ph * i) / rows;
+      ctx.strokeStyle = 'rgba(195,165,111,0.078)';
+      ctx.beginPath();
+      ctx.moveTo(left, y + 0.5);
+      ctx.lineTo(left + pw, y + 0.5);
+      ctx.stroke();
+      const countValue = Math.round(maxCount * (1 - i / rows));
+      ctx.fillStyle = 'rgba(198,194,178,0.62)';
+      ctx.textAlign = 'right';
+      ctx.fillText(String(countValue), left - 7, y);
+      ctx.fillStyle = 'rgba(193,217,139,0.74)';
+      ctx.textAlign = 'left';
+      ctx.fillText(`${Math.round(100 * (1 - i / rows))}%`, left + pw + 7, y);
+    }
+
+    // x ticks
+    const xStep = Math.max(1, Math.ceil(target / (compact ? 4 : 6)));
+    const gens = [];
+    for (let g = 0; g <= target; g += xStep) gens.push(g);
+    if (gens[gens.length - 1] !== target) gens.push(target);
+    ctx.textAlign = 'center';
+    for (const g of gens) {
+      const x = genX(g);
+      ctx.strokeStyle = 'rgba(195,165,111,0.22)';
+      ctx.beginPath();
+      ctx.moveTo(x + 0.5, top + ph);
+      ctx.lineTo(x + 0.5, top + ph + 4);
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(198,194,178,0.58)';
+      ctx.fillText(String(g), x, top + ph + 12);
+    }
+    // lichen cover
+    ctx.beginPath();
+    ctx.moveTo(left, top + ph);
+    hist.forEach((d, i) => {
+      const x = genX(d.gen);
+      const y = coverY(d.plants);
+      if (i === 0) ctx.lineTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.lineTo(genX(hist[hist.length - 1].gen), top + ph);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(193,217,139,0.09)';
+    ctx.fill();
+    ctx.beginPath();
+    hist.forEach((d, i) => {
+      const x = genX(d.gen);
+      const y = coverY(d.plants);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = 'rgba(193,217,139,0.5)';
+    ctx.lineWidth = 1.1;
+    ctx.stroke();
+
+    // disturbance markers behind the animal lines
+    sim.events.forEach((ev, index) => {
+      const x = genX(ev.gen);
+      const meta = EVENT_META[ev.type];
+      ctx.strokeStyle = rgba(meta.color, 0.28);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x + 0.5, top);
+      ctx.lineTo(x + 0.5, top + ph);
+      ctx.stroke();
+      ctx.save();
+      ctx.translate(x, top - 4);
+      ctx.rotate(Math.PI / 4);
+      ctx.fillStyle = rgba(meta.color, 0.9);
+      ctx.fillRect(-2.5, -2.5, 5, 5);
+      ctx.restore();
+      ctx.fillStyle = rgba(meta.color, 0.9);
+      ctx.font = monoFont(compact ? 6.5 : 7, 500);
+      ctx.textAlign = 'center';
+      ctx.fillText(roman(index + 1), x, top - 12);
+      ctx.font = monoFont(compact ? 7 : 7.5, 500);
+    });
+
+    // population lines
+    const series = [
+      { key: 'prey', color: COLOR.moth, glow: 'rgba(165,218,203,0.35)' },
+      { key: 'pred', color: COLOR.beetle, glow: 'rgba(225,139,105,0.35)' }
+    ];
+    for (const line of series) {
+      ctx.save();
+      ctx.beginPath();
+      hist.forEach((d, i) => {
+        const x = genX(d.gen);
+        const y = countY(d[line.key]);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.strokeStyle = line.color;
+      ctx.lineWidth = 1.5;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.shadowColor = line.glow;
+      ctx.shadowBlur = 7;
+      ctx.stroke();
+      ctx.restore();
+
+      const last = hist[hist.length - 1];
+      const lx = genX(last.gen);
+      const ly = countY(last[line.key]);
+      ctx.beginPath();
+      ctx.fillStyle = line.color;
+      ctx.arc(lx, ly, 1.8, 0, TAU);
+      ctx.fill();
+    }
+
+    // baseline
+    ctx.strokeStyle = 'rgba(195,165,111,0.26)';
+    ctx.beginPath();
+    ctx.moveTo(left, top + ph + 0.5);
+    ctx.lineTo(left + pw, top + ph + 0.5);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function driftLayout(w) {
+    const compact = w < 660;
+    return compact
+      ? { cols: 1, headerH: 26, gapX: 0, gapY: 8, cellH: 78, groupGap: 16, padX: 5 }
+      : { cols: 2, headerH: 30, gapX: 16, gapY: 10, cellH: 0, groupGap: 0, padX: 4 };
+  }
+
+  function drawDriftChart(canvas, sim) {
+    const wrap = canvas.parentElement;
+    const widthNow = wrap.clientWidth;
+    if (widthNow < 660) wrap.style.height = '810px';
+    else wrap.style.height = '600px';
+    const fit = fitCanvas(canvas);
+    if (!fit) return;
+    const { ctx, w, h } = fit;
+    const hist = sim.history;
+    if (!hist.length) return;
+    const target = Math.max(1, hist[hist.length - 1].gen);
+    const layout = driftLayout(w);
+    const compact = layout.cols === 1;
+    const speciesOrder = ['prey', 'pred'];
+
+    ctx.save();
+    ctx.textBaseline = 'middle';
+
+    const drawHeader = (species, x, y, width) => {
+      drawSpeciesGlyph(ctx, species, x, y - 5, 13, SPECIES[species].color);
+      ctx.textAlign = 'left';
+      ctx.font = serifFont(compact ? 12 : 13, 'italic');
+      ctx.fillStyle = COLOR.bone;
+      ctx.fillText(SPECIES[species].name, x + 19, y);
+      ctx.font = monoFont(6.5, 500);
+      ctx.fillStyle = SPECIES[species].color;
+      ctx.fillText(`${SPECIES[species].tag} · MEAN ±1σ`, x + 19, y + 9);
+      ctx.strokeStyle = 'rgba(195,165,111,0.12)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x, y + 16);
+      ctx.lineTo(x + width, y + 16);
+      ctx.stroke();
+    };
+
+    const drawCell = (species, gene, x, y, cw, ch, showAxis) => {
+      const color = SPECIES[species].color;
+      const plotX = x + 2;
+      const plotY = y + 16;
+      const rightLabel = 32;
+      const plotW = cw - rightLabel - 4;
+      const plotH = ch - 27;
+      if (plotW < 20 || plotH < 15) return;
+      const gx = (g) => plotX + (g / target) * plotW;
+      const gy = (v) => plotY + plotH - clamp01(v) * plotH;
+
+      // cell head
+      ctx.font = monoFont(compact ? 6.8 : 7.2, 500);
+      ctx.fillStyle = 'rgba(198,194,178,0.6)';
+      ctx.textAlign = 'left';
+      ctx.fillText(gene.label.toUpperCase(), x + 2, y + 7);
+
+      const last = hist[hist.length - 1];
+      const alive = species === 'prey' ? last.prey : last.pred;
+      const finalValue = last.genes[species][gene.key].mean;
+      const firstValue = hist[0].genes[species][gene.key].mean;
+      const delta = finalValue - firstValue;
+      ctx.textAlign = 'right';
+      if (alive > 0) {
+        ctx.fillStyle = color;
+        ctx.font = monoFont(8.5, 500);
+        ctx.fillText(finalValue.toFixed(2), x + cw - 2, y + 7);
+      } else {
+        ctx.fillStyle = COLOR.bone4;
+        ctx.font = monoFont(7, 500);
+        ctx.fillText('LOST', x + cw - 2, y + 7);
+      }
+
+      // plot background and grid
+      ctx.fillStyle = 'rgba(255,255,255,0.008)';
+      ctx.fillRect(plotX, plotY, plotW, plotH);
+      ctx.strokeStyle = 'rgba(195,165,111,0.065)';
+      ctx.lineWidth = 1;
+      for (const f of [0, 0.5, 1]) {
+        const yy = plotY + plotH * (1 - f);
+        ctx.beginPath();
+        ctx.moveTo(plotX, yy + 0.5);
+        ctx.lineTo(plotX + plotW, yy + 0.5);
+        ctx.stroke();
+      }
+      if (showAxis) {
+        ctx.font = monoFont(6.2, 500);
+        ctx.fillStyle = 'rgba(198,194,178,0.48)';
+        ctx.textAlign = 'right';
+        ctx.fillText('1', plotX - 2, plotY + 1);
+        ctx.fillText('0', plotX - 2, plotY + plotH - 1);
+      }
+
+      // spread band
+      const upper = [];
+      const lower = [];
+      hist.forEach((d) => {
+        const geneData = d.genes[species][gene.key];
+        upper.push({ x: gx(d.gen), y: gy(geneData.mean + geneData.sd) });
+        lower.push({ x: gx(d.gen), y: gy(geneData.mean - geneData.sd) });
+      });
+      ctx.beginPath();
+      upper.forEach((p, i) => { if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+      for (let i = lower.length - 1; i >= 0; i--) ctx.lineTo(lower[i].x, lower[i].y);
+      ctx.closePath();
+      ctx.fillStyle = rgba(color, 0.12);
+      ctx.fill();
+
+      // catastrophe hairlines
+      sim.events.forEach((ev) => {
+        const xx = gx(ev.gen);
+        ctx.strokeStyle = rgba(EVENT_META[ev.type].color, 0.24);
+        ctx.beginPath();
+        ctx.moveTo(xx + 0.5, plotY);
+        ctx.lineTo(xx + 0.5, plotY + plotH);
+        ctx.stroke();
+      });
+
+      // starting mean as a dotted reference
+      const refY = gy(firstValue);
+      ctx.save();
+      ctx.setLineDash([1.5, 3.5]);
+      ctx.strokeStyle = rgba(color, 0.42);
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      ctx.moveTo(plotX, refY + 0.5);
+      ctx.lineTo(plotX + plotW, refY + 0.5);
+      ctx.stroke();
+      ctx.restore();
+
+      // mean line
+      ctx.beginPath();
+      hist.forEach((d, i) => {
+        const geneData = d.genes[species][gene.key];
+        const xx = gx(d.gen);
+        const yy = gy(geneData.mean);
+        if (i === 0) ctx.moveTo(xx, yy);
+        else ctx.lineTo(xx, yy);
+      });
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      ctx.lineJoin = 'round';
+      ctx.shadowColor = rgba(color, 0.35);
+      ctx.shadowBlur = 5;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // final marker
+      const px = gx(target);
+      const py = gy(finalValue);
+      if (alive > 0) {
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.arc(px, py, 1.7, 0, TAU);
+        ctx.fill();
+      }
+
+      // value and delta
+      ctx.textAlign = 'right';
+      ctx.font = monoFont(6.4, 500);
+      ctx.fillStyle = alive > 0 ? rgba(color, 0.72) : COLOR.bone4;
+      const arrow = delta > 0.006 ? '↑' : delta < -0.006 ? '↓' : '→';
+      ctx.fillText(alive > 0 ? `${arrow} ${Math.abs(delta).toFixed(2)}` : '—', x + cw - 2, y + ch - 7);
+    };
+
+    if (compact) {
+      let y = 4;
+      const width = w - layout.padX * 2;
+      for (const species of speciesOrder) {
+        drawHeader(species, layout.padX, y + 7, width);
+        y += layout.headerH;
+        for (let i = 0; i < GENES.length; i++) {
+          if (i > 0) {
+            ctx.strokeStyle = 'rgba(195,165,111,0.05)';
+            ctx.beginPath();
+            ctx.moveTo(layout.padX, y - 2);
+            ctx.lineTo(layout.padX + width, y - 2);
+            ctx.stroke();
+          }
+          drawCell(species, GENES[i], layout.padX, y, width, layout.cellH, i === 0);
+          y += layout.cellH + layout.gapY;
+        }
+        y += layout.groupGap - layout.gapY;
+      }
+      ctx.fillStyle = 'rgba(198,194,178,0.5)';
+      ctx.font = monoFont(6.5, 500);
+      ctx.textAlign = 'left';
+      ctx.fillText('GEN 0', layout.padX, y + 4);
+      ctx.textAlign = 'right';
+      ctx.fillText(`GEN ${target}`, w - layout.padX, y + 4);
+    } else {
+      const usable = w - layout.padX * 2 - layout.gapX;
+      const colW = usable / 2;
+      const top = 4;
+      speciesOrder.forEach((species, si) => {
+        drawHeader(species, layout.padX + si * (colW + layout.gapX), top + 7, colW);
+      });
+      const rowsTop = top + layout.headerH;
+      const gapTotal = layout.gapY * (GENES.length - 1);
+      const rowH = (h - rowsTop - 18 - gapTotal) / GENES.length;
+      GENES.forEach((gene, gi) => {
+        speciesOrder.forEach((species, si) => {
+          const x = layout.padX + si * (colW + layout.gapX);
+          const y = rowsTop + gi * (rowH + layout.gapY);
+          if (gi > 0) {
+            ctx.strokeStyle = 'rgba(195,165,111,0.05)';
+            ctx.beginPath();
+            ctx.moveTo(x, y - 3);
+            ctx.lineTo(x + colW, y - 3);
+            ctx.stroke();
+          }
+          drawCell(species, gene, x, y, colW, rowH, si === 0);
+        });
+      });
+      const bottomY = rowsTop + 4 * rowH + 3 * layout.gapY + 10;
+      ctx.fillStyle = 'rgba(198,194,178,0.5)';
+      ctx.font = monoFont(6.5, 500);
+      ctx.textAlign = 'left';
+      ctx.fillText('GEN 0', layout.padX, bottomY);
+      ctx.textAlign = 'right';
+      ctx.fillText(`GEN ${target}`, w - layout.padX, bottomY);
+    }
+
+    ctx.restore();
+  }
+
+  /* ======================================================================
+     APP + UI
+     ====================================================================== */
+
+  const DEFAULT_SEED = 0x7a3f09c1;
+  const BASE_TICKS_PER_SECOND = 60;
+
+  const app = {
+    sim: null,
+    renderer: null,
+    miniRenderer: null,
+    running: true,
+    renderOn: true,
+    traceOn: true,
+    tempo: 6,
+    target: 40,
+    enabled: { drought: true, plague: true, frost: true },
+    lastFrame: 0,
+    acc: 0,
+    lastHud: 0,
+    rateTicks: 0,
+    rateStart: 0,
+    measuredRate: BASE_TICKS_PER_SECOND * 6,
+    tempoHistory: [],
+    coverHistory: [],
+    seenEvents: 0,
+    seenRescues: 0,
+    hover: null,
+    pointerActive: false,
+    cardDirty: false,
+    eventTimer: null,
+    finishTimer: null,
+    touchTimer: null,
+    archiveOpen: false,
+    archiveHideTimer: null,
+    finishedNotified: false,
+    lastSparkSeed: null,
+    archiveFocusReturn: null
+  };
+
+  const els = {};
+
+  function cacheElements() {
+    const ids = [
+      'apparatus', 'glass', 'world', 'legendPlant', 'legendPrey', 'legendPred',
+      'clockGen', 'clockTarget', 'clockTick', 'clockTempo', 'runState', 'runStateBox',
+      'eventBanner', 'eventGlyph', 'eventKicker', 'eventTitle', 'eventNote', 'glassNote',
+      'specCard', 'specName', 'specRole', 'specGenes', 'specAge', 'specEnergy',
+      'headlessPanel', 'headlessCount',
+      'timeline', 'timelineFill', 'timelineHead', 'timelineTicks', 'timelineEnd', 'timelineScale',
+      'eventMarkers', 'nextMarker', 'nextEvent', 'nextEventSub',
+      'console', 'consoleBody', 'consoleToggle', 'pauseBtn',
+      'seedDisplay', 'seedValue', 'seedDown', 'seedUp', 'reseedBtn',
+      'horizonValue', 'horizonTrackValue', 'horizonFill', 'genDown', 'genUp',
+      'mutation', 'mutationOut', 'regrowth', 'regrowthOut', 'interval', 'intervalOut',
+      'tempo', 'dial', 'dialTicks', 'dialArc', 'dialArcBg', 'dialNeedle', 'dialValue', 'actualTicks',
+      'sparkSeed', 'sparkMutation', 'sparkRegrowth', 'sparkInterval', 'sparkTempo',
+      'traceToggle', 'renderToggle',
+      'archive', 'archiveClose', 'archiveTitle', 'archiveDek', 'metaSeed', 'metaHorizon',
+      'metaEvents', 'metaChecksum', 'archiveState', 'repeatBtn', 'newBtn', 'copySeed',
+      'censusChart', 'driftChart', 'archiveWorld', 'snapshotTag', 'verdictLine', 'verdictBody',
+      'eventLog', 'rescueNote', 'censusSummary', 'driftSummary', 'archiveFootSeed',
+      'driftWrap', 'archiveBtn', 'liveRegion', 'masthead'
+    ];
+    for (const id of ids) els[id] = document.getElementById(id);
+    els.countPlants = document.querySelector('[data-count="plants"]');
+    els.countPrey = document.querySelector('[data-count="prey"]');
+    els.countPred = document.querySelector('[data-count="pred"]');
+    els.clock = document.querySelector('.clock');
+    els.masthead = document.querySelector('.masthead');
+    els.chamberFoot = document.querySelector('.chamber-foot');
+    els.dists = Array.from(document.querySelectorAll('.dist'));
+  }
+
+  /* ---------------------------------------------------------------- helpers */
+
+  function announce(text) {
+    if (!els.liveRegion) return;
+    els.liveRegion.textContent = '';
+    window.setTimeout(() => {
+      els.liveRegion.textContent = text;
+    }, 30);
+  }
+
+  function numberWord(n) {
+    const small = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+      'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const tens = { 20: 'Twenty', 30: 'Thirty', 40: 'Forty', 50: 'Fifty', 60: 'Sixty', 70: 'Seventy', 80: 'Eighty', 90: 'Ninety' };
+    if (n < 20) return small[n];
+    if (n < 100) {
+      const t = Math.floor(n / 10) * 10;
+      const r = n % 10;
+      return tens[t] + (r ? '-' + small[r].toLowerCase() : '');
+    }
+    return String(n);
+  }
+
+  function lossShort(ev) {
+    if (ev.type === 'drought') return `−${Math.round(ev.losses.plants * 100)}% cover`;
+    if (ev.type === 'plague') return `−${Math.round(ev.losses.prey * 100)}% grazers`;
+    const parts = [];
+    if (ev.losses.prey > 0.004) parts.push(`−${Math.round(ev.losses.prey * 100)}% grazers`);
+    if (ev.losses.pred > 0.004) parts.push(`−${Math.round(ev.losses.pred * 100)}% hunters`);
+    return parts.length ? parts.join(' · ') : 'no measurable loss';
+  }
+
+  function lossLong(ev) {
+    if (ev.type === 'drought') return `Ground cover down ${Math.round(ev.losses.plants * 100)} percent.`;
+    if (ev.type === 'plague') return `Grazers down ${Math.round(ev.losses.prey * 100)} percent.`;
+    const parts = [];
+    if (ev.losses.prey > 0.004) parts.push(`grazers down ${Math.round(ev.losses.prey * 100)} percent`);
+    if (ev.losses.pred > 0.004) parts.push(`hunters down ${Math.round(ev.losses.pred * 100)} percent`);
+    return parts.length ? parts.join(', ') + '.' : 'No measurable loss.';
+  }
+
+  function sparkLine(svg, values, options = {}) {
+    if (!svg) return;
+    const W = 100;
+    const H = 30;
+    const baseY = 27;
+    const parts = [`<path class="base" d="M2 ${baseY}H98"/>`];
+
+    if (options.mode === 'progress') {
+      const p = clamp01(options.progress || 0);
+      const x = 3 + p * 94;
+      parts.push(`<path class="base" d="M3 16H97"/>`);
+      if (p > 0.005) parts.push(`<path class="line" d="M3 16H${x.toFixed(2)}"/>`);
+      parts.push(`<circle class="dot" cx="${x.toFixed(2)}" cy="16" r="1.35"/>`);
+      svg.innerHTML = parts.join('');
+      return;
+    }
+
+    if (options.mode === 'cadence') {
+      const interval = Math.max(1, options.interval || 1);
+      const target = Math.max(1, options.target || 1);
+      const gen = options.gen || 0;
+      for (let g = interval; g <= target; g += interval) {
+        const x = 3 + (g / target) * 94;
+        parts.push(`<path class="tick${g <= gen ? ' on' : ''}" d="M${x.toFixed(2)} 7V23"/>`);
+      }
+      if (gen > 0) {
+        const nowX = 3 + clamp01(gen / target) * 94;
+        parts.push(`<circle class="dot" cx="${nowX.toFixed(2)}" cy="6" r="1.15"/>`);
+      }
+      svg.innerHTML = parts.join('');
+      return;
+    }
+
+    const data = (values || []).filter(v => Number.isFinite(v));
+    if (!data.length) {
+      parts.push(`<path class="line" d="M3 15H97" opacity=".3"/>`);
+      svg.innerHTML = parts.join('');
+      return;
+    }
+    let min = Math.min(...data);
+    let max = Math.max(...data);
+    if (max - min < 1e-9) {
+      min -= 0.5;
+      max += 0.5;
+    }
+    const n = data.length;
+    const pts = data.map((v, i) => {
+      const x = n === 1 ? 97 : 3 + (i / (n - 1)) * 94;
+      const y = 24 - ((v - min) / (max - min)) * 18;
+      return [x, y];
+    });
+    if (options.area && n > 1) {
+      const area = `M${pts[0][0].toFixed(2)} ${baseY} ` +
+        pts.map(p => `L${p[0].toFixed(2)} ${p[1].toFixed(2)}`).join(' ') +
+        ` L${pts[n - 1][0].toFixed(2)} ${baseY} Z`;
+      parts.push(`<path class="area" d="${area}"/>`);
+    }
+    const line = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0].toFixed(2)} ${p[1].toFixed(2)}`).join(' ');
+    parts.push(`<path class="line" d="${line}"/>`);
+    const last = pts[pts.length - 1];
+    parts.push(`<circle class="dot" cx="${last[0].toFixed(2)}" cy="${last[1].toFixed(2)}" r="1.5"/>`);
+    svg.innerHTML = parts.join('');
+  }
+
+  /* ---------------------------------------------------------------- dial */
+
+  function polar(cx, cy, radius, degrees) {
+    const rad = (degrees * Math.PI) / 180;
+    return [cx + radius * Math.sin(rad), cy - radius * Math.cos(rad)];
+  }
+
+  function arcPath(radius, startDeg, endDeg) {
+    if (endDeg - startDeg <= 0.01) return '';
+    const [sx, sy] = polar(60, 60, radius, startDeg);
+    const [ex, ey] = polar(60, 60, radius, endDeg);
+    const large = endDeg - startDeg > 180 ? 1 : 0;
+    return `M${sx.toFixed(2)} ${sy.toFixed(2)} A${radius} ${radius} 0 ${large} 1 ${ex.toFixed(2)} ${ey.toFixed(2)}`;
+  }
+
+  function buildDial() {
+    const ns = 'http://www.w3.org/2000/svg';
+    els.dialTicks.innerHTML = '';
+    for (let v = 1; v <= 32; v++) {
+      const angle = -135 + ((v - 1) / 31) * 270;
+      const major = v === 1 || v === 32 || v % 8 === 0;
+      const inner = major ? 40 : 42.5;
+      const outer = 46;
+      const [x1, y1] = polar(60, 60, inner, angle);
+      const [x2, y2] = polar(60, 60, outer, angle);
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', x1.toFixed(2));
+      line.setAttribute('y1', y1.toFixed(2));
+      line.setAttribute('x2', x2.toFixed(2));
+      line.setAttribute('y2', y2.toFixed(2));
+      line.setAttribute('class', major ? 'tick major' : 'tick');
+      els.dialTicks.appendChild(line);
+    }
+    els.dialArcBg.setAttribute('d', arcPath(38.5, -135, 135));
+    updateDial(Number(els.tempo.value));
+  }
+
+  function updateDial(value) {
+    const v = clamp(Number(value), 1, 32);
+    const t = (v - 1) / 31;
+    const angle = -135 + t * 270;
+    els.dialValue.textContent = String(v);
+    els.dialArc.setAttribute('d', arcPath(38.5, -135, angle));
+    const [nx, ny] = polar(60, 60, 30, angle);
+    els.dialNeedle.setAttribute('x2', nx.toFixed(2));
+    els.dialNeedle.setAttribute('y2', ny.toFixed(2));
+    const readout = `×${v} · ${v * BASE_TICKS_PER_SECOND} ticks/sec requested`;
+    els.clockTempo.textContent = `×${v}`;
+    els.tempo.setAttribute('aria-valuetext', `${v} times, ${v * BASE_TICKS_PER_SECOND} ticks per second`);
+    els.dial.title = readout;
+  }
+
+  function dialFromPointer(event) {
+    const rect = els.dial.getBoundingClientRect();
+    const dx = event.clientX - (rect.left + rect.width / 2);
+    const dy = event.clientY - (rect.top + rect.height / 2);
+    let angle = Math.atan2(dx, -dy) * (180 / Math.PI);
+    if (angle < -135) angle = -135;
+    if (angle > 135) angle = 135;
+    let value = Math.round(1 + ((angle + 135) / 270) * 31);
+    value = clamp(value, 1, 32);
+    if (Number(els.tempo.value) !== value) {
+      els.tempo.value = String(value);
+      els.tempo.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  }
+
+  /* ---------------------------------------------------------------- startup */
+
+  function init() {
+    cacheElements();
+    els.archiveWorld.setAttribute('role', 'img');
+    app.renderer = new WorldRenderer(els.world);
+    app.miniRenderer = new WorldRenderer(els.archiveWorld, { snapshot: true });
+    app.miniRenderer.trace = false;
+
+    buildDial();
+    bindControls();
+    updateOutputs();
+    startWithSeed(DEFAULT_SEED, { running: true, announce: false });
+    setRunningUI();
+    updateSparklines();
+    if (window.matchMedia('(max-width: 760px)').matches) {
+      els.console.classList.add('is-collapsed');
+      els.consoleToggle.setAttribute('aria-expanded', 'false');
+    }
+    requestAnimationFrame(loop);
+
+    if ('ResizeObserver' in window) {
+      const observer = new ResizeObserver(() => {
+        if (!app.sim) return;
+        app.renderer.resize();
+        if (!app.archiveOpen && app.renderOn) {
+          app.renderer.draw(app.sim, { hover: app.hover, trace: app.traceOn });
+        }
+      });
+      observer.observe(els.glass);
+    }
+
+    window.addEventListener('resize', debounce(() => {
+      if (!app.sim) return;
+      if (app.archiveOpen) {
+        drawArchiveCharts();
+        drawSnapshot();
+      } else {
+        app.renderer.resize();
+        if (app.renderOn) app.renderer.draw(app.sim, { hover: app.hover, trace: app.traceOn });
+        updateSpecCardPosition();
+      }
+    }, 120));
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        if (app.archiveOpen) {
+          drawArchiveCharts();
+          drawSnapshot();
+        }
+      });
+    }
+
+    window.__vitrine = {
+      app,
+      Simulation,
+      finish() {
+        const sim = app.sim;
+        let guard = 0;
+        while (!sim.finished && guard++ < 40000) sim.step();
+      }
+    };
+  }
+
+  function debounce(fn, delay) {
+    let timer = null;
+    return function () {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(fn, delay);
+    };
+  }
+
+  function startWithSeed(seed, options = {}) {
+    if (app.finishTimer) {
+      window.clearTimeout(app.finishTimer);
+      app.finishTimer = null;
+    }
+    window.clearTimeout(app.eventTimer);
+    window.clearTimeout(app.touchTimer);
+    closeArchive({ instant: true, focus: false });
+    els.archiveBtn.hidden = true;
+    els.pauseBtn.disabled = false;
+    els.consoleBody.inert = false;
+    els.chamberFoot.inert = false;
+    els.apparatus.classList.remove('is-complete');
+
+    const sim = new Simulation({
+      seed,
+      mutation: Number(els.mutation.value) / 100,
+      regrowth: Number(els.regrowth.value),
+      eventInterval: Number(els.interval.value),
+      targetGenerations: app.target,
+      enabled: Object.assign({}, app.enabled)
+    });
+    app.sim = sim;
+    app.seenEvents = 0;
+    app.seenRescues = 0;
+    app.acc = 0;
+    app.lastFrame = performance.now();
+    app.rateTicks = 0;
+    app.rateStart = performance.now();
+    app.measuredRate = BASE_TICKS_PER_SECOND * app.tempo;
+    app.tempoHistory = [];
+    app.coverHistory = [];
+    app.hover = null;
+    app.pointerActive = false;
+    app.cardDirty = false;
+    app.finishedNotified = false;
+    app.running = options.running === undefined ? true : options.running;
+    app.renderer.pointer.active = false;
+    els.glass.classList.remove('inspecting');
+    els.specCard.hidden = true;
+    els.glassNote.hidden = true;
+    els.eventBanner.classList.remove('is-visible');
+    els.glass.classList.remove('is-live');
+    els.headlessPanel.hidden = app.renderOn;
+    els.renderToggle.setAttribute('aria-checked', String(app.renderOn));
+
+    app.renderer.setSim(sim);
+    setSeedUI(seed);
+    updateOutputs();
+    refreshTimeline();
+    setRunningUI();
+    updateHud(true);
+    updateSparklines();
+    app.renderer.draw(sim, { hover: null, trace: app.traceOn });
+
+    if (options.announce) {
+      announce(`New observation. Seed ${seedHex(seed)}, horizon ${app.target} generations.`);
+    }
+  }
+
+  function setSeedUI(seed) {
+    els.seedValue.textContent = seedGroups(seed);
+    els.seedDisplay.title = `0x${seedHex(seed)}`;
+    if (app.lastSparkSeed !== seed) {
+      app.lastSparkSeed = seed;
+      const rng = mulberry32((seed ^ 0x9e3779b9) >>> 0);
+      const values = [];
+      for (let i = 0; i < 26; i++) values.push(rng());
+      sparkLine(els.sparkSeed, values, { area: false });
+    }
+  }
+
+  function changeSeed(seed, options = {}) {
+    startWithSeed(seed >>> 0, {
+      running: options.running === undefined ? app.running : options.running,
+      announce: true
+    });
+  }
+
+  /* ---------------------------------------------------------------- bindings */
+
+  function bindControls() {
+    els.mutation.addEventListener('input', () => {
+      const value = Number(els.mutation.value);
+      if (app.sim) app.sim.mutation = value / 100;
+      els.mutationOut.innerHTML = `${value.toFixed(1)}<span class="unit">%/birth</span>`;
+      els.mutation.setAttribute('aria-valuetext', `${value.toFixed(1)} percent per birth`);
+      updateSparklines();
+    });
+
+    els.regrowth.addEventListener('input', () => {
+      const value = Number(els.regrowth.value);
+      if (app.sim) app.sim.regrowth = value;
+      els.regrowthOut.innerHTML = `${value.toFixed(1)}<span class="unit">/gen</span>`;
+      els.regrowth.setAttribute('aria-valuetext', `${value.toFixed(1)} units per generation`);
+      updateSparklines();
+    });
+
+    els.interval.addEventListener('input', () => {
+      const value = Number(els.interval.value);
+      if (app.sim) app.sim.eventInterval = value;
+      els.intervalOut.innerHTML = `${value}<span class="unit">gen</span>`;
+      els.interval.setAttribute('aria-valuetext', `every ${value} generations`);
+      updateNextEvent();
+      updateSparklines();
+    });
+
+    els.tempo.addEventListener('input', () => {
+      app.tempo = clamp(Number(els.tempo.value), 1, 32);
+      updateDial(app.tempo);
+      app.acc = 0;
+      app.rateStart = performance.now();
+      app.rateTicks = 0;
+    });
+
+    const dialPointer = (event) => {
+      event.preventDefault();
+      els.tempo.focus({ preventScroll: true });
+      if (els.dial.setPointerCapture) {
+        try { els.dial.setPointerCapture(event.pointerId); } catch (e) { /* noop */ }
+      }
+      dialFromPointer(event);
+      els.dial.dataset.dragging = 'true';
+    };
+    els.dial.addEventListener('pointerdown', dialPointer);
+    els.dial.addEventListener('pointermove', (event) => {
+      if (els.dial.dataset.dragging === 'true') dialFromPointer(event);
+    });
+    const endDialDrag = () => { els.dial.dataset.dragging = 'false'; };
+    els.dial.addEventListener('pointerup', endDialDrag);
+    els.dial.addEventListener('pointercancel', endDialDrag);
+
+    els.seedDown.addEventListener('click', () => changeSeed((app.sim.seed - 1) >>> 0));
+    els.seedUp.addEventListener('click', () => changeSeed((app.sim.seed + 1) >>> 0));
+    els.reseedBtn.addEventListener('click', () => {
+      let seed;
+      if (window.crypto && window.crypto.getRandomValues) {
+        const arr = new Uint32Array(1);
+        window.crypto.getRandomValues(arr);
+        seed = arr[0] >>> 0;
+      } else {
+        seed = Math.floor(Math.random() * 0xffffffff) >>> 0;
+      }
+      if (seed === app.sim.seed) seed = (seed + 1) >>> 0;
+      changeSeed(seed);
+    });
+
+    els.genDown.addEventListener('click', () => setHorizon(app.target - 5));
+    els.genUp.addEventListener('click', () => setHorizon(app.target + 5));
+
+    els.pauseBtn.addEventListener('click', togglePause);
+    els.traceToggle.addEventListener('click', toggleTrace);
+    els.renderToggle.addEventListener('click', toggleRender);
+
+    els.consoleToggle.addEventListener('click', () => {
+      const collapsed = els.console.classList.toggle('is-collapsed');
+      els.consoleToggle.setAttribute('aria-expanded', String(!collapsed));
+    });
+
+    els.dists.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const type = btn.dataset.event;
+        const next = btn.getAttribute('aria-checked') !== 'true';
+        btn.setAttribute('aria-checked', String(next));
+        app.enabled[type] = next;
+        if (app.sim) app.sim.enabled = Object.assign({}, app.enabled);
+        updateNextEvent();
+        updateSparklines();
+        announce(`${EVENT_META[type].name} ${next ? 'armed' : 'disarmed'}.`);
+      });
+    });
+
+    els.archiveBtn.addEventListener('click', openArchive);
+    els.archiveClose.addEventListener('click', () => closeArchive());
+    els.repeatBtn.addEventListener('click', () => {
+      const seed = app.sim.seed;
+      closeArchive({ instant: true, focus: false });
+      startWithSeed(seed, { running: true, announce: true });
+      els.pauseBtn.focus({ preventScroll: true });
+    });
+    els.newBtn.addEventListener('click', () => {
+      let seed;
+      if (window.crypto && window.crypto.getRandomValues) {
+        const arr = new Uint32Array(1);
+        window.crypto.getRandomValues(arr);
+        seed = arr[0] >>> 0;
+      } else {
+        seed = Math.floor(Math.random() * 0xffffffff) >>> 0;
+      }
+      if (seed === app.sim.seed) seed = (seed + 1) >>> 0;
+      closeArchive({ instant: true, focus: false });
+      startWithSeed(seed, { running: true, announce: true });
+      els.pauseBtn.focus({ preventScroll: true });
+    });
+    els.copySeed.addEventListener('click', copySeedValue);
+
+    els.archive.addEventListener('keydown', onArchiveKeydown);
+    document.addEventListener('keydown', onGlobalKeydown);
+
+    els.glass.addEventListener('pointermove', onGlassPointerMove);
+    els.glass.addEventListener('pointerdown', onGlassPointerDown);
+    els.glass.addEventListener('pointerup', onGlassPointerUp);
+    els.glass.addEventListener('pointerleave', onGlassPointerLeave);
+    els.glass.addEventListener('pointercancel', onGlassPointerLeave);
+    els.glass.addEventListener('focus', () => {
+      els.glass.setAttribute('aria-label', glassAriaLabel());
+    });
+  }
+
+  function updateOutputs() {
+    const mutation = Number(els.mutation.value);
+    const regrowth = Number(els.regrowth.value);
+    const interval = Number(els.interval.value);
+    els.mutationOut.innerHTML = `${mutation.toFixed(1)}<span class="unit">%/birth</span>`;
+    els.regrowthOut.innerHTML = `${regrowth.toFixed(1)}<span class="unit">/gen</span>`;
+    els.intervalOut.innerHTML = `${interval}<span class="unit">gen</span>`;
+    els.mutation.setAttribute('aria-valuetext', `${mutation.toFixed(1)} percent per birth`);
+    els.regrowth.setAttribute('aria-valuetext', `${regrowth.toFixed(1)} units per generation`);
+    els.interval.setAttribute('aria-valuetext', `every ${interval} generations`);
+    els.horizonValue.textContent = String(app.target);
+    els.horizonTrackValue.textContent = String(app.target);
+    els.dialValue.textContent = String(app.tempo);
+    updateDial(app.tempo);
+  }
+
+  function setHorizon(value) {
+    if (!app.sim) return;
+    const next = clamp(Math.round(value), 10, 200);
+    if (next === app.target) return;
+    app.target = next;
+    updateOutputs();
+    if (app.sim.gen >= next) {
+      app.sim.targetGenerations = Math.max(10, app.sim.gen);
+      app.target = app.sim.targetGenerations;
+      updateOutputs();
+      finishRun();
+    } else {
+      app.sim.targetGenerations = next;
+      refreshTimeline();
+      updateHud(true);
+    }
+    announce(`Horizon set to ${app.sim.targetGenerations} generations.`);
+  }
+
+  function togglePause() {
+    if (!app.sim || app.sim.finished) return;
+    app.running = !app.running;
+    app.acc = 0;
+    app.rateStart = performance.now();
+    app.rateTicks = 0;
+    setRunningUI();
+    announce(app.running ? 'Observation resumed.' : 'Observation paused.');
+  }
+
+  function toggleTrace() {
+    app.traceOn = !app.traceOn;
+    els.traceToggle.setAttribute('aria-checked', String(app.traceOn));
+    if (app.sim && !app.archiveOpen && app.renderOn) {
+      app.renderer.draw(app.sim, { hover: app.hover, trace: app.traceOn });
+    }
+  }
+
+  function toggleRender() {
+    app.renderOn = !app.renderOn;
+    els.renderToggle.setAttribute('aria-checked', String(app.renderOn));
+    els.headlessPanel.hidden = app.renderOn;
+    if (!app.renderOn) {
+      clearPointer();
+      els.headlessCount.textContent = `${app.sim.preyAlive} grazers · ${app.sim.predAlive} hunters`;
+      announce('Field rendering suspended. The instrument is recording only.');
+    } else {
+      app.renderer.resize();
+      if (app.sim && !app.archiveOpen) {
+        app.renderer.draw(app.sim, { hover: app.hover, trace: app.traceOn });
+      }
+      announce('Field rendering resumed.');
+    }
+  }
+
+  /* ---------------------------------------------------------------- simulation loop */
+
+  function loop(now) {
+    requestAnimationFrame(loop);
+    if (!app.sim) return;
+    if (!app.lastFrame) app.lastFrame = now;
+    const dt = Math.min(120, now - app.lastFrame);
+    app.lastFrame = now;
+
+    if (app.running && !app.sim.finished && !app.archiveOpen) {
+      app.acc += (dt / 1000) * BASE_TICKS_PER_SECOND * app.tempo;
+      let steps = 0;
+      const maxSteps = app.renderOn ? 640 : 5200;
+      while (app.acc >= 1 && steps < maxSteps && !app.sim.finished) {
+        app.sim.step();
+        app.acc -= 1;
+        steps++;
+      }
+      if (app.acc > 3) app.acc = 0;
+      app.rateTicks += steps;
+      if (steps) consumeSimulationNews();
+    }
+
+    if (app.sim.finished && !app.finishedNotified && !app.archiveOpen) finishRun();
+
+    if (app.renderOn && !app.archiveOpen) {
+      app.renderer.draw(app.sim, { hover: app.hover, trace: app.traceOn });
+      if (app.cardDirty && app.pointerActive) {
+        updateSpecCardPosition();
+        app.cardDirty = false;
+      }
+    }
+
+    if (now - app.lastHud > 180) {
+      updateHud();
+      updateSparklines();
+      app.lastHud = now;
+    }
+    updateMeasuredRate(now);
+  }
+
+  function updateMeasuredRate(now) {
+    if (!app.rateStart) app.rateStart = now;
+    const elapsed = now - app.rateStart;
+    if (elapsed < 620) return;
+    const active = app.running && !app.sim.finished && !app.archiveOpen;
+    const instantaneous = active ? (app.rateTicks * 1000) / elapsed : 0;
+    app.measuredRate = app.measuredRate * 0.34 + instantaneous * 0.66;
+    app.tempoHistory.push(app.measuredRate);
+    if (app.tempoHistory.length > 30) app.tempoHistory.shift();
+    app.rateTicks = 0;
+    app.rateStart = now;
+    const display = Math.round(app.measuredRate / 10) * 10;
+    els.actualTicks.textContent = fmtInt(display);
+    if (app.sim.finished) els.actualTicks.textContent = '0';
+  }
+
+  function consumeSimulationNews() {
+    const sim = app.sim;
+    if (sim.events.length !== app.seenEvents) {
+      const fresh = sim.events.slice(app.seenEvents);
+      app.seenEvents = sim.events.length;
+      refreshTimeline();
+      if (fresh.length) showEvent(fresh[fresh.length - 1], sim.events.length - fresh.length);
+      for (const ev of fresh) {
+        announce(`Disturbance at generation ${ev.gen}: ${EVENT_META[ev.type].name}. ${lossLong(ev)}`);
+      }
+    }
+    if (sim.rescues.length !== app.seenRescues) {
+      app.seenRescues = sim.rescues.length;
+      refreshTimeline();
+    }
+  }
+
+  /* ---------------------------------------------------------------- HUD */
+
+  function glassAriaLabel() {
+    if (!app.sim) return 'Live ecosystem chamber.';
+    const cover = Math.round(app.sim.livePlantCover() * 100);
+    return `Live ecosystem. ${cover} percent lichen cover, ${app.sim.preyAlive} grazers and ${app.sim.predAlive} hunters at generation ${app.sim.gen} of ${app.sim.targetGenerations}.`;
+  }
+
+  function updateHud(force = false) {
+    if (!app.sim) return;
+    const sim = app.sim;
+    const cover = sim.livePlantCover();
+    const coverPct = Math.round(cover * 100);
+    app.coverHistory.push(cover);
+    if (app.coverHistory.length > 40) app.coverHistory.shift();
+
+    els.countPlants.textContent = `${coverPct}%`;
+    els.countPrey.textContent = String(sim.preyAlive);
+    els.countPred.textContent = String(sim.predAlive);
+    els.legendPlant.classList.toggle('is-lost', coverPct <= 0);
+    els.legendPrey.classList.toggle('is-lost', sim.preyAlive === 0);
+    els.legendPred.classList.toggle('is-lost', sim.predAlive === 0);
+
+    els.clockGen.textContent = String(sim.gen).padStart(2, '0');
+    els.clockTarget.textContent = String(sim.targetGenerations);
+    els.clockTick.textContent = `TICK ${fmtInt(sim.tick)}`;
+    els.clockTempo.textContent = `×${app.tempo}`;
+    els.glass.setAttribute('aria-label', glassAriaLabel());
+    els.headlessCount.textContent = `${sim.preyAlive} grazers · ${sim.predAlive} hunters`;
+
+    const target = Math.max(1, sim.targetGenerations);
+    const progress = clamp01(sim.gen / target);
+    els.timelineFill.style.width = `${(progress * 100).toFixed(2)}%`;
+    els.timelineHead.style.left = `${(progress * 100).toFixed(2)}%`;
+    els.timelineEnd.textContent = `Generation ${sim.gen} of ${target}`;
+    els.horizonFill.style.width = `${(progress * 100).toFixed(2)}%`;
+    els.horizonValue.textContent = String(app.target);
+    els.horizonTrackValue.textContent = String(app.target);
+    els.horizonFill.style.width = `${(clamp01(sim.gen / Math.max(1, app.target)) * 100).toFixed(2)}%`;
+
+    updateNextEvent();
+    updateGlassNote();
+
+    if (app.hover && app.hover.alive && !els.specCard.hidden) {
+      els.specAge.textContent = String(app.hover.age);
+      els.specEnergy.textContent = app.hover.energy.toFixed(2);
+    } else if (app.hover && !app.hover.alive) {
+      clearPointer();
+    }
+  }
+
+  function updateNextEvent() {
+    if (!app.sim) return;
+    const sim = app.sim;
+    const armed = Object.values(app.enabled).some(Boolean);
+    if (sim.finished) {
+      els.nextEvent.textContent = 'CLOSED';
+      els.nextEventSub.textContent = 'PLATE SEALED';
+      els.nextMarker.style.display = 'none';
+      return;
+    }
+    if (!armed) {
+      els.nextEvent.textContent = 'NONE';
+      els.nextEventSub.textContent = 'DISARMED';
+      els.nextMarker.style.display = 'none';
+      return;
+    }
+    const next = sim.nextEventGen();
+    if (next === null) {
+      els.nextEvent.textContent = '—';
+      els.nextEventSub.textContent = 'NONE AHEAD';
+      els.nextMarker.style.display = 'none';
+      return;
+    }
+    els.nextEvent.textContent = `GEN ${String(next).padStart(2, '0')}`;
+    els.nextEventSub.textContent = `IN ${Math.max(0, next - sim.gen)} GEN`;
+    const target = Math.max(1, sim.targetGenerations);
+    els.nextMarker.style.display = 'block';
+    els.nextMarker.style.left = `${((next / target) * 100).toFixed(2)}%`;
+  }
+
+  function updateGlassNote() {
+    const sim = app.sim;
+    if (!sim) return;
+    let text = '';
+    if (sim.finished) text = 'The plate is sealed.';
+    else if (sim.preyAlive === 0 && sim.predAlive === 0) text = 'The chamber is quiet.';
+    else if (sim.preyAlive === 0) text = 'The grazer line is lost.';
+    else if (sim.predAlive === 0) text = 'The hunter line is lost.';
+    if (text) {
+      els.glassNote.textContent = text;
+      els.glassNote.hidden = false;
+    } else {
+      els.glassNote.hidden = true;
+    }
+  }
+
+  function updateSparklines() {
+    if (!app.sim) return;
+    const sim = app.sim;
+    const history = sim.history;
+    const recent = history.slice(-26);
+    const spread = recent.map((h) => {
+      let sum = 0;
+      let count = 0;
+      for (const sp of ['prey', 'pred']) {
+        for (const key of GENE_KEYS) {
+          sum += h.genes[sp][key].sd;
+          count++;
+        }
+      }
+      return sum / count;
+    });
+    sparkLine(els.sparkMutation, spread, { area: true });
+    sparkLine(els.sparkRegrowth, app.coverHistory.slice(-26), { area: true });
+    sparkLine(els.sparkInterval, [], {
+      mode: 'cadence',
+      interval: Math.max(1, sim.eventInterval),
+      target: Math.max(1, sim.targetGenerations),
+      gen: sim.gen
+    });
+    sparkLine(els.sparkTempo, app.tempoHistory.slice(-26), { area: false });
+    sparkLine(els.sparkHorizon, [], {
+      mode: 'progress',
+      progress: sim.gen / Math.max(1, sim.targetGenerations)
+    });
+  }
+
+  function setRunningUI() {
+    if (!app.sim) return;
+    const finished = app.sim.finished;
+    els.clock.classList.toggle('is-paused', !app.running && !finished);
+    els.clock.classList.toggle('is-complete', finished);
+    els.runState.textContent = finished ? 'Complete' : app.running ? 'Observing' : 'Paused';
+    els.pauseBtn.classList.toggle('is-paused', !app.running || finished);
+    els.pauseBtn.setAttribute('aria-pressed', String(!app.running));
+    els.pauseBtn.setAttribute('aria-label', app.running ? 'Pause observation' : 'Resume observation');
+    els.pauseBtn.disabled = finished;
+    els.archiveBtn.hidden = !finished;
+    els.apparatus.classList.toggle('is-complete', finished);
+    if (finished) {
+      els.consoleBody.inert = true;
+      els.chamberFoot.inert = true;
+      if (els.console.classList.contains('is-collapsed')) {
+        els.console.classList.remove('is-collapsed');
+        els.consoleToggle.setAttribute('aria-expanded', 'true');
+      }
+    } else {
+      els.consoleBody.inert = false;
+      els.chamberFoot.inert = false;
+    }
+    if (!finished) els.actualTicks.textContent = fmtInt(Math.round(app.measuredRate / 10) * 10);
+  }
+
+  /* ---------------------------------------------------------------- timeline */
+
+  function refreshTimeline() {
+    if (!app.sim) return;
+    const sim = app.sim;
+    const target = Math.max(1, sim.targetGenerations);
+    els.timelineTicks.innerHTML = '';
+    const step = target <= 50 ? 1 : target <= 100 ? 2 : target <= 160 ? 4 : 5;
+    for (let g = 0; g <= target; g += step) {
+      const tick = document.createElement('i');
+      tick.style.left = `${((g / target) * 100).toFixed(3)}%`;
+      if (g % (step * 5) === 0) tick.className = 'major';
+      els.timelineTicks.appendChild(tick);
+    }
+    els.timeline.setAttribute('aria-label', `Generation record, generation ${sim.gen} of ${target}. Disturbance markers are focusable.`);
+    els.timelineEnd.textContent = `Generation ${sim.gen} of ${target}`;
+    els.timelineScale.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const label = document.createElement('span');
+      label.textContent = String(Math.round((target * i) / 4));
+      els.timelineScale.appendChild(label);
+    }
+
+    els.eventMarkers.innerHTML = '';
+    els.eventMarkers.setAttribute('role', 'group');
+    els.eventMarkers.setAttribute('aria-label', 'Disturbance markers');
+    sim.events.forEach((ev, index) => {
+      const meta = EVENT_META[ev.type];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'event-marker';
+      btn.style.left = `${((ev.gen / target) * 100).toFixed(3)}%`;
+      btn.style.setProperty('--ev', meta.color);
+      btn.dataset.num = roman(index + 1);
+      btn.setAttribute('aria-label', `${meta.name} disturbance at generation ${ev.gen}. ${lossLong(ev)}`);
+      btn.innerHTML = `<span class="stem"></span><span class="marker-tip"><b>${meta.name} · gen ${ev.gen}</b>${lossShort(ev)}</span>`;
+      els.eventMarkers.appendChild(btn);
+    });
+
+    for (const old of els.timeline.querySelectorAll('.rescue-marker')) old.remove();
+    sim.rescues.forEach((rescue) => {
+      const dot = document.createElement('span');
+      dot.className = 'rescue-marker';
+      dot.style.left = `${((rescue.gen / target) * 100).toFixed(3)}%`;
+      dot.title = `Refugium flush at gen ${rescue.gen}: +${rescue.prey} grazers${rescue.pred ? `, +${rescue.pred} hunters` : ''}`;
+      dot.setAttribute('aria-hidden', 'true');
+      els.timeline.appendChild(dot);
+    });
+
+    const progress = clamp01(sim.gen / target);
+    els.timelineFill.style.width = `${(progress * 100).toFixed(2)}%`;
+    els.timelineHead.style.left = `${(progress * 100).toFixed(2)}%`;
+    updateNextEvent();
+  }
+
+  /* ---------------------------------------------------------------- events */
+
+  function showEvent(ev, index) {
+    const meta = EVENT_META[ev.type];
+    els.glass.style.setProperty('--ev', meta.color);
+    els.eventBanner.style.setProperty('--ev', meta.color);
+    els.eventGlyph.innerHTML = meta.glyph;
+    els.eventKicker.textContent = `Disturbance ${roman(index + 1)} · generation ${ev.gen}`;
+    els.eventTitle.textContent = meta.name;
+    const notes = {
+      drought: 'The crust withdraws into the crevices.',
+      plague: 'A spore bloom crosses the moth line.',
+      frost: 'A cold front crosses the glass.'
+    };
+    els.eventNote.innerHTML = `${notes[ev.type]} <span class="ev-loss">${lossShort(ev)}</span>`;
+    els.eventBanner.classList.remove('is-visible');
+    els.glass.classList.remove('is-live');
+    void els.eventBanner.offsetWidth;
+    els.eventBanner.classList.add('is-visible');
+    els.glass.classList.add('is-live');
+    els.eventBanner.setAttribute('aria-hidden', 'true');
+    if (app.eventTimer) window.clearTimeout(app.eventTimer);
+    app.eventTimer = window.setTimeout(() => {
+      els.eventBanner.classList.remove('is-visible');
+      els.glass.classList.remove('is-live');
+    }, 5200);
+  }
+
+  /* ---------------------------------------------------------------- loupe */
+
+  function onGlassPointerMove(event) {
+    if (!app.sim || !app.renderOn || app.archiveOpen) return;
+    const rect = els.glass.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    setPointer(x, y, event.pointerType === 'touch' ? 26 : 12);
+    if (event.pointerType === 'touch' && app.touchTimer) {
+      window.clearTimeout(app.touchTimer);
+      app.touchTimer = null;
+    }
+  }
+
+  function onGlassPointerDown(event) {
+    if (!app.sim || !app.renderOn || app.archiveOpen) return;
+    const rect = els.glass.getBoundingClientRect();
+    setPointer(event.clientX - rect.left, event.clientY - rect.top, event.pointerType === 'touch' ? 27 : 12);
+  }
+
+  function onGlassPointerUp(event) {
+    if (event.pointerType !== 'touch') return;
+    if (app.touchTimer) window.clearTimeout(app.touchTimer);
+    app.touchTimer = window.setTimeout(() => {
+      clearPointer();
+    }, 3200);
+  }
+
+  function onGlassPointerLeave(event) {
+    if (event.pointerType === 'touch') return;
+    clearPointer();
+  }
+
+  function setPointer(x, y, threshold) {
+    app.pointerActive = true;
+    app.renderer.pointer.x = x;
+    app.renderer.pointer.y = y;
+    app.renderer.pointer.active = true;
+    els.glass.classList.add('inspecting');
+    const agent = nearestAgent(x, y, threshold);
+    if (agent !== app.hover) {
+      app.hover = agent;
+      if (agent) renderSpecCard(agent);
+      else els.specCard.hidden = true;
+    } else if (!agent) {
+      els.specCard.hidden = true;
+    }
+    app.cardDirty = true;
+  }
+
+  function clearPointer() {
+    app.pointerActive = false;
+    app.hover = null;
+    if (app.renderer) app.renderer.pointer.active = false;
+    els.specCard.hidden = true;
+    els.glass.classList.remove('inspecting');
+    app.cardDirty = false;
+  }
+
+  function nearestAgent(px, py, threshold) {
+    if (!app.sim) return null;
+    const s = app.renderer.scale;
+    const ox = app.renderer.offX;
+    const oy = app.renderer.offY;
+    let best = null;
+    let bestD = threshold * threshold;
+    for (const list of [app.sim.prey, app.sim.pred]) {
+      for (const a of list) {
+        if (!a.alive) continue;
+        const dx = ox + a.x * s - px;
+        const dy = oy + a.y * s - py;
+        const d = dx * dx + dy * dy;
+        if (d < bestD) {
+          bestD = d;
+          best = a;
+        }
+      }
+    }
+    return best;
+  }
+
+  function renderSpecCard(agent) {
+    const meta = SPECIES[agent.species];
+    els.specCard.style.setProperty('--sp', meta.color);
+    els.specName.textContent = meta.name;
+    els.specRole.textContent = meta.tag;
+    els.specAge.textContent = String(agent.age);
+    els.specEnergy.textContent = agent.energy.toFixed(2);
+    els.specGenes.innerHTML = GENES.map((gene) => {
+      const value = agent.genes[gene.key];
+      return `<div class="spec-gene"><dt>${gene.code}</dt><dd>${value.toFixed(2)}</dd><span class="spec-bar"><i style="width:${(value * 100).toFixed(1)}%"></i></span></div>`;
+    }).join('');
+    els.specCard.hidden = false;
+  }
+
+  function updateSpecCardPosition() {
+    if (!app.hover || !app.pointerActive) return;
+    const lens = app.renderer.lastLens || {
+      x: app.renderer.pointer.x,
+      y: app.renderer.pointer.y,
+      r: 54
+    };
+    const w = els.glass.clientWidth;
+    const h = els.glass.clientHeight;
+    const cardW = els.specCard.offsetWidth || 214;
+    const cardH = els.specCard.offsetHeight || 104;
+    let left;
+    let top;
+    if (w < 560) {
+      left = 8;
+      top = 8;
+    } else {
+      const gap = 12;
+      left = lens.x + lens.r + gap;
+      if (left + cardW > w - 8) left = lens.x - lens.r - gap - cardW;
+      if (left < 8) left = 8;
+      top = clamp(lens.y - cardH / 2, 8, h - cardH - 8);
+    }
+    els.specCard.style.left = `${Math.round(left)}px`;
+    els.specCard.style.top = `${Math.round(top)}px`;
+  }
+
+  /* ---------------------------------------------------------------- completion + archive */
+
+  function finishRun() {
+    if (!app.sim || app.finishedNotified) return;
+    app.finishedNotified = true;
+    app.running = false;
+    app.sim.finished = true;
+    if (app.sim.history.length) {
+      app.sim.targetGenerations = app.sim.history[app.sim.history.length - 1].gen;
+      app.target = app.sim.targetGenerations;
+    }
+    updateGlassNote();
+    setRunningUI();
+    refreshTimeline();
+    updateHud(true);
+    updateSparklines();
+    announce(`Observation complete at generation ${app.sim.gen}. The archive is being prepared.`);
+    const delay = reducedMotion() ? 180 : 1000;
+    app.finishTimer = window.setTimeout(openArchive, delay);
+  }
+
+  function buildArchive() {
+    const sim = app.sim;
+    const history = sim.history;
+    if (!history.length) return;
+    const last = history[history.length - 1];
+    const first = history[0];
+    const lastGen = last.gen;
+    const genLabel = numberWord(lastGen);
+    els.archiveTitle.innerHTML = `${genLabel} generations, <em>sealed.</em>`;
+    els.metaSeed.textContent = seedGroups(sim.seed);
+    els.metaHorizon.textContent = `${lastGen} GEN`;
+    els.metaEvents.textContent = String(sim.events.length).padStart(2, '0');
+    const checksum = sim.checksum().toString(16).toUpperCase().padStart(8, '0');
+    els.metaChecksum.textContent = `${checksum.slice(0, 4)} ${checksum.slice(4)}`;
+    els.archiveState.textContent = `Archived at generation ${lastGen}`;
+    els.archiveFootSeed.textContent = `Seed ${seedGroups(sim.seed)} · deterministic replay`;
+    els.snapshotTag.textContent = `Final state · gen ${lastGen}`;
+
+    const drift = driftSentence(sim);
+    const minPrey = Math.min(...history.map(h => h.prey));
+    const maxPrey = Math.max(...history.map(h => h.prey));
+    const minPred = Math.min(...history.map(h => h.pred));
+    const maxPred = Math.max(...history.map(h => h.pred));
+    const ends = `The chamber closes with ${last.prey} grazers, ${last.pred} hunters and ${Math.round(last.plants * 100)}% lichen cover.`;
+    const disturbances = sim.events.length
+      ? `${numberWord(sim.events.length)} disturbance${sim.events.length === 1 ? '' : 's'} crossed the plate; the grazer line bottomed at ${minPrey}${sim.rescues.length ? `, and the refugia returned stock ${sim.rescues.length} time${sim.rescues.length === 1 ? '' : 's'}` : ''}.`
+      : 'No disturbance crossed the plate.';
+    els.archiveDek.innerHTML = `${ends}<br>${drift} ${disturbances}`;
+
+    let verdictLine;
+    let verdictBody;
+    if (last.prey > 0 && last.pred > 0) {
+      verdictLine = 'Both lines persist.';
+      verdictBody = `The grazer line moved between ${minPrey} and ${maxPrey}; the hunter line between ${minPred} and ${maxPred}. ${sim.rescues.length ? `The crevices returned stock ${sim.rescues.length} time${sim.rescues.length === 1 ? '' : 's'} to keep the succession going.` : 'No refugium flush was required.'}`;
+    } else if (last.prey === 0 && last.pred === 0) {
+      verdictLine = 'The chamber is quiet.';
+      verdictBody = 'Neither animal line reaches the archive. The lichen sole remains.';
+    } else if (last.prey === 0) {
+      verdictLine = 'The grazer line is lost.';
+      verdictBody = `The final census records ${last.pred} hunters under ${Math.round(last.plants * 100)}% lichen cover. The grazers do not reach the archive.`;
+    } else {
+      verdictLine = 'The hunter line is lost.';
+      verdictBody = `The final census records ${last.prey} grazers under ${Math.round(last.plants * 100)}% lichen cover. The hunters do not reach the archive.`;
+    }
+    els.verdictLine.textContent = verdictLine;
+    els.verdictBody.textContent = verdictBody;
+
+    els.eventLog.innerHTML = '';
+    if (!sim.events.length) {
+      const li = document.createElement('li');
+      li.className = 'log-empty';
+      li.textContent = 'No disturbance crossed this plate.';
+      els.eventLog.appendChild(li);
+    } else {
+      sim.events.forEach((ev, index) => {
+        const meta = EVENT_META[ev.type];
+        const li = document.createElement('li');
+        li.style.setProperty('--ev', meta.color);
+        li.innerHTML = `<span class="log-glyph">${meta.glyph}</span><span class="log-main"><b>${roman(index + 1)} · ${meta.name}</b>${lossShort(ev)}</span><span class="log-gen">GEN ${String(ev.gen).padStart(2, '0')}</span>`;
+        els.eventLog.appendChild(li);
+      });
+    }
+
+    if (sim.rescues.length) {
+      const totalPrey = sim.rescues.reduce((sum, r) => sum + r.prey, 0);
+      const totalPred = sim.rescues.reduce((sum, r) => sum + r.pred, 0);
+      const gens = sim.rescues.slice(0, 8).map(r => r.gen).join(', ');
+      els.rescueNote.innerHTML = `<b>Refugium flush.</b> The crevices returned ${totalPrey} grazers${totalPred ? ` and ${totalPred} hunters` : ''} across generations ${gens}${sim.rescues.length > 8 ? ', and later' : ''}.`;
+    } else {
+      els.rescueNote.innerHTML = '<b>No refugium flush.</b> The crevices were not needed.';
+    }
+
+    const preyPeak = history.reduce((best, h) => (h.prey > best.prey ? h : best), first);
+    const predPeak = history.reduce((best, h) => (h.pred > best.pred ? h : best), first);
+    els.censusSummary.textContent = `Population census. Grazers peak at ${maxPrey} around generation ${preyPeak.gen}; hunters peak at ${maxPred} around generation ${predPeak.gen}; lichen cover moves between ${Math.round(Math.min(...history.map(h => h.plants)) * 100)} and ${Math.round(Math.max(...history.map(h => h.plants)) * 100)} percent. Disturbances occur at generations ${sim.events.map(e => e.gen).join(', ') || 'none'}.`;
+
+    const driftParts = [];
+    for (const sp of ['prey', 'pred']) {
+      const aliveSamples = history.filter(h => (sp === 'prey' ? h.prey : h.pred) > 0);
+      if (!aliveSamples.length) { driftParts.push(`${sp === 'prey' ? 'grazers' : 'hunters'} absent`); continue; }
+      const start = aliveSamples[0];
+      const end = aliveSamples[aliveSamples.length - 1];
+      for (const gene of GENES) {
+        const a = start.genes[sp][gene.key];
+        const b = end.genes[sp][gene.key];
+        driftParts.push(`${sp === 'prey' ? 'grazer' : 'hunter'} ${gene.label.toLowerCase()} mean ${a.mean.toFixed(2)} to ${b.mean.toFixed(2)}, spread ${a.sd.toFixed(2)} to ${b.sd.toFixed(2)}`);
+      }
+    }
+    els.driftSummary.textContent = `Trait drift. ${driftParts.join('; ')}.`;
+    els.copySeed.textContent = 'Copy seed';
+  }
+
+  function driftSentence(sim) {
+    const history = sim.history;
+    if (history.length < 2) return 'The record is too short to resolve a drift.';
+    const parts = [];
+    for (const sp of ['prey', 'pred']) {
+      const alive = history.filter(h => (sp === 'prey' ? h.prey : h.pred) > 0);
+      if (alive.length < 2) continue;
+      const first = alive[0];
+      const last = alive[alive.length - 1];
+      let best = null;
+      for (const gene of GENES) {
+        const delta = last.genes[sp][gene.key].mean - first.genes[sp][gene.key].mean;
+        if (!best || Math.abs(delta) > Math.abs(best.delta)) best = { gene, delta };
+      }
+      if (!best || Math.abs(best.delta) < 0.015) continue;
+      const name = sp === 'prey' ? 'grazer' : 'hunter';
+      const direction = best.delta > 0 ? 'rose' : 'fell';
+      parts.push(`${name} ${best.gene.label.toLowerCase()} ${direction} from ${first.genes[sp][best.gene.key].mean.toFixed(2)} to ${last.genes[sp][best.gene.key].mean.toFixed(2)}`);
+    }
+    if (!parts.length) return 'Trait means moved less than a hundredth across the archive.';
+    const sentence = `${parts.join('; ')}.`;
+    return sentence.charAt(0).toUpperCase() + sentence.slice(1);
+  }
+
+  function drawArchiveCharts() {
+    if (!app.sim || !app.archiveOpen) return;
+    drawCensusChart(els.censusChart, app.sim);
+    drawDriftChart(els.driftChart, app.sim);
+  }
+
+  function drawSnapshot() {
+    if (!app.sim || !app.archiveOpen) return;
+    app.miniRenderer.trace = false;
+    app.miniRenderer.setSim(app.sim);
+    app.miniRenderer.draw(app.sim, { trace: false, hover: null });
+  }
+
+  function openArchive() {
+    if (app.archiveOpen || !app.sim) return;
+    if (app.finishTimer) {
+      window.clearTimeout(app.finishTimer);
+      app.finishTimer = null;
+    }
+    clearPointer();
+    app.archiveOpen = true;
+    app.archiveFocusReturn = document.activeElement;
+    buildArchive();
+    window.clearTimeout(app.archiveHideTimer);
+    els.archive.hidden = false;
+    els.archive.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    els.masthead.inert = true;
+    els.apparatus.inert = true;
+    els.archiveClose.focus({ preventScroll: true });
+    requestAnimationFrame(() => {
+      els.archive.classList.add('is-open');
+      requestAnimationFrame(() => {
+        drawArchiveCharts();
+        drawSnapshot();
+      });
+    });
+    announce('Observation complete. The archive is open.');
+  }
+
+  function closeArchive(options = {}) {
+    if (!app.archiveOpen) {
+      if (els.archive && !els.archive.hidden && options.instant) {
+        els.archive.hidden = true;
+        els.archive.classList.remove('is-open');
+        document.body.style.overflow = '';
+        els.masthead.inert = false;
+        els.apparatus.inert = false;
+      }
+      return;
+    }
+    app.archiveOpen = false;
+    window.clearTimeout(app.archiveHideTimer);
+    els.archive.classList.remove('is-open');
+    document.body.style.overflow = '';
+    els.masthead.inert = false;
+    els.apparatus.inert = false;
+    const finishFocus = () => {
+      const target = els.archiveBtn.hidden ? els.pauseBtn : els.archiveBtn;
+      if (!target.disabled) target.focus({ preventScroll: true });
+    };
+    if (options.focus !== false) window.setTimeout(finishFocus, options.instant ? 0 : 120);
+    if (options.instant || reducedMotion()) {
+      els.archive.hidden = true;
+    } else {
+      app.archiveHideTimer = window.setTimeout(() => {
+        els.archive.hidden = true;
+      }, 430);
+    }
+    if (app.sim && app.renderOn) {
+      requestAnimationFrame(() => {
+        app.renderer.resize();
+        app.renderer.draw(app.sim, { hover: null, trace: app.traceOn });
+      });
+    }
+  }
+
+  function onArchiveKeydown(event) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeArchive();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const focusable = Array.from(els.archive.querySelectorAll(
+      'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetParent !== null || el === document.activeElement);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey) {
+      if (document.activeElement === first || !els.archive.contains(document.activeElement)) {
+        event.preventDefault();
+        last.focus();
+      }
+    } else if (document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  async function copySeedValue() {
+    const text = `0x${seedHex(app.sim.seed)}`;
+    let ok = false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      }
+    } catch (error) {
+      ok = false;
+    }
+    if (!ok) {
+      try {
+        const field = document.createElement('textarea');
+        field.value = text;
+        field.setAttribute('readonly', '');
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.appendChild(field);
+        field.select();
+        document.execCommand('copy');
+        document.body.removeChild(field);
+        ok = true;
+      } catch (error) {
+        ok = false;
+      }
+    }
+    els.copySeed.textContent = ok ? 'Copied' : text;
+    window.setTimeout(() => {
+      els.copySeed.textContent = 'Copy seed';
+    }, 1600);
+  }
+
+  /* ---------------------------------------------------------------- keyboard */
+
+  function onGlobalKeydown(event) {
+    if (app.archiveOpen) return;
+    const target = event.target;
+    const formish = target && (
+      target.tagName === 'INPUT' ||
+      target.tagName === 'BUTTON' ||
+      target.tagName === 'TEXTAREA' ||
+      target.tagName === 'SELECT' ||
+      target.isContentEditable
+    );
+    if (formish) return;
+    if (event.code === 'Space') {
+      event.preventDefault();
+      togglePause();
+    } else if (event.key === 'r' || event.key === 'R') {
+      event.preventDefault();
+      let seed;
+      if (window.crypto && window.crypto.getRandomValues) {
+        const arr = new Uint32Array(1);
+        window.crypto.getRandomValues(arr);
+        seed = arr[0] >>> 0;
+      } else {
+        seed = Math.floor(Math.random() * 0xffffffff) >>> 0;
+      }
+      if (seed === app.sim.seed) seed = (seed + 1) >>> 0;
+      changeSeed(seed);
+    } else if (event.key === 'h' || event.key === 'H') {
+      event.preventDefault();
+      toggleRender();
+    }
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

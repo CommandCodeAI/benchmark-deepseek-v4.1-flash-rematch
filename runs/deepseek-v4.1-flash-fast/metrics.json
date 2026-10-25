@@ -1,0 +1,21 @@
+{
+  "totalSec": 5351.656,
+  "result": {
+    "subtype": "success",
+    "stopReason": "end_turn"
+  },
+  "requests": 138,
+  "toolErrors": 2,
+  "failedRequests": 0,
+  "errorEvents": {},
+  "errorSamples": {},
+  "throughputTokS": 159.4684980503894,
+  "ttftAvg": 3.5123188405797103,
+  "ttftP50": 3.2,
+  "ttftP95": 6.057,
+  "cacheHit": 0.9972996653869843,
+  "uncachedInput": 125091,
+  "cachedInput": 46199168,
+  "cacheWrite": 0,
+  "output": 436213
+}
