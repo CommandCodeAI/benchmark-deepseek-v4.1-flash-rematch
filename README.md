@@ -114,15 +114,11 @@ What these runs show, plainly:
   reasoning, the response was cut for length, and OpenCode ended the run with
   no file written. The 256K row raises the cap with OpenCode's own
   `OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`.
-- **Pi and OpenCode 2.1.4 hit a real Command Code Provider API bug.** Both read
-  their own screenshots back into context, so each request carried 15–24 MB of
-  base64 images. At that size the Provider API (a Cloudflare Worker) cut streams
-  mid-generation after about 33–38 seconds (HTTP 200, no `finish_reason`, no
-  usage) and then answered `503 Error 1102: Worker exceeded resource limits`.
-  The occasional cut-off on ~1 MB requests (DSH rc.2, OpenCode 256K) looks like
-  the same limit. The Command Code CLI uses a different endpoint and never hit
-  it. This is a Command Code-side issue and is being fixed; the response bodies
-  in `runs/*/proxy/` show exactly where each stream stopped.
+- **Pi and OpenCode 2.1.4 read their own screenshots back into context**, so
+  each request carried 15–24 MB of images, and some of those requests failed.
+  The harness should keep image payloads in check, but when it doesn't, the
+  Provider API will stream the images upstream instead of failing. That
+  improvement is in progress.
 
 ## The games they built
 
@@ -190,11 +186,11 @@ prompt. Average TTFT was 7.08s and 3.51s, against the 48.12s the post reports,
 and P95 TTFT was 13.65s and 6.06s, against 154.47s.
 
 The post's run differs from ours in three ways its logs make visible: image
-input on, 92 screenshots resent on every request, and 3 concurrent agents. Its
-59 server errors are Cloudflare 1102 responses from our API worker running out
-of memory on those ~20 MB image requests; its transport errors and cut-off
-streams fall in the same window. Without screenshots in context it had none of
-them. Details and every number: [`naz-session/`](./naz-session/).
+input on, 92 screenshots resent on every request, and 3 concurrent agents. A ~90-image,
+3-agent workload like that should be handled by the harness in the first place.
+Without screenshots in context his run had no failures. We're improving the API
+anyway so it streams heavy image payloads upstream instead of failing.
+Details and every number: [`naz-session/`](./naz-session/).
 
 ## Setup
 

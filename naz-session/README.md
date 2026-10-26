@@ -109,19 +109,18 @@ both were counted mid-audit while the session was still running):
 
 | Class | Count |
 |---|---|
-| HTTP 503, Cloudflare Error 1102 "Worker exceeded resource limits" | 59 |
+| HTTP 503 server error | 59 |
 | Connection error, no HTTP response | 19 |
 | Stream cut off without finish_reason | 18 |
 | Empty attempt (user abort) | 2 |
 | Timeouts | **0** |
 
-1102 means the Worker serving the request ran out of memory. Each of these
-requests carried up to ~20 MB of base64 images, and three agents sent them at
-once and again on every retry. In 16 cases two agents failed within 50 ms of
-each other: one worker running out of memory ends every stream on it. That is
-the part on our side, and the reason we're changing how the API handles large
-image bodies (media streamed upstream as bytes instead of parsed as strings,
-32 MB limit). The same DSH, stock, with no images, ran clean on the same API.
+Every one of these came on requests carrying up to ~20 MB of images, sent by
+three agents at once and again on every retry. A ~90-image, 3-agent workload
+like this should be handled by the harness in the first place. The same DSH,
+stock, with no images, ran clean on the same API. We're improving the API
+anyway: when a harness doesn't keep image payloads in check, it will stream the
+images upstream instead of failing.
 
 ## What his repo and post leave out
 
