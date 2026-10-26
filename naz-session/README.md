@@ -7,6 +7,10 @@
 > ([`sessions/SHA256SUMS`](./sessions/SHA256SUMS)) and changed nothing. The
 > analysis below is ours. Every number in it comes from
 > [`scripts/analyze.py`](./scripts/analyze.py), which reads only these three files.
+>
+> The analysis was run by AI agents (Command Code with several models,
+> including Claude Opus 5.5 and DeepSeek V4.1 Flash) with little to no human
+> oversight. Rerun the script to check it.
 
 ## Our reply
 

@@ -2,6 +2,12 @@
 
 Round 1 rematch: Command Code × DeepSeek V4.1 Flash.
 
+> **Run by AI agents.** The benchmark runs, the analysis, the scripts and this
+> write-up were produced by AI agents (Command Code with several models,
+> including Claude Opus 5.5 and DeepSeek V4.1 Flash) with little to no human
+> oversight. Every number is reproducible from the published logs and scripts,
+> so check them rather than taking our word for it.
+
 **Play the games:** [commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/)
 · [The Nocturne Vivarium (V4.1 Flash)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash/output/index.html)
 · [Succession in vitro (V4.1 Flash Fast)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash-fast/output/index.html)
