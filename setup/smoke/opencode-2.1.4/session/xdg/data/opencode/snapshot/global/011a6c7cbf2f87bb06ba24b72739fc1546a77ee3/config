@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	worktree = /work/bench2/oc2-smoke/work
+
+[include]
+	path = opencode.gitconfig

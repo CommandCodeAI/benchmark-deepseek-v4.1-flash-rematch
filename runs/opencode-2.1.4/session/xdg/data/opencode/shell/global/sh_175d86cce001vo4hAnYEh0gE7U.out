@@ -1,0 +1,20 @@
+2853:      <span>window.Vivarium.runHeadless()</span>
+2954:   Exposed headlessly as window.Vivarium.runHeadless(options).
+3094:        seed: seedFrom(options.seed == null ? 1065 : options.seed),
+3121:      this.activeWeather = null;
+3373:    _birthOdds(kind) {
+3375:      if (this.activeWeather) {
+3376:        fertility = this.activeWeather.type === 'drought' ? 0.04
+3377:          : this.activeWeather.type === 'plague' ? 0.12 : 0.36;
+3389:      if (!this.activeWeather) {
+3392:      if (this.activeWeather.type === 'drought') {
+3395:      if (this.activeWeather.type === 'frost') {
+3398:      if (this.activeWeather.type === 'plague') {
+3429:      const inPlague = this.activeWeather && this.activeWeather.type === 'plague';
+3498:        if (a.energy >= g.reproduction && a.age > 58 && a.cooldown <= 0 && this.prey.length < 900 && this.rng() < this._birthOdds('prey')) {
+3572:        if (a.energy >= g.reproduction && a.age > 92 && a.cooldown <= 0 && this.predators.length < 180 && this.rng() < this._birthOdds('predator')) {
+  });
+})();
+</script>
+</body>
+</html>

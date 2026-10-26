@@ -1,0 +1,17 @@
+{
+  "providers": {
+    "command-code": {
+      "name": "Command Code",
+      "baseUrl": "http://127.0.0.1:47013/provider/v1",
+      "api": "openai-completions",
+      "apiKey": "$CMD_API_KEY",
+      "authHeader": true,
+      "compat": { "thinkingFormat": "deepseek", "supportsReasoningEffort": true },
+      "models": [
+        { "id": "deepseek/deepseek-v4.1-flash", "name": "DeepSeek V4.1 Flash", "reasoning": true,
+          "thinkingLevelMap": { "max": "max" }, "input": ["text", "image"],
+          "contextWindow": 1000000, "maxTokens": 256000 }
+      ]
+    }
+  }
+}

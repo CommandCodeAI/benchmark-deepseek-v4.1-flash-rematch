@@ -1,0 +1,209 @@
+{
+  "version": 7,
+  "record": {
+    "identity": {
+      "formatVersion": 4,
+      "createdAt": 1792974359252,
+      "cwd": "/work/bench2/dsh-rc3/work",
+      "isSeeded": false,
+      "inheritedEventCount": 0
+    },
+    "rows": {
+      "title": {
+        "ver": 1,
+        "seq": 1041,
+        "val": "Evolving ecosystem simulation under glass"
+      },
+      "titleInput": {
+        "ver": 3,
+        "seq": 1041,
+        "val": {
+          "first": {
+            "seq": 8,
+            "text": "Build a single-file index.html (inline CSS and JS, no build step, no external libraries or network requests) containing an evolving ecosystem simulation of plants, prey, and predators on a 2D grid. It must auto-start on page load and run for N generations on its own. Each creature carries a gene vector (speed, vision, metabolism, reproduction threshold) or a tiny neural net that mutates on reproduction. Use a seeded PRNG for all randomness so the same seed always reproduces the same run, and keep the simulation logic separate from rendering so it can also run headless and faster than real time.  The design is the main deliverable. Treat the simulation as a living specimen under glass, and make the controls part of the composition rather than a form beside it. Pick one distinctive visual direction suited to the subject (for example a naturalist’s field journal, a bioluminescent deep-sea observatory, or a scientific plate), with a deliberate palette, a considered type pairing, and one memorable signature element. Give each species its own color and glyph language. Put every variable (seed, mutation rate, food regrowth, generations, speed, catastrophe intervals) in an integrated control surface, such as a collapsible side drawer, a docked instrument panel, or controls anchored to the world itself. Use custom-styled sliders, dials, steppers, and toggles with live value readouts, units, and sensible ranges. Add a small sparkline next to each knob showing its effect, and give each control tooltips, keyboard support, and visible focus states. Changes should apply live with smooth feedback.   Add a scheduled catastrophe system (drought, plague, and one of your choosing) that fires automatically at configurable intervals. Announce each event with a restrained, on-theme visual moment, such as a screen tint, a banner, or a timeline marker, and mark it on the charts. When the run ends, transition into a polished dashboard with population curves and trait-drift charts (mean and spread per gene per species), all drawn on canvas in the same visual language."
+          },
+          "count": 1,
+          "lastSeq": 8
+        }
+      },
+      "llmRetry": {
+        "ver": 1,
+        "seq": 1041,
+        "val": {}
+      },
+      "sandboxMode": {
+        "ver": 1,
+        "seq": 1041,
+        "val": "workspace-write"
+      },
+      "goal": {
+        "ver": 6,
+        "seq": 1041,
+        "val": {
+          "current": null,
+          "seenGoalIds": [],
+          "failure": null
+        }
+      },
+      "tokenUsage": {
+        "ver": 2,
+        "seq": 1041,
+        "val": {
+          "totals": {
+            "uncachedInputTokens": 1024803,
+            "outputTokens": 479160,
+            "cacheReadTokens": 45597440,
+            "cacheWriteTokens": 0
+          },
+          "last": {
+            "turn": 1,
+            "step": 147,
+            "buckets": {
+              "uncachedInputTokens": 141,
+              "outputTokens": 612,
+              "cacheReadTokens": 562432,
+              "cacheWriteTokens": 0
+            }
+          }
+        }
+      },
+      "contextPressure": {
+        "ver": 5,
+        "seq": 1041,
+        "val": {
+          "surfaceTokens": 502141,
+          "contextWindow": 1000000,
+          "pressureTokens": 562573,
+          "sampledSurfaceTokens": 501458
+        }
+      },
+      "contextBreakdown": {
+        "ver": 6,
+        "seq": 1041,
+        "val": {
+          "systems": [
+            {
+              "seq": 7,
+              "tokens": 648
+            }
+          ],
+          "surfaceTokens": 502141,
+          "breakdown": {
+            "systemTokens": 648,
+            "toolsTokens": 4899,
+            "messageTokens": 501493
+          }
+        }
+      },
+      "todos": {
+        "ver": 2,
+        "seq": 1041,
+        "val": [
+          {
+            "content": "Build deterministic simulation core and tune ecology headlessly",
+            "status": "in_progress"
+          },
+          {
+            "content": "Design and implement full single-file interface and canvas renderer",
+            "status": "pending"
+          },
+          {
+            "content": "Implement catastrophe system, controls, sparklines, and timeline",
+            "status": "pending"
+          },
+          {
+            "content": "Implement end-of-run report dashboard with population and trait charts",
+            "status": "pending"
+          },
+          {
+            "content": "Test determinism, behavior, responsiveness, accessibility, and visual polish",
+            "status": "pending"
+          }
+        ]
+      },
+      "turnBoundary": {
+        "ver": 2,
+        "seq": 1041,
+        "val": {
+          "openTurnStartSeq": null,
+          "lastStepStartSeq": 1038,
+          "lastStepBoundary": {
+            "kind": "end",
+            "seq": 1040
+          },
+          "lastTurn": 1
+        }
+      },
+      "inbox": {
+        "ver": 1,
+        "seq": 1041,
+        "val": {
+          "next-turn": [],
+          "next-step": []
+        }
+      },
+      "userQuestions": {
+        "ver": 2,
+        "seq": 1041,
+        "val": {
+          "inheritedEventCount": 0,
+          "timed": false,
+          "questions": {
+            "active": [],
+            "settled": []
+          }
+        }
+      },
+      "plan": {
+        "ver": 3,
+        "seq": 1041,
+        "val": {
+          "active": false,
+          "wanted": null,
+          "running": null,
+          "activeAtLastHeader": false
+        }
+      },
+      "permissions": {
+        "ver": 2,
+        "seq": 1041,
+        "val": {
+          "preset": "workspace-write",
+          "sandbox": "workspace-write",
+          "approval": "ask",
+          "seeded": false
+        }
+      },
+      "workingDirectory": {
+        "ver": 1,
+        "seq": 1041,
+        "val": "/work/bench2/dsh-rc3/work"
+      },
+      "subagentCatalog": {
+        "ver": 6,
+        "seq": 1041,
+        "val": {
+          "inheritedEventCount": 0
+        }
+      },
+      "subagentTiming": {
+        "ver": 3,
+        "seq": 1041,
+        "val": {
+          "descriptorSeen": false,
+          "settledMs": 0
+        }
+      },
+      "subagent": {
+        "ver": 2,
+        "seq": 1041,
+        "val": {}
+      },
+      "subagentModelSelectionPolicy": {
+        "ver": 1,
+        "seq": 1041,
+        "val": null
+      }
+    }
+  }
+}

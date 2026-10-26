@@ -1,0 +1,308 @@
+[
+  {
+    "s": ".panel-scroll",
+    "rect": [
+      1063.015625,
+      184.515625,
+      345.03125,
+      652.90625
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "hidden auto",
+    "scrollTop": 4,
+    "scrollLeft": 208,
+    "text": "LOT / SEED\ni\nREPRODUCIBLE\n−\n+\n\nOne numbe"
+  },
+  {
+    "s": ".panel-inner",
+    "rect": [
+      855.015625,
+      180.515625,
+      345.03125,
+      657.09375
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "LOT / SEED\ni\nREPRODUCIBLE\n−\n+\n\nOne numbe"
+  },
+  {
+    "s": ".seed-block",
+    "rect": [
+      871.015625,
+      191.515625,
+      313.03125,
+      101.34375
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "LOT / SEED\ni\nREPRODUCIBLE\n−\n+\n\nOne numbe"
+  },
+  {
+    "s": ".seed-line",
+    "rect": [
+      871.015625,
+      214.515625,
+      313.03125,
+      32
+    ],
+    "display": "flex",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "−\n+"
+  },
+  {
+    "s": ".seed-input",
+    "rect": [
+      903.015625,
+      214.515625,
+      140.03125,
+      32
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(231, 207, 160)",
+    "overflow": "clip",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": ""
+  },
+  {
+    "s": ".dial-grid",
+    "rect": [
+      871.015625,
+      292.859375,
+      313.03125,
+      148
+    ],
+    "display": "grid",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "MUTATION\ni\nINHERITANCE\n6.5\nPERCENT / BIR"
+  },
+  {
+    "s": ".dial-control",
+    "rect": [
+      871.015625,
+      292.859375,
+      150.515625,
+      147
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "MUTATION\ni\nINHERITANCE\n6.5\nPERCENT / BIR"
+  },
+  {
+    "s": "#mutationDial",
+    "rect": [
+      906.765625,
+      310.859375,
+      79,
+      79
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "INHERITANCE\n6.5\nPERCENT / BIRTH"
+  },
+  {
+    "s": "#mutationDial .dial-core",
+    "rect": [
+      906.765625,
+      315.859375,
+      79,
+      79
+    ],
+    "display": "flex",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "matrix(1, 0, 0, 1, 0, 5)",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "INHERITANCE\n6.5\nPERCENT / BIRTH"
+  },
+  {
+    "s": ".dial-grid .control-label",
+    "rect": [
+      871.015625,
+      294.859375,
+      150.515625,
+      13
+    ],
+    "display": "flex",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(211, 210, 186)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "MUTATION\ni"
+  },
+  {
+    "s": ".slider-block",
+    "rect": [
+      871.015625,
+      440.859375,
+      313.03125,
+      70
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "CANOPY REGROWTH\ni\n1.00\n×\n0.20× SCANT\nLIV"
+  },
+  {
+    "s": ".control-label",
+    "rect": [
+      871.015625,
+      193.515625,
+      77.609375,
+      14
+    ],
+    "display": "flex",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(211, 210, 186)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "LOT / SEED\ni"
+  },
+  {
+    "s": "#foodValue",
+    "rect": [
+      1147,
+      449.859375,
+      30.171875,
+      13
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(231, 207, 160)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "1.00"
+  },
+  {
+    "s": ".weather-toggle-row",
+    "rect": [
+      871.015625,
+      700.859375,
+      313.03125,
+      32
+    ],
+    "display": "grid",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "DROUGHT\nPLAGUE\nFROST"
+  },
+  {
+    "s": "#drawerForecast",
+    "rect": [
+      871.015625,
+      765.859375,
+      313.03125,
+      60.75
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "none",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "hidden",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "WEATHER APPROACHING\n01 GEN\nDrought holds"
+  },
+  {
+    "s": ".event-banner",
+    "rect": [
+      296.046875,
+      173.515625,
+      480,
+      90.796875
+    ],
+    "display": "flex",
+    "visibility": "visible",
+    "opacity": "1",
+    "transform": "matrix(1, 0, 0, 1, -240, 0)",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": "FIELD\nNOTE\nI\nWEATHER EVENT · GENERATION "
+  },
+  {
+    "s": "#specimenTip",
+    "rect": [
+      31.953125,
+      778.515625,
+      196,
+      25
+    ],
+    "display": "block",
+    "visibility": "visible",
+    "opacity": "0",
+    "transform": "matrix(1, 0, 0, 1, 0, 5)",
+    "color": "rgb(233, 226, 207)",
+    "overflow": "visible",
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "text": ""
+  }
+]

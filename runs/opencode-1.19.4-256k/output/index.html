@@ -1,0 +1,4786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>The Vivarium · Plate XIV</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b1915'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23efe8d7'/%3E%3Cpath d='M16 7v18M7 16h18' stroke='%23b89a5e' stroke-width='.6'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23b7dc7b'/%3E%3C/svg%3E">
+<style>
+:root {
+  --paper: #ebe5d6;
+  --paper-warm: #f1ecdf;
+  --paper-deep: #ded5c1;
+  --ink: #14231d;
+  --ink-soft: #46554b;
+  --ink-faint: #757e71;
+  --rule: rgba(20, 35, 29, .2);
+  --rule-strong: rgba(20, 35, 29, .42);
+  --brass: #9b7a40;
+  --brass-bright: #c8ad74;
+  --brass-faint: #ddcfad;
+  --glass: #071410;
+  --glass-deep: #040d0b;
+  --glass-raised: #0d201a;
+  --cream: #eee8d8;
+  --cream-soft: #d2d2c2;
+  --cream-faint: rgba(238, 232, 216, .48);
+  --console-rule: rgba(222, 214, 191, .16);
+  --console-rule-strong: rgba(222, 214, 191, .28);
+  --flora: #b8dd7c;
+  --prey: #f1b96c;
+  --predator: #caa0f2;
+  --drought: #e48b57;
+  --plague: #dc7d99;
+  --bloom: #75d4c7;
+  --chart-flora: #667f33;
+  --chart-prey: #ac6720;
+  --chart-predator: #70518f;
+  --chart-drought: #b66536;
+  --chart-plague: #a9506d;
+  --chart-bloom: #37877f;
+  --display: "Charter", "Bitstream Charter", "Caladea", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --sans: "Inter", "Inter Display", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+* { box-sizing: border-box; }
+html { background: #e4ddcd; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 82% -12%, rgba(255, 252, 241, .85), transparent 44%),
+    radial-gradient(ellipse at 8% 108%, rgba(190, 181, 155, .25), transparent 42%),
+    linear-gradient(126deg, #efe9da 0%, #e9e2d2 52%, #e4dccb 100%);
+  font-family: var(--sans);
+  font-feature-settings: "ss01" 1, "cv05" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.report-open { overflow: hidden; }
+body::after {
+  content: "";
+  position: fixed;
+  inset: 11px;
+  z-index: 0;
+  pointer-events: none;
+  border: 1px solid rgba(20, 35, 29, .14);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .28;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+}
+
+::selection { color: var(--cream); background: var(--ink); }
+
+button, input { font: inherit; }
+button { color: inherit; }
+button, [role="slider"], input[type="range"] { -webkit-tap-highlight-color: transparent; }
+:focus-visible {
+  outline: 2px solid var(--brass-bright);
+  outline-offset: 4px;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  padding: 21px 30px 22px;
+  max-width: 1780px;
+  margin: 0 auto;
+}
+
+.masthead {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 94px;
+  align-items: end;
+  gap: 34px;
+  min-height: 106px;
+  padding: 0 1px 12px;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.masthead-primary { min-width: 0; }
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: .15em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.eyebrow .dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--brass);
+  box-shadow: 0 0 0 2px rgba(155, 122, 64, .12);
+}
+.eyebrow-rule {
+  width: 28px;
+  height: 1px;
+  background: var(--rule);
+}
+
+h1 {
+  display: flex;
+  align-items: baseline;
+  gap: .16em;
+  margin: 6px 0 0;
+  font-family: var(--display);
+  font-size: clamp(44px, 4.55vw, 69px);
+  font-weight: 400;
+  line-height: .88;
+  letter-spacing: -.055em;
+}
+h1 .title-the {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: .38em;
+  font-weight: 400;
+  letter-spacing: -.03em;
+  color: var(--ink-soft);
+  transform: translateY(-.34em);
+}
+h1 em { font-style: italic; font-weight: 400; }
+.title-mark {
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  color: var(--brass);
+  transform: translateY(-2em);
+}
+.deck {
+  margin: 9px 0 0;
+  font-family: var(--display);
+  font-size: 14px;
+  font-style: italic;
+  letter-spacing: .005em;
+  color: var(--ink-soft);
+}
+
+.masthead-index {
+  display: flex;
+  align-items: flex-end;
+  gap: 27px;
+  padding-bottom: 4px;
+}
+.index-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 58px;
+}
+.index-item span {
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .12em;
+  line-height: 1.2;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.index-item strong {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.index-item strong[data-state="held"] { color: var(--brass); }
+.index-item strong[data-state="complete"] { color: var(--ink); }
+
+.seal {
+  position: relative;
+  width: 86px;
+  height: 86px;
+  justify-self: end;
+  color: var(--ink);
+}
+.seal svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.seal-ring { fill: none; stroke: var(--rule-strong); stroke-width: .65; }
+.seal-inner { fill: none; stroke: var(--rule); stroke-width: .45; stroke-dasharray: 1 3; }
+.seal-progress {
+  fill: none;
+  stroke: var(--brass);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset .5s var(--ease);
+}
+.seal-type {
+  fill: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 4.25px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.seal-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  pointer-events: none;
+}
+.seal-center b {
+  font-family: var(--display);
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.seal-center em {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 5.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+
+.console {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 354px;
+  overflow: hidden;
+  border: 1px solid #1a2d26;
+  border-radius: 3px;
+  background: var(--glass);
+  box-shadow:
+    0 1px 0 rgba(255, 254, 245, .8) inset,
+    0 18px 38px -18px rgba(28, 35, 27, .5),
+    0 48px 110px -45px rgba(28, 35, 27, .42);
+}
+.console::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  z-index: 30;
+  border: 1px solid rgba(213, 195, 152, .1);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.specimen {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 13px 13px 0;
+}
+.world {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid rgba(214, 197, 157, .22);
+  border-radius: 1px;
+  background: var(--glass-deep);
+  isolation: isolate;
+}
+.world canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.world::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border: 1px solid rgba(242, 233, 211, .08);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .38) inset,
+    0 0 58px rgba(0, 0, 0, .42) inset;
+}
+.glass-sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    linear-gradient(121deg, transparent 0 16%, rgba(228, 238, 218, .045) 16.15%, transparent 16.7% 44%, rgba(220, 235, 222, .022) 44.15%, transparent 44.9%),
+    radial-gradient(ellipse 65% 25% at 50% -7%, rgba(220, 238, 214, .055), transparent 65%),
+    radial-gradient(ellipse at 82% -8%, rgba(214, 234, 217, .09), transparent 40%),
+    radial-gradient(ellipse at 24% 104%, rgba(199, 221, 178, .04), transparent 35%);
+  mix-blend-mode: screen;
+}
+.glass-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  opacity: .25;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.84' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.22'/%3E%3C/svg%3E");
+}
+
+.hud {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 8;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 20px 42px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(3, 11, 9, .75), rgba(3, 11, 9, .2) 58%, transparent);
+}
+.hud-left { display: flex; flex-direction: column; gap: 10px; }
+.live-tag {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .16em;
+  color: var(--cream-soft);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.live-dot {
+  position: relative;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--flora);
+  box-shadow: 0 0 8px rgba(184, 221, 124, .7);
+}
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 1px solid rgba(184, 221, 124, .28);
+  border-radius: 50%;
+  animation: livePulse 3.2s ease-out infinite;
+}
+.is-paused .live-dot { background: var(--brass-bright); box-shadow: 0 0 8px rgba(200, 173, 116, .5); }
+.is-paused .live-dot::after { animation: none; border-color: rgba(200, 173, 116, .22); }
+.hud-gen {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: var(--cream);
+}
+.hud-gen span {
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .15em;
+  color: var(--cream-faint);
+  text-transform: uppercase;
+}
+.hud-gen b {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.hud-gen em {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-style: normal;
+  color: var(--cream-faint);
+  letter-spacing: .04em;
+}
+
+.species-legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0;
+  min-width: 0;
+}
+.species {
+  display: grid;
+  grid-template-columns: 16px auto;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
+  align-items: center;
+  padding: 0 19px;
+  border-left: 1px solid rgba(224, 216, 193, .18);
+  color: var(--cream);
+}
+.species:last-child { padding-right: 0; }
+.species .glyph {
+  grid-row: 1 / span 2;
+  width: 16px;
+  height: 16px;
+  color: var(--c);
+  overflow: visible;
+}
+.species .name {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .13em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--c);
+  white-space: nowrap;
+}
+.species .latin {
+  font-family: var(--display);
+  font-size: 10px;
+  font-style: italic;
+  letter-spacing: .015em;
+  color: var(--cream-faint);
+  text-transform: none;
+}
+.species .count {
+  grid-column: 2;
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+  color: var(--cream);
+}
+.species[data-species="flora"] { --c: var(--flora); }
+.species[data-species="prey"] { --c: var(--prey); }
+.species[data-species="predator"] { --c: var(--predator); }
+
+.world-foot {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 14px;
+  z-index: 8;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .13em;
+  color: rgba(223, 221, 203, .38);
+  text-transform: uppercase;
+}
+.scale-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.scale-bar i {
+  display: block;
+  width: 53px;
+  height: 5px;
+  border: 1px solid rgba(223, 221, 203, .28);
+  border-top: 0;
+  background: linear-gradient(to right, rgba(223,221,203,.35) 0 49%, transparent 49% 51%, rgba(223,221,203,.35) 51% 100%) bottom / 100% 2px no-repeat;
+}
+
+.event-banner {
+  position: absolute;
+  z-index: 12;
+  top: 94px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: max-content;
+  max-width: calc(100% - 48px);
+  padding: 10px 15px 10px 11px;
+  border: 1px solid var(--event-line, rgba(238, 232, 216, .24));
+  background: rgba(6, 17, 14, .88);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, .28);
+  backdrop-filter: blur(8px);
+  transform: translateX(-50%);
+  color: var(--cream);
+  pointer-events: none;
+}
+.event-banner[hidden] { display: none; }
+.event-banner.is-showing { animation: bannerIn .55s var(--ease) both; }
+.event-glyph {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--event-line, var(--brass));
+  color: var(--event-color, var(--brass-bright));
+  flex: 0 0 auto;
+}
+.event-glyph svg { width: 16px; height: 16px; }
+.event-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.event-kicker {
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .14em;
+  color: var(--event-color, var(--brass-bright));
+  text-transform: uppercase;
+}
+.event-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+.event-title span {
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .02em;
+  color: var(--cream-faint);
+  text-transform: uppercase;
+}
+
+.event-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: opacity .8s ease;
+}
+.event-wash.is-active { opacity: .62; transition: opacity .18s ease; }
+.event-banner.is-leaving { animation: bannerOut .5s ease both; }
+
+.transport {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  height: 68px;
+  min-height: 68px;
+  padding: 12px 4px 11px;
+  color: var(--cream-soft);
+}
+.transport-controls { display: flex; align-items: center; gap: 7px; flex: 0 0 auto; }
+.transport-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--console-rule-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cream);
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+.transport-btn:hover { border-color: var(--brass); background: rgba(200, 173, 116, .08); }
+.transport-btn svg { width: 11px; height: 11px; }
+.transport-btn.small { width: 27px; height: 27px; border-color: var(--console-rule); }
+.transport-btn.small svg { width: 9px; height: 9px; }
+.transport-btn:disabled { opacity: .34; cursor: default; }
+.transport-btn:disabled:hover { border-color: var(--console-rule-strong); background: transparent; }
+.transport-state {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 2px;
+  min-width: 52px;
+}
+.transport-state span {
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .14em;
+  color: var(--cream-faint);
+  text-transform: uppercase;
+}
+.transport-state strong {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 500;
+  letter-spacing: .09em;
+  color: var(--cream-soft);
+  text-transform: uppercase;
+}
+.timeline {
+  position: relative;
+  min-width: 0;
+  height: 44px;
+  flex: 1 1 auto;
+  align-self: center;
+}
+.timeline canvas { display: block; width: 100%; height: 100%; }
+.transport-counter {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding-left: 3px;
+}
+.transport-counter span {
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .13em;
+  color: var(--cream-faint);
+  text-transform: uppercase;
+}
+.transport-counter b {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: var(--cream);
+}
+.transport-counter em {
+  font-family: var(--mono);
+  font-size: 7px;
+  font-style: normal;
+  color: var(--cream-faint);
+}
+
+.apparatus {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-left: 1px solid rgba(208, 193, 159, .22);
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(159, 184, 148, .055), transparent 31%),
+    linear-gradient(165deg, #0e201a, #091611 72%);
+}
+.apparatus-head {
+  flex: 0 0 auto;
+  padding: 17px 22px 11px;
+  border-bottom: 1px solid var(--console-rule);
+}
+.plate-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .16em;
+  color: var(--brass-bright);
+  text-transform: uppercase;
+}
+.plate-line span:first-child {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(200, 173, 116, .38);
+  border-radius: 50%;
+  font-size: 6px;
+  letter-spacing: 0;
+}
+.apparatus h2 {
+  margin: 8px 0 0;
+  font-family: var(--display);
+  font-size: 27px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.035em;
+  color: var(--cream);
+}
+.apparatus h2 em { font-style: italic; }
+.apparatus-head p {
+  margin: 5px 0 0;
+  font-family: var(--display);
+  font-size: 11.5px;
+  font-style: italic;
+  line-height: 1.4;
+  color: rgba(223, 220, 203, .52);
+}
+.apparatus-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 22px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 173, 116, .3) transparent;
+}
+.apparatus-body > * { flex: 0 0 auto; }
+.apparatus-body > .field-note { margin-top: auto; }
+.apparatus-body::-webkit-scrollbar { width: 3px; }
+.apparatus-body::-webkit-scrollbar-thumb { background: rgba(200, 173, 116, .25); }
+.control {
+  position: relative;
+  border-bottom: 1px solid var(--console-rule);
+  transition: border-color .2s ease;
+}
+.control:hover { border-color: rgba(222, 214, 191, .26); }
+.control-top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 25px;
+  padding-top: 11px;
+}
+.control-index {
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .05em;
+  color: rgba(200, 173, 116, .68);
+}
+.control label, .control .control-label {
+  font-family: var(--mono);
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--cream-soft);
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: default;
+}
+.control-top output {
+  margin-left: auto;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--cream);
+  white-space: nowrap;
+}
+.control-top output small {
+  margin-left: 2px;
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .04em;
+  color: var(--cream-faint);
+}
+.control-hint {
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .05em;
+  color: rgba(219, 214, 196, .32);
+  white-space: nowrap;
+}
+.control-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--console-rule);
+}
+.control-pair .control { border-bottom: 0; }
+.control-pair .control:first-child { padding-right: 14px; border-right: 1px solid var(--console-rule); }
+.control-pair .control:last-child { padding-left: 14px; }
+.control-compact .control-top { padding-top: 11px; }
+.control-compact .control-top output { font-size: 15px; }
+.stepper {
+  display: flex;
+  align-items: center;
+  height: 23px;
+  margin: 3px 0 7px;
+  border-bottom: 1px solid rgba(223, 216, 195, .2);
+  transition: border-color .2s ease;
+}
+.stepper:focus-within { border-bottom-color: var(--brass-bright); }
+.stepper input:focus-visible { outline: 2px solid var(--brass-bright); outline-offset: 2px; border-radius: 1px; }
+.stepper button {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cream-faint);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+.stepper button:hover { color: var(--brass-bright); }
+.stepper input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--cream);
+  font-family: var(--display);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.stepper input::-webkit-outer-spin-button,
+.stepper input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; }
+.stepper input:focus { color: var(--brass-bright); }
+.stepper-unit {
+  flex: 0 0 auto;
+  margin: 0 2px 0 1px;
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .02em;
+  color: var(--cream-faint);
+  text-transform: uppercase;
+}
+.stepper-wide { display: flex; }
+.reroll-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  margin-left: auto;
+  padding: 0;
+  border: 1px solid rgba(200, 173, 116, .25);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--brass-bright);
+  cursor: pointer;
+  transform: translateY(-1px);
+  transition: border-color .2s ease, background .2s ease, transform .3s var(--ease);
+}
+.reroll-btn:hover { border-color: var(--brass); background: rgba(200, 173, 116, .1); transform: translateY(-1px) rotate(35deg); }
+.reroll-btn svg { width: 9px; height: 9px; }
+.control-body {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 2px 0 8px;
+}
+.micro {
+  display: block;
+  flex: 0 0 auto;
+  width: 64px;
+  height: 24px;
+  opacity: .9;
+}
+.control-compact .micro { width: 42px; height: 20px; margin-left: auto; }
+.control-compact .control-body { gap: 6px; padding-bottom: 8px; }
+.micro-label {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--mono);
+  font-size: 5.5px;
+  letter-spacing: .08em;
+  color: rgba(219, 214, 196, .3);
+  text-align: right;
+  text-transform: uppercase;
+}
+.slider-wrap { flex: 1 1 auto; min-width: 0; }
+.slider {
+  display: block;
+  width: 100%;
+  height: 25px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: ew-resize;
+}
+.slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1px;
+  border: 0;
+  background: linear-gradient(to right, var(--accent, var(--brass-bright)) 0 var(--fill, 50%), rgba(222, 214, 191, .22) var(--fill, 50%) 100%);
+}
+.slider::-moz-range-track {
+  width: 100%;
+  height: 1px;
+  border: 0;
+  background: rgba(222, 214, 191, .22);
+}
+.slider::-moz-range-progress { height: 1px; background: var(--accent, var(--brass-bright)); }
+.slider::-webkit-slider-thumb {
+  width: 13px;
+  height: 13px;
+  margin-top: -6px;
+  border: 1px solid var(--accent, var(--brass-bright));
+  border-radius: 50%;
+  background: var(--glass-raised);
+  box-shadow: 0 0 0 3px rgba(7, 20, 16, .9), 0 0 14px rgba(200, 173, 116, .14);
+  -webkit-appearance: none;
+  appearance: none;
+  transition: transform .15s ease, background .15s ease;
+}
+.slider::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--accent, var(--brass-bright));
+  border-radius: 50%;
+  background: var(--glass-raised);
+  box-shadow: 0 0 0 3px rgba(7, 20, 16, .9);
+  transition: transform .15s ease, background .15s ease;
+}
+.slider:hover::-webkit-slider-thumb { transform: scale(1.15); background: var(--brass-bright); }
+.slider:hover::-moz-range-thumb { transform: scale(1.15); background: var(--brass-bright); }
+.slider:focus-visible { outline: 2px solid var(--brass-bright); outline-offset: 3px; border-radius: 1px; }
+.slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--glass), 0 0 0 4.5px var(--brass-bright);
+}
+.slider:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px var(--glass), 0 0 0 4.5px var(--brass-bright);
+}
+.slider-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -4px;
+  font-family: var(--mono);
+  font-size: 5.5px;
+  letter-spacing: .04em;
+  color: rgba(219, 214, 196, .27);
+}
+.dial-control { --accent: var(--brass-bright); }
+.dial-control[data-control="interval"] { --accent: var(--drought); }
+.control[data-control="regrowth"] { --accent: var(--flora); }
+.control[data-control="speed"] { --accent: var(--brass-bright); }
+.dial-row {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  padding: 2px 0 8px;
+}
+.dial {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(200, 173, 116, .25);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 31%, rgba(239, 232, 214, .12), transparent 31%),
+    radial-gradient(circle at 50% 50%, #14251f 0 46%, #0a1712 70%);
+  box-shadow:
+    0 1px 0 rgba(255, 248, 230, .08) inset,
+    0 0 0 4px rgba(0, 0, 0, .16),
+    2px 6px 16px rgba(0, 0, 0, .2);
+  cursor: grab;
+  touch-action: none;
+}
+.dial:active { cursor: grabbing; }
+.dial::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(222, 214, 191, .12);
+  border-radius: 50%;
+}
+.dial-ticks {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 225deg, rgba(222, 214, 191, .34) 0 .7deg, transparent .7deg 13.5deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 25px, #000 25px 27px, transparent 27px);
+  mask: radial-gradient(circle, transparent 0 25px, #000 25px 27px, transparent 27px);
+}
+.dial-progress {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: conic-gradient(from 225deg, var(--accent) 0 calc(var(--sweep, 0) * 1deg), transparent calc(var(--sweep, 0) * 1deg) 360deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 27px, #000 27px 28.5px, transparent 28.5px);
+  mask: radial-gradient(circle, transparent 0 27px, #000 27px 28.5px, transparent 28.5px);
+  opacity: .88;
+}
+.dial-needle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 21px;
+  background: linear-gradient(to top, rgba(200, 173, 116, .2), var(--accent));
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(var(--angle, 0deg));
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 45%, transparent);
+  pointer-events: none;
+}
+.dial-needle::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.dial-hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: var(--glass-raised);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  box-shadow: 0 0 0 2px rgba(7, 20, 16, .75);
+}
+.dial:focus-visible {
+  outline: 2px solid var(--brass-bright);
+  outline-offset: 5px;
+}
+.dial-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.dial-unit {
+  font-family: var(--mono);
+  font-size: 5.5px;
+  letter-spacing: .08em;
+  color: rgba(219, 214, 196, .38);
+  text-transform: uppercase;
+}
+.dial-ends {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 5.5px;
+  color: rgba(219, 214, 196, .27);
+}
+.dial-meta .micro { width: 100%; height: 25px; }
+
+.toggle-bank { padding: 12px 0 12px; border-bottom: 1px solid var(--console-rule); }
+.toggle-bank-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+.toggle-bank-head span {
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .12em;
+  color: var(--cream-soft);
+  text-transform: uppercase;
+}
+.toggle-bank-head em {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 5.5px;
+  font-style: normal;
+  letter-spacing: .06em;
+  color: rgba(219, 214, 196, .3);
+  text-transform: uppercase;
+}
+.toggles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.toggle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  min-width: 0;
+  padding: 8px 8px 7px;
+  border: 1px solid rgba(222, 214, 191, .13);
+  background: rgba(255, 255, 255, .012);
+  color: var(--cream-soft);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .2s ease, background .2s ease, color .2s ease;
+}
+.toggle:hover { border-color: rgba(222, 214, 191, .3); background: rgba(239, 232, 214, .035); }
+.toggle .glyph { width: 14px; height: 14px; color: var(--event-c); }
+.toggle .toggle-label {
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--cream-soft);
+  white-space: nowrap;
+}
+.toggle .toggle-track {
+  position: absolute;
+  right: 7px;
+  top: 9px;
+  width: 13px;
+  height: 7px;
+  border: 1px solid rgba(222, 214, 191, .25);
+  border-radius: 10px;
+  transition: border-color .2s ease, background .2s ease;
+}
+.toggle .toggle-track::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(222, 214, 191, .35);
+  transition: transform .25s var(--ease), background .2s ease;
+}
+.toggle[aria-checked="true"] { border-color: color-mix(in srgb, var(--event-c) 40%, transparent); background: color-mix(in srgb, var(--event-c) 7%, transparent); }
+.toggle[aria-checked="true"] .toggle-track { border-color: color-mix(in srgb, var(--event-c) 70%, transparent); background: color-mix(in srgb, var(--event-c) 12%, transparent); }
+.toggle[aria-checked="true"] .toggle-track::after { transform: translateX(5px); background: var(--event-c); box-shadow: 0 0 5px color-mix(in srgb, var(--event-c) 70%, transparent); }
+.toggle[aria-checked="false"] { opacity: .55; }
+.toggle[data-event="drought"] { --event-c: var(--drought); }
+.toggle[data-event="plague"] { --event-c: var(--plague); }
+.toggle[data-event="bloom"] { --event-c: var(--bloom); }
+.toggle[aria-checked="false"] .toggle-label { color: rgba(219, 214, 196, .58); }
+
+.field-note {
+  padding: 13px 0 12px;
+  border-bottom: 1px solid var(--console-rule);
+}
+.field-note-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 7px;
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .13em;
+  color: rgba(200, 173, 116, .65);
+  text-transform: uppercase;
+}
+.field-note p {
+  margin: 0;
+  min-height: 38px;
+  font-family: var(--display);
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 1.45;
+  color: rgba(238, 232, 216, .72);
+}
+.apparatus-foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 22px 13px;
+  border-top: 1px solid var(--console-rule);
+  background: rgba(0, 0, 0, .08);
+}
+.finish-btn {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(200, 173, 116, .38);
+  background: transparent;
+  color: var(--brass-bright);
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .11em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color .2s ease, border-color .2s ease;
+}
+.finish-btn:hover { color: var(--cream); border-color: var(--cream); }
+.local-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 5.5px;
+  letter-spacing: .1em;
+  color: rgba(219, 214, 196, .28);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.local-link i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--flora);
+}
+
+.report {
+  position: absolute;
+  inset: 6px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: auto;
+  padding: 20px 24px 18px;
+  color: var(--ink);
+  background:
+    linear-gradient(160deg, rgba(255, 252, 243, .42), transparent 45%),
+    linear-gradient(180deg, #f1ebdc 0%, #ece5d5 65%, #e7dfcf 100%);
+  border: 1px solid rgba(214, 197, 157, .42);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, .35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(18px);
+  overscroll-behavior: contain;
+  transition: opacity .45s ease, transform .65s var(--ease), visibility .45s step-end;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(20, 35, 29, .28) transparent;
+}
+.report::-webkit-scrollbar { width: 4px; }
+.report::-webkit-scrollbar-thumb { background: rgba(20, 35, 29, .2); }
+.report.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity .45s ease, transform .65s var(--ease), visibility 0s;
+}
+.report::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .3;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='.12'/%3E%3C/svg%3E");
+}
+.report > * { position: relative; z-index: 1; }
+.report-mast {
+  display: grid;
+  grid-template-columns: minmax(245px, .9fr) minmax(220px, 1fr) auto;
+  gap: 30px;
+  align-items: end;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.report-mast .eyebrow { color: var(--brass); }
+.report-mast h2 {
+  margin: 3px 0 0;
+  font-family: var(--display);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: .9;
+  letter-spacing: -.05em;
+}
+.report-mast h2 em { font-style: italic; }
+.report-deck {
+  max-width: 450px;
+  margin: 0;
+  padding-bottom: 2px;
+  font-family: var(--display);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.report-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-bottom: 1px;
+}
+.report-btn {
+  padding: 9px 11px;
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  letter-spacing: .09em;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+  white-space: nowrap;
+}
+.report-btn:hover { border-color: var(--ink); }
+.report-btn.primary { background: var(--ink); border-color: var(--ink); color: var(--paper-warm); }
+.report-btn.primary:hover { background: #284034; border-color: #284034; }
+.report-btn.quiet { border-color: transparent; color: var(--ink-soft); padding-left: 4px; padding-right: 4px; }
+.report-btn.quiet:hover { color: var(--ink); }
+.report-body {
+  flex: 1 1 auto;
+  min-height: 380px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 326px;
+  grid-template-rows: minmax(210px, .92fr) minmax(235px, 1.08fr);
+  gap: 14px 18px;
+}
+.report-section {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+.census-section { grid-column: 1; grid-row: 1; }
+.traits-section { grid-column: 1; grid-row: 2; }
+.outcome-section {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  color: var(--cream);
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(159, 184, 148, .1), transparent 35%),
+    linear-gradient(165deg, #11261f, #081510 75%);
+  border: 1px solid #1d332b;
+  padding: 17px 17px 15px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 173, 116, .25) transparent;
+  box-shadow: 0 12px 30px -18px rgba(0, 0, 0, .5);
+}
+.outcome-section::-webkit-scrollbar { width: 2px; }
+.outcome-section::-webkit-scrollbar-thumb { background: rgba(200, 173, 116, .25); }
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+.section-head > div:first-child { display: flex; align-items: baseline; gap: 9px; }
+.section-index {
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .05em;
+  color: var(--brass);
+}
+.section-head h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+.section-head p {
+  margin: 0;
+  padding-bottom: 1px;
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .08em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  text-align: right;
+}
+.chart-shell {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: 6px;
+}
+.chart-shell canvas { display: block; width: 100%; height: 100%; }
+.trait-shell { min-height: 212px; flex: 1 1 auto; }
+.outcome-section .section-head { border-bottom-color: rgba(222, 214, 191, .19); }
+.outcome-section .section-index { color: var(--brass-bright); }
+.outcome-section .section-head h3 { color: var(--cream); font-size: 23px; }
+.outcome-section .section-head p { color: rgba(222, 214, 191, .42); }
+.outcome-lede {
+  margin: 15px 0 15px;
+  font-family: var(--display);
+  font-size: 15.5px;
+  font-style: italic;
+  line-height: 1.45;
+  color: rgba(238, 232, 216, .87);
+}
+.outcome-lede b { font-weight: 500; color: var(--cream); }
+.final-counts {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid rgba(222, 214, 191, .15);
+}
+.final-count {
+  display: grid;
+  grid-template-columns: 17px 1fr auto;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(222, 214, 191, .12);
+}
+.final-count .glyph { width: 14px; height: 14px; color: var(--c); }
+.final-count span {
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .09em;
+  color: rgba(222, 214, 191, .58);
+  text-transform: uppercase;
+}
+.final-count b {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: var(--cream);
+}
+.final-count small {
+  margin-left: 1px;
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .03em;
+  color: rgba(222, 214, 191, .4);
+}
+.ledger-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 14px 0 7px;
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .12em;
+  color: rgba(200, 173, 116, .7);
+  text-transform: uppercase;
+}
+.event-ledger {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: 121px;
+  overflow: auto;
+  padding-right: 3px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 173, 116, .3) transparent;
+}
+.event-ledger::-webkit-scrollbar { width: 2px; }
+.event-ledger::-webkit-scrollbar-thumb { background: rgba(200, 173, 116, .25); }
+.event-row {
+  display: grid;
+  grid-template-columns: 13px 1fr auto;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(222, 214, 191, .09);
+  color: var(--event-c);
+}
+.event-row:last-child { border-bottom: 0; }
+.event-row.empty { grid-template-columns: 1fr auto; }
+.event-row .glyph { width: 11px; height: 11px; }
+.event-row span {
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .06em;
+  color: rgba(222, 214, 191, .66);
+  text-transform: uppercase;
+}
+.event-row b {
+  font-family: var(--mono);
+  font-size: 6.5px;
+  font-weight: 400;
+  letter-spacing: .03em;
+  color: rgba(222, 214, 191, .34);
+}
+.outcome-stamp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(222, 214, 191, .13);
+}
+.outcome-stamp .seal-word {
+  writing-mode: horizontal-tb;
+  padding: 5px 8px 4px;
+  border: 1px solid color-mix(in srgb, var(--brass-bright) 42%, transparent);
+  color: var(--brass-bright);
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transform: rotate(-2.5deg);
+}
+.outcome-stamp small {
+  font-family: var(--mono);
+  font-size: 5.5px;
+  letter-spacing: .08em;
+  color: rgba(222, 214, 191, .35);
+  text-align: right;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.report :focus-visible { outline-color: var(--ink); }
+.report-note {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 15px;
+  padding-top: 2px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 5.5px;
+  letter-spacing: .08em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+.report-note em {
+  font-family: var(--display);
+  font-size: 10px;
+  font-style: italic;
+  letter-spacing: .01em;
+  text-transform: none;
+  color: var(--ink-soft);
+}
+.trait-key {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.trait-key span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .04em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+.trait-key i {
+  display: inline-block;
+  width: 12px;
+  height: 1px;
+  background: var(--c);
+}
+.trait-key i.band {
+  width: 12px;
+  height: 5px;
+  border: 0;
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: max-content;
+  max-width: 245px;
+  padding: 7px 9px;
+  border: 1px solid rgba(200, 173, 116, .4);
+  background: rgba(8, 21, 17, .96);
+  color: var(--cream-soft);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: .015em;
+  line-height: 1.55;
+  text-transform: none;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity .16s ease, transform .16s ease, visibility .16s step-end;
+  pointer-events: none;
+}
+.tooltip.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity .16s ease, transform .16s ease, visibility 0s;
+}
+.tooltip b {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--brass-bright);
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.tooltip kbd {
+  display: inline-block;
+  margin-top: 3px;
+  padding: 1px 4px;
+  border: 1px solid rgba(222, 214, 191, .22);
+  color: var(--cream-faint);
+  font-family: var(--mono);
+  font-size: 5.5px;
+  letter-spacing: .04em;
+}
+
+@keyframes livePulse {
+  0% { transform: scale(.6); opacity: .5; }
+  65% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@keyframes bannerIn {
+  0% { opacity: 0; transform: translate(-50%, -8px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+@keyframes bannerOut {
+  0% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -4px); }
+}
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page { animation: pageIn .8s var(--ease) both; }
+.console { animation: pageIn .9s .08s var(--ease) both; }
+
+@media (max-width: 1280px) {
+  .page { padding-left: 22px; padding-right: 22px; }
+  .console { grid-template-columns: minmax(0, 1fr) 334px; }
+  .masthead { gap: 22px; }
+  .masthead-index { gap: 18px; }
+  .species { padding: 0 12px; }
+  .species .latin { display: none; }
+  .apparatus-head, .apparatus-body, .apparatus-foot { padding-left: 18px; padding-right: 18px; }
+  .report { padding: 17px 19px 15px; }
+  .report-mast { gap: 18px; }
+  .report-body { grid-template-columns: minmax(0, 1fr) 296px; }
+}
+
+@media (max-width: 1080px) {
+  body { height: auto; min-height: 100vh; overflow: auto; }
+  .page { height: auto; min-height: 100svh; gap: 14px; padding: 18px 18px 24px; }
+  .masthead { grid-template-columns: minmax(0, 1fr) auto; min-height: 92px; }
+  .masthead-index { display: none; }
+  .seal { grid-column: 2; grid-row: 1; width: 76px; height: 76px; align-self: start; }
+  .console { flex: 0 0 auto; grid-template-columns: 1fr; overflow: visible; }
+  .specimen { min-height: 610px; padding: 11px 11px 0; }
+  .world { min-height: 500px; }
+  .transport { height: 68px; min-height: 68px; }
+  .apparatus { border-left: 0; border-top: 1px solid rgba(208, 193, 159, .22); }
+  .apparatus-body { overflow: visible; display: grid; grid-template-columns: 1fr 1fr; column-gap: 30px; padding-bottom: 10px; }
+  .control-pair, .toggle-bank, .field-note { grid-column: 1 / -1; }
+  .apparatus-head { padding-top: 18px; }
+  .apparatus-foot { padding-top: 13px; padding-bottom: 15px; }
+  .page, .console { animation: none; }
+  .report { position: fixed; inset: 9px; min-height: 0; z-index: 90; }
+  .report-body { grid-template-columns: 1fr; grid-template-rows: auto auto auto; min-height: 0; flex: 0 0 auto; }
+  .outcome-section { grid-column: 1; grid-row: 3; min-height: 0; }
+  .traits-section { grid-row: 2; }
+  .census-section { min-height: 250px; }
+  .traits-section { min-height: 300px; }
+}
+
+@media (max-width: 720px) {
+  body::after { inset: 6px; }
+  .page { padding: 13px 12px 22px; }
+  .masthead { gap: 10px; padding-bottom: 10px; }
+  h1 { font-size: 40px; }
+  h1 .title-the { font-size: .36em; }
+  .deck { font-size: 12px; }
+  .eyebrow .eyebrow-rule { display: none; }
+  .seal { width: 62px; height: 62px; }
+  .seal-center b { font-size: 18px; }
+  .specimen { min-height: 500px; }
+  .world { min-height: 395px; }
+  .hud { padding: 13px 13px 30px; flex-direction: column; gap: 12px; }
+  .species-legend { justify-content: flex-start; width: 100%; flex-wrap: wrap; }
+  .species { border-left: 0; padding: 0 12px 0 0; }
+  .species + .species { border-left: 1px solid rgba(224, 216, 193, .18); padding-left: 10px; }
+  .species .count { font-size: 14px; }
+  .species .name { font-size: 6px; }
+  .hud-gen b { font-size: 18px; }
+  .event-banner { top: 126px; }
+  .transport { height: 60px; min-height: 60px; gap: 9px; }
+  .timeline { height: 38px; }
+  .transport-state { display: none; }
+  .transport-counter { display: none; }
+  .apparatus-body { display: block; padding-left: 14px; padding-right: 14px; }
+  .apparatus-head { padding-left: 14px; padding-right: 14px; }
+  .apparatus-foot { padding-left: 14px; padding-right: 14px; }
+  .control-pair .control:first-child { padding-right: 10px; }
+  .control-pair .control:last-child { padding-left: 10px; }
+  .report { padding: 15px 13px; gap: 12px; }
+  .report-mast { grid-template-columns: 1fr; gap: 9px; align-items: start; }
+  .report-mast h2 { font-size: 34px; }
+  .report-deck { font-size: 12px; }
+  .report-actions { justify-content: flex-start; }
+  .report-body { display: flex; flex-direction: column; }
+  .census-section { min-height: 240px; }
+  .traits-section { min-height: 490px; }
+  .trait-shell { min-height: 460px; }
+  .outcome-section { order: 3; }
+  .report-note { flex-direction: column; gap: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="glyph-flora" viewBox="0 0 16 16">
+      <path d="M8 14.2V5.1" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+      <path d="M8 10.1C5.1 9.9 3.2 8.6 2.3 6.1c2.9-.2 4.9.9 5.7 3.9M8 7.4c.2-2.8 1.7-4.4 4.6-4.9.4 2.8-.8 4.8-3.9 5.6" fill="none" stroke="currentColor" stroke-width=".9" stroke-linecap="round"/>
+      <circle cx="8" cy="3.2" r="1.05" fill="currentColor"/>
+    </symbol>
+    <symbol id="glyph-prey" viewBox="0 0 16 16">
+      <ellipse cx="8.7" cy="7.6" rx="3.3" ry="2.25" fill="currentColor" transform="rotate(28 8.7 7.6)"/>
+      <path d="M5.6 9.1C4 10.1 2.9 11.7 2.3 13.7" fill="none" stroke="currentColor" stroke-width=".8" stroke-linecap="round" opacity=".62"/>
+      <circle cx="9.6" cy="6.7" r=".6" fill="var(--glass)" opacity=".52"/>
+    </symbol>
+    <symbol id="glyph-predator" viewBox="0 0 16 16">
+      <path d="M14.2 8 2 12.4l4.1-4.2L2.4 3.8 14.2 8Z" fill="currentColor"/>
+      <path d="M6.1 8 9.7 6.5" fill="none" stroke="var(--glass)" stroke-width=".75" stroke-linecap="round" opacity=".55"/>
+    </symbol>
+    <symbol id="glyph-drought" viewBox="0 0 16 16">
+      <circle cx="8" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width=".9"/>
+      <path d="M8 1.6v1.5M8 12.9v1.5M1.6 8h1.5M12.9 8h1.5M3.5 3.5l1 1M11.5 11.5l1 1M12.5 3.5l-1 1M4.5 11.5l-1 1" fill="none" stroke="currentColor" stroke-width=".7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="glyph-plague" viewBox="0 0 16 16">
+      <circle cx="8" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width=".8"/>
+      <circle cx="8" cy="1.8" r="1.1" fill="currentColor" opacity=".72"/>
+      <circle cx="13.5" cy="5.2" r=".9" fill="currentColor" opacity=".6"/>
+      <circle cx="12.7" cy="12" r=".75" fill="currentColor" opacity=".75"/>
+      <circle cx="4.2" cy="12.8" r=".8" fill="currentColor" opacity=".55"/>
+      <circle cx="2.4" cy="5.2" r=".65" fill="currentColor" opacity=".72"/>
+      <path d="M8 4.8v6.4M4.8 8h6.4" fill="none" stroke="currentColor" stroke-width=".55" opacity=".55"/>
+    </symbol>
+    <symbol id="glyph-bloom" viewBox="0 0 16 16">
+      <path d="M8 8c-3.8-.2-5.1-2.8-2.6-4.4C7.2 2.4 8 5.7 8 8Zm0 0c.2-3.8 2.8-5.1 4.4-2.6C13.6 7.2 10.3 8 8 8Zm0 0c3.8.2 5.1 2.8 2.6 4.4C8.8 13.6 8 10.3 8 8Zm0 0C7.8 11.8 5.2 13.1 3.6 10.6 2.4 8.8 5.7 8 8 8Z" fill="currentColor" opacity=".72"/>
+      <circle cx="8" cy="8" r="1.15" fill="var(--glass)"/>
+    </symbol>
+    <symbol id="icon-pause" viewBox="0 0 12 12">
+      <path d="M3.4 2.1v7.8M8.6 2.1v7.8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-play" viewBox="0 0 12 12">
+      <path d="M3.4 2.2 9.4 6l-6 3.8V2.2Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="icon-step" viewBox="0 0 12 12">
+      <path d="M2.8 2.4 7.6 6l-4.8 3.6V2.4ZM9.1 2.4v7.2" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-reroll" viewBox="0 0 12 12">
+      <path d="M9.6 4.2A4 4 0 1 0 10 7.5M9.6 1.9v2.6H7" fill="none" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="page">
+  <header class="masthead">
+    <div class="masthead-primary">
+      <div class="eyebrow">
+        <span class="dot"></span>
+        <span>Observatory for Enclosed Life</span>
+        <span class="eyebrow-rule"></span>
+        <span>Plate XIV · MMXXVI</span>
+      </div>
+      <h1><span class="title-the">The</span><em>Vivarium</em>
+        <svg class="title-mark" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v14M1 8h14M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width=".55"/><circle cx="8" cy="8" r="1.4" fill="none" stroke="currentColor" stroke-width=".55"/></svg>
+      </h1>
+      <p class="deck">A sealed ecology, kept under continuous observation.</p>
+    </div>
+    <div class="masthead-index" aria-label="Run information">
+      <div class="index-item"><span>Specimen</span><strong>No. XIV</strong></div>
+      <div class="index-item"><span>Founding seed</span><strong id="metaSeed">1160</strong></div>
+      <div class="index-item"><span>Observation</span><strong id="metaState" data-state="live">In progress</strong></div>
+    </div>
+    <div class="seal" aria-hidden="true">
+      <svg viewBox="0 0 100 100">
+        <circle class="seal-ring" cx="50" cy="50" r="47.5"/>
+        <circle class="seal-inner" cx="50" cy="50" r="39.4"/>
+        <circle class="seal-progress" id="sealProgress" cx="50" cy="50" r="43.5" stroke-dasharray="273.32" stroke-dashoffset="273.32" transform="rotate(-90 50 50)"/>
+        <path id="sealPath" d="M50 9.2a40.8 40.8 0 1 1-.01 0" fill="none"/>
+        <text class="seal-type"><textPath href="#sealPath" startOffset="3%">OBSERVED CONTINUOUSLY · SPECIMEN XIV · </textPath></text>
+        <circle cx="50" cy="18.4" r="1" fill="#9b7a40"/>
+        <circle cx="50" cy="81.6" r="1" fill="#9b7a40"/>
+      </svg>
+      <div class="seal-center"><b>XIV</b><em id="sealWord">sealed</em></div>
+    </div>
+  </header>
+
+  <main class="console" id="console">
+    <section class="specimen" id="specimen" aria-label="Living specimen chamber">
+      <div class="world" id="worldWrap">
+        <canvas id="worldCanvas" role="img" aria-label="A living terrarium containing flora, grazers and hunters"></canvas>
+        <div class="glass-sheen"></div>
+        <div class="glass-grain"></div>
+        <div class="hud">
+          <div class="hud-left">
+            <div class="live-tag"><span class="live-dot"></span><span id="liveTag">Live observation</span></div>
+            <div class="hud-gen"><span>Gen</span><b id="hudGen">000</b><em>/ <span id="hudTarget">180</span></em></div>
+          </div>
+          <div class="species-legend">
+            <div class="species" data-species="flora">
+              <svg class="glyph" aria-hidden="true"><use href="#glyph-flora"/></svg>
+              <span class="name">Flora <span class="latin">Chlora vitrea</span></span>
+              <span class="count" id="countFlora">0</span>
+            </div>
+            <div class="species" data-species="prey">
+              <svg class="glyph" aria-hidden="true"><use href="#glyph-prey"/></svg>
+              <span class="name">Grazers <span class="latin">Vitta aurata</span></span>
+              <span class="count" id="countPrey">0</span>
+            </div>
+            <div class="species" data-species="predator">
+              <svg class="glyph" aria-hidden="true"><use href="#glyph-predator"/></svg>
+              <span class="name">Hunters <span class="latin">Noctua vorax</span></span>
+              <span class="count" id="countPredator">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="event-banner" id="eventBanner" hidden>
+          <span class="event-glyph" aria-hidden="true"><svg><use id="eventGlyphUse" href="#glyph-drought"/></svg></span>
+          <span class="event-copy">
+            <span class="event-kicker" id="eventKicker">Disturbance I · Gen 034</span>
+            <span class="event-title" id="eventTitle">Drought <span id="eventDetail">eight generations of withheld rain</span></span>
+          </span>
+        </div>
+        <div class="event-wash" id="eventWash" aria-hidden="true"></div>
+        <div class="world-foot">
+          <span id="worldFootnote">Closed nutrient cycle · 100 × 60 field</span>
+          <span class="scale-bar"><i></i>20 cells</span>
+        </div>
+      </div>
+      <footer class="transport">
+        <div class="transport-controls">
+          <button class="transport-btn" id="playBtn" type="button" aria-label="Pause observation" aria-keyshortcuts="Space" data-tip="Hold the chamber still. The simulation will resume exactly where it stopped." data-keys="SPACE">
+            <svg aria-hidden="true"><use id="playIcon" href="#icon-pause"/></svg>
+          </button>
+          <button class="transport-btn small" id="stepBtn" type="button" aria-label="Advance one generation" aria-keyshortcuts="ArrowRight" data-tip="Advance the ecosystem by a single generation while the chamber is held." data-keys="→">
+            <svg aria-hidden="true"><use href="#icon-step"/></svg>
+          </button>
+          <span class="transport-state"><span>Status</span><strong id="transportState">Observing</strong></span>
+        </div>
+        <div class="timeline"><canvas id="timelineCanvas" role="img" aria-label="Generation timeline with disturbance markers"></canvas></div>
+        <div class="transport-counter"><span>Generation</span><b id="genNow">000</b><em>/ <span id="genTarget">180</span></em></div>
+      </footer>
+    </section>
+
+    <aside class="apparatus" id="apparatus" aria-label="Simulation instruments">
+      <header class="apparatus-head">
+        <div class="plate-line"><span>II</span><span>The apparatus</span><span style="margin-left:auto">VXIV–03</span></div>
+        <h2>Instruments</h2>
+        <p>Every measure is felt within the glass.</p>
+      </header>
+      <div class="apparatus-body">
+        <div class="control-pair">
+          <div class="control control-compact" data-tip="The founding seed fixes every random choice in the chamber. Draw a new seed to begin an entirely different history." data-keys="↑ ↓ · ENTER">
+            <div class="control-top">
+              <span class="control-index">01</span>
+              <label for="seedInput">Seed</label>
+              <button class="reroll-btn" id="seedShuffle" type="button" aria-label="Draw a new founding seed" data-tip="Draw the next seed and reseal the chamber from generation zero.">
+                <svg aria-hidden="true"><use href="#icon-reroll"/></svg>
+              </button>
+            </div>
+            <div class="control-body">
+              <div class="stepper stepper-wide">
+                <button type="button" id="seedDown" aria-label="Previous seed">−</button>
+                <input id="seedInput" type="number" min="1" max="999999" step="1" value="1160" inputmode="numeric" aria-describedby="seedHelp">
+                <button type="button" id="seedUp" aria-label="Next seed">+</button>
+              </div>
+              <canvas class="micro" data-micro="seed" width="84" height="40" aria-hidden="true"></canvas>
+            </div>
+            <span class="sr-only" id="seedHelp">Changing the seed restarts the simulation from generation zero.</span>
+          </div>
+          <div class="control control-compact" data-tip="The observation horizon. Lowering it below the current generation concludes the study; raising it lets the ecosystem continue." data-keys="↑ ↓">
+            <div class="control-top">
+              <span class="control-index">02</span>
+              <label for="genInput">Generations</label>
+            </div>
+            <div class="control-body">
+              <div class="stepper stepper-wide">
+                <button type="button" id="genDown" aria-label="Decrease generations by ten">−</button>
+                <input id="genInput" type="number" min="40" max="1000" step="10" value="180" inputmode="numeric" aria-describedby="genHelp">
+                <span class="stepper-unit">gen</span>
+                <button type="button" id="genUp" aria-label="Increase generations by ten">+</button>
+              </div>
+              <canvas class="micro" data-micro="generations" width="84" height="40" aria-hidden="true"></canvas>
+            </div>
+            <span class="sr-only" id="genHelp">The run concludes at this generation number.</span>
+          </div>
+        </div>
+
+        <div class="control dial-control" data-control="mutation" data-tip="How readily inherited traits change at birth. Low values preserve lineages; high values make evolution restless." data-keys="DRAG · ARROWS">
+          <div class="control-top">
+            <span class="control-index">03</span>
+            <span class="control-label" id="mutationLabel">Mutation rate</span>
+            <output id="mutationOutput">3.8<small>% / gene</small></output>
+          </div>
+          <div class="dial-row">
+            <div class="dial" id="mutationDial" role="slider" tabindex="0" aria-labelledby="mutationLabel" aria-valuemin="0.5" aria-valuemax="12" aria-valuenow="3.8" aria-valuetext="3.8 percent per gene per birth">
+              <span class="dial-ticks"></span>
+              <span class="dial-progress"></span>
+              <span class="dial-needle"></span>
+              <span class="dial-hub"></span>
+            </div>
+            <div class="dial-meta">
+              <span class="dial-unit">Chance of variation per gene / birth</span>
+              <canvas class="micro" data-micro="mutation" width="188" height="56" aria-hidden="true"></canvas>
+              <span class="dial-ends"><span>0.5%</span><span>12%</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control" data-control="regrowth" data-tip="The pace at which the flora canopy returns. Generous regrowth supports larger populations; scarcity forces harder choices." data-keys="LEFT / RIGHT">
+          <div class="control-top">
+            <span class="control-index">04</span>
+            <label for="regrowthInput">Food regrowth</label>
+            <output id="regrowthOutput">0.90<small>× baseline</small></output>
+          </div>
+          <div class="control-body">
+            <div class="slider-wrap">
+              <input class="slider" id="regrowthInput" type="range" min="0.2" max="1.6" step="0.05" value="0.9" aria-labelledby="regrowthLabel" aria-describedby="regrowthHelp">
+              <div class="slider-scale"><span>scarce</span><span>baseline</span><span>abundant</span></div>
+            </div>
+            <canvas class="micro" data-micro="regrowth" width="64" height="36" aria-hidden="true"></canvas>
+          </div>
+          <span class="sr-only" id="regrowthLabel">Food regrowth</span>
+          <span class="sr-only" id="regrowthHelp">Changes plant regrowth immediately.</span>
+        </div>
+
+        <div class="control" data-control="speed" data-tip="The pace of observation, not of biology. Faster settings deliver more generations per second; the underlying sequence remains identical." data-keys="LEFT / RIGHT">
+          <div class="control-top">
+            <span class="control-index">05</span>
+            <label for="speedInput">Speed</label>
+            <output id="speedOutput">6<small>gen / sec</small></output>
+          </div>
+          <div class="control-body">
+            <div class="slider-wrap">
+              <input class="slider" id="speedInput" type="range" min="1" max="60" step="1" value="6" aria-labelledby="speedLabel" aria-describedby="speedHelp">
+              <div class="slider-scale"><span>contemplative</span><span>accelerated</span></div>
+            </div>
+            <canvas class="micro" data-micro="speed" width="64" height="36" aria-hidden="true"></canvas>
+          </div>
+          <span class="sr-only" id="speedLabel">Speed</span>
+          <span class="sr-only" id="speedHelp">Sets generations per second.</span>
+        </div>
+
+        <div class="control dial-control" data-control="interval" data-tip="The chamber is disturbed at this cadence. Short intervals keep the ecosystem young and volatile; long intervals allow mature, specialised lineages." data-keys="DRAG · ARROWS">
+          <div class="control-top">
+            <span class="control-index">06</span>
+            <span class="control-label" id="intervalLabel">Catastrophe interval</span>
+            <output id="intervalOutput">34<small>generations</small></output>
+          </div>
+          <div class="dial-row">
+            <div class="dial" id="intervalDial" role="slider" tabindex="0" aria-labelledby="intervalLabel" aria-valuemin="10" aria-valuemax="120" aria-valuenow="34" aria-valuetext="Catastrophe every 34 generations">
+              <span class="dial-ticks"></span>
+              <span class="dial-progress"></span>
+              <span class="dial-needle"></span>
+              <span class="dial-hub"></span>
+            </div>
+            <div class="dial-meta">
+              <span class="dial-unit">Interval between scheduled disturbances</span>
+              <canvas class="micro" data-micro="interval" width="188" height="56" aria-hidden="true"></canvas>
+              <span class="dial-ends"><span>frequent</span><span>rare</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-bank">
+          <div class="toggle-bank-head"><span>Permitted disturbances</span><em id="disturbanceCount">3 active</em></div>
+          <div class="toggles">
+            <button class="toggle" type="button" data-event="drought" role="switch" aria-checked="true" aria-label="Drought" data-tip="Drought withholds rain for eight generations, arresting the growth of flora." data-keys="SPACE">
+              <svg class="glyph" aria-hidden="true"><use href="#glyph-drought"/></svg>
+              <span class="toggle-label">Drought</span>
+              <span class="toggle-track" aria-hidden="true"></span>
+            </button>
+            <button class="toggle" type="button" data-event="plague" role="switch" aria-checked="true" aria-label="Plague" data-tip="Plague moves through the herd, killing many grazers and weakening those that remain." data-keys="SPACE">
+              <svg class="glyph" aria-hidden="true"><use href="#glyph-plague"/></svg>
+              <span class="toggle-label">Plague</span>
+              <span class="toggle-track" aria-hidden="true"></span>
+            </button>
+            <button class="toggle" type="button" data-event="bloom" role="switch" aria-checked="true" aria-label="Bloom" data-tip="Bloom floods the chamber with nutrients, then poisons the grazers that feed upon it." data-keys="SPACE">
+              <svg class="glyph" aria-hidden="true"><use href="#glyph-bloom"/></svg>
+              <span class="toggle-label">Bloom</span>
+              <span class="toggle-track" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="field-note">
+          <div class="field-note-head"><span>Field note</span><span id="noteSerial">XIV / 000</span></div>
+          <p id="fieldNote" aria-live="polite">The founding colony is settling into its glass. The first census is being taken.</p>
+        </div>
+      </div>
+      <footer class="apparatus-foot">
+        <button class="finish-btn" id="finishBtn" type="button" data-tip="Stop the run now and open the complete field report.">Conclude observation →</button>
+        <span class="local-link"><i></i>local instrument</span>
+      </footer>
+    </aside>
+
+    <section class="report" id="report" role="dialog" aria-modal="true" aria-labelledby="reportTitle" aria-describedby="reportDeck" aria-hidden="true" tabindex="-1">
+      <header class="report-mast">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> Observation concluded · Plate XIV</div>
+          <h2 id="reportTitle">Field <em>Report</em></h2>
+        </div>
+        <p class="report-deck" id="reportDeck">A complete account of a closed ecology, from founding seed to final census.</p>
+        <div class="report-actions">
+          <button class="report-btn quiet" id="extendBtn" type="button" data-tip="Continue the observation for another sixty generations. The existing record is retained.">Extend +60</button>
+          <button class="report-btn" id="replayBtn" type="button" data-tip="Begin again from the same founding seed with the same instruments. The run will be identical.">Replay seed</button>
+          <button class="report-btn primary" id="newBtn" type="button" data-tip="Draw a new founding seed and begin a fresh specimen from generation zero.">New specimen</button>
+        </div>
+      </header>
+      <div class="report-body">
+        <section class="report-section census-section" aria-labelledby="censusTitle">
+          <header class="section-head">
+            <div><span class="section-index">01</span><h3 id="censusTitle">Census</h3></div>
+            <p>Population history · disturbance marks</p>
+          </header>
+          <div class="chart-shell"><canvas id="censusChart" role="img" aria-label="Population curves for flora, grazers and hunters"></canvas></div>
+        </section>
+        <section class="report-section traits-section" aria-labelledby="traitsTitle">
+          <header class="section-head">
+            <div><span class="section-index">03</span><h3 id="traitsTitle">Trait drift</h3></div>
+            <div class="trait-key" aria-hidden="true">
+              <span style="--c:var(--chart-prey)"><i></i>Grazers</span>
+              <span style="--c:var(--chart-predator)"><i></i>Hunters</span>
+              <span style="--c:var(--chart-prey)"><i class="band"></i>±1σ</span>
+            </div>
+          </header>
+          <div class="chart-shell trait-shell"><canvas id="traitsChart" role="img" aria-label="Trait drift charts for speed, vision, metabolism and reproduction threshold"></canvas></div>
+        </section>
+        <aside class="outcome-section" aria-labelledby="outcomeTitle">
+          <header class="section-head">
+            <div><span class="section-index">02</span><h3 id="outcomeTitle">The outcome</h3></div>
+            <p>Final standing</p>
+          </header>
+          <p class="outcome-lede" id="outcomeLede">The glass is being read.</p>
+          <div class="final-counts" id="finalCounts"></div>
+          <div class="ledger-head"><span>Disturbance ledger</span><span id="ledgerCount">00 events</span></div>
+          <div class="event-ledger" id="eventLedger"></div>
+          <div class="outcome-stamp">
+            <span class="seal-word">Closed · No. XIV</span>
+            <small>Seeded <span id="reportSeed">1160</span><br><span id="reportGenerations">180</span> generations recorded</small>
+          </div>
+        </aside>
+      </div>
+      <footer class="report-note">
+        <span id="reportMeta">Seed 1160 · 180 generations · 5 disturbances</span>
+        <em>Mean is drawn as a line; spread is shaded one standard deviation either side.</em>
+      </footer>
+    </section>
+  </main>
+</div>
+
+<div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true"></div>
+<div class="sr-only" id="announcer" aria-live="polite"></div>
+<script>
+const TAU = Math.PI * 2;
+const WORLD_W = 100;
+const WORLD_H = 60;
+const GRID_W = 100;
+const GRID_H = 60;
+const PLANT_CELLS = GRID_W * GRID_H;
+const PREY_CAP = 240;
+const PREDATOR_CAP = 56;
+const EAT_RATE = 0.1;
+const PLANT_ENERGY = 26;
+const PREY_BOUNDS = {
+  speed: [0.5, 2.5],
+  vision: [2, 17],
+  metabolism: [0.45, 2.7],
+  repro: [28, 125]
+};
+const PREDATOR_BOUNDS = {
+  speed: [0.7, 2.9],
+  vision: [3.5, 23],
+  metabolism: [1.0, 4.8],
+  repro: [58, 180]
+};
+const GENE_DEFS = [
+  { key: "speed", label: "Speed", short: "Speed", unit: "cells / gen", decimals: 2 },
+  { key: "vision", label: "Vision", short: "Vision", unit: "cells", decimals: 1 },
+  { key: "metabolism", label: "Metabolism", short: "Metab.", unit: "energy / gen", decimals: 2 },
+  { key: "repro", label: "Repr. threshold", short: "Repr.", unit: "energy units", decimals: 0 }
+];
+const EVENT_META = {
+  drought: {
+    label: "Drought",
+    kicker: "Atmosphere",
+    color: "#e48b57",
+    chartColor: "#b66536",
+    glyph: "#glyph-drought",
+    detail: "eight generations of withheld rain",
+    duration: 8
+  },
+  plague: {
+    label: "Plague",
+    kicker: "Pathogen",
+    color: "#dc7d99",
+    chartColor: "#a9506d",
+    glyph: "#glyph-plague",
+    detail: "a swift infection moves through the herd",
+    duration: 4
+  },
+  bloom: {
+    label: "Bloom",
+    kicker: "Nutrient event",
+    color: "#75d4c7",
+    chartColor: "#37877f",
+    glyph: "#glyph-bloom",
+    detail: "nutrient surge · the water turns toxic",
+    duration: 7
+  }
+};
+const SPECIES = {
+  flora: { label: "Flora", latin: "Chlora vitrea", color: "#b8dd7c", chartColor: "#667f33", countLabel: "colonies" },
+  prey: { label: "Grazers", latin: "Vitta aurata", color: "#f1b96c", chartColor: "#ac6720", countLabel: "individuals" },
+  predator: { label: "Hunters", latin: "Noctua vorax", color: "#caa0f2", chartColor: "#70518f", countLabel: "individuals" }
+};
+
+function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+function lerp(a, b, t) { return a + (b - a) * t; }
+function normAngle(a) {
+  a %= TAU;
+  if (a > Math.PI) a -= TAU;
+  if (a < -Math.PI) a += TAU;
+  return a;
+}
+function turnToward(current, target, amount) {
+  return current + normAngle(target - current) * amount;
+}
+function mulberry32(seed) {
+  let a = seed >>> 0;
+  return function () {
+    a |= 0;
+    a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function createRng(seed) {
+  const raw = mulberry32(seed);
+  let spare = null;
+  const rng = {
+    next: raw,
+    range(lo, hi) { return lo + raw() * (hi - lo); },
+    int(lo, hi) { return Math.floor(lo + raw() * (hi - lo + 1)); },
+    pick(list) { return list[Math.floor(raw() * list.length)]; },
+    chance(p) { return raw() < p; },
+    gauss() {
+      if (spare !== null) {
+        const value = spare;
+        spare = null;
+        return value;
+      }
+      let u = 0;
+      let v = 0;
+      while (u === 0) u = raw();
+      while (v === 0) v = raw();
+      const mag = Math.sqrt(-2 * Math.log(u));
+      spare = mag * Math.sin(TAU * v);
+      return mag * Math.cos(TAU * v);
+    }
+  };
+  return rng;
+}
+function normalizeSeed(seed) {
+  const n = Number(seed);
+  if (!Number.isFinite(n)) return 1887;
+  const v = Math.abs(Math.trunc(n)) % 1000000000;
+  return v || 1887;
+}
+function nextSeedFrom(seed) {
+  const x = (Math.imul(seed >>> 0, 1664525) + 1013904223) >>> 0;
+  return (x % 898999) + 1000;
+}
+function hexToRgba(hex, alpha) {
+  const compact = hex.replace("#", "");
+  const value = compact.length === 3
+    ? compact.split("").map((c) => c + c).join("")
+    : compact;
+  const n = parseInt(value, 16);
+  return "rgba(" + ((n >> 16) & 255) + "," + ((n >> 8) & 255) + "," + (n & 255) + "," + alpha + ")";
+}
+function formatInteger(value) {
+  return new Intl.NumberFormat("en-US").format(Math.round(value));
+}
+function padNumber(value, size) {
+  return String(Math.max(0, Math.floor(value))).padStart(size, "0");
+}
+function formatGeneValue(key, value) {
+  if (!Number.isFinite(value)) return "—";
+  if (key === "repro") return Math.round(value).toString();
+  if (key === "vision") return value.toFixed(1);
+  return value.toFixed(2);
+}
+function seededAmplitude(seed) {
+  const rng = createRng(normalizeSeed(seed) ^ 0x9e3779b9);
+  const points = [];
+  let value = rng.range(0.22, 0.78);
+  for (let i = 0; i < 18; i++) {
+    value = clamp(value + rng.gauss() * 0.18, 0.06, 0.94);
+    points.push(value);
+  }
+  return points;
+}
+function roman(index) {
+  const table = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX"];
+  return table[index - 1] || String(index);
+}
+
+class VivariumSimulation {
+  constructor(options = {}) {
+    this.seed = normalizeSeed(options.seed ?? 1160);
+    this.target = Math.max(1, Math.trunc(options.generations ?? 180));
+    this.mutationRate = clamp(Number(options.mutationRate ?? 0.038), 0, 0.3);
+    this.regrowth = clamp(Number(options.regrowth ?? 0.9), 0.05, 3);
+    this.catastropheEvery = Math.max(2, Math.trunc(options.catastropheEvery ?? 34));
+    const enabled = options.enabledEvents ?? ["drought", "plague", "bloom"];
+    this.enabledEvents = enabled.filter((type) => EVENT_META[type]);
+    this.rng = createRng(this.seed);
+    this.gen = 0;
+    this.id = 1;
+    this.lastEventGen = 0;
+    this.lastEventType = null;
+    this.active = { drought: -1, plague: -1, bloom: -1 };
+    this.events = [];
+    this.history = [];
+    this._stepEvents = [];
+    this._stepKills = [];
+    this._births = 0;
+    this._mutations = 0;
+    this._deaths = 0;
+    this._plantColonies = 0;
+    this._plantMass = 0;
+    this.food = new Float32Array(PLANT_CELLS);
+    this.fertility = new Float32Array(PLANT_CELLS);
+    this.prey = [];
+    this.predator = [];
+    this._initWorld();
+    this._countPlants();
+    this._record();
+  }
+
+  _initWorld() {
+    const rng = this.rng;
+    const sites = [];
+    for (let i = 0; i < 10; i++) {
+      sites.push({
+        x: rng.range(7, WORLD_W - 7),
+        y: rng.range(5, WORLD_H - 5),
+        r: rng.range(6.5, 16.5),
+        strength: rng.range(0.34, 1.12),
+        phase: rng.range(0, TAU)
+      });
+    }
+    const plantCandidates = [];
+    for (let y = 0; y < GRID_H; y++) {
+      for (let x = 0; x < GRID_W; x++) {
+        let basin = 0;
+        for (const site of sites) {
+          const dx = x + 0.5 - site.x;
+          const dy = y + 0.5 - site.y;
+          const radius = site.r * 0.58;
+          basin += site.strength * Math.exp(-(dx * dx + dy * dy) / (2 * radius * radius));
+        }
+        const ripple = 0.08 * Math.sin(x * 0.19 + y * 0.13 + sites[0].phase);
+        const fertility = clamp(0.2 + basin * 0.92 + ripple, 0.08, 1.55);
+        const idx = y * GRID_W + x;
+        this.fertility[idx] = fertility;
+        let food = 0;
+        if (basin > 0.19) {
+          food = clamp(0.06 + basin * 0.72 + rng.range(-0.1, 0.14), 0, 1);
+        } else if (rng.chance(0.13)) {
+          food = rng.range(0, 0.07);
+        }
+        this.food[idx] = food;
+        if (food > 0.2) plantCandidates.push(idx);
+      }
+    }
+    for (let i = 0; i < 86; i++) {
+      let px;
+      let py;
+      if (plantCandidates.length) {
+        const idx = plantCandidates[rng.int(0, plantCandidates.length - 1)];
+        px = (idx % GRID_W) + rng.range(0.2, 0.8);
+        py = Math.floor(idx / GRID_W) + rng.range(0.2, 0.8);
+      } else {
+        px = rng.range(4, WORLD_W - 4);
+        py = rng.range(4, WORLD_H - 4);
+      }
+      const genes = this._initialGenes("prey");
+      this.prey.push(this._makePrey(px, py, genes, rng.range(30, 49)));
+    }
+    for (let i = 0; i < 17; i++) {
+      const genes = this._initialGenes("predator");
+      this.predator.push(this._makePredator(
+        rng.range(3, WORLD_W - 3),
+        rng.range(3, WORLD_H - 3),
+        genes,
+        rng.range(74, 112)
+      ));
+    }
+  }
+
+  _initialGenes(kind) {
+    const rng = this.rng;
+    if (kind === "prey") {
+      return {
+        speed: clamp(1.04 + rng.gauss() * 0.1, ...PREY_BOUNDS.speed),
+        vision: clamp(8.4 + rng.gauss() * 1.1, ...PREY_BOUNDS.vision),
+        metabolism: clamp(1.18 + rng.gauss() * 0.1, ...PREY_BOUNDS.metabolism),
+        repro: clamp(54 + rng.gauss() * 4.2, ...PREY_BOUNDS.repro)
+      };
+    }
+    return {
+      speed: clamp(1.48 + rng.gauss() * 0.11, ...PREDATOR_BOUNDS.speed),
+      vision: clamp(11.2 + rng.gauss() * 1.3, ...PREDATOR_BOUNDS.vision),
+      metabolism: clamp(2.38 + rng.gauss() * 0.17, ...PREDATOR_BOUNDS.metabolism),
+      repro: clamp(104 + rng.gauss() * 6, ...PREDATOR_BOUNDS.repro)
+    };
+  }
+
+  _makePrey(x, y, genes, energy) {
+    return {
+      id: this.id++,
+      kind: "prey",
+      x, y, px: x, py: y,
+      heading: this.rng.range(0, TAU),
+      genes,
+      energy,
+      age: 0,
+      cooldown: 0,
+      dead: false
+    };
+  }
+
+  _makePredator(x, y, genes, energy) {
+    return {
+      id: this.id++,
+      kind: "predator",
+      x, y, px: x, py: y,
+      heading: this.rng.range(0, TAU),
+      genes,
+      energy,
+      age: 0,
+      cooldown: 0,
+      huntCooldown: 0,
+      dead: false
+    };
+  }
+
+  _inheritGenes(genes, bounds) {
+    const child = {};
+    let mutations = 0;
+    for (const def of GENE_DEFS) {
+      const key = def.key;
+      let value = genes[key];
+      if (this.rng.chance(this.mutationRate)) {
+        const span = bounds[key][1] - bounds[key][0];
+        let delta = this.rng.gauss() * span * 0.034;
+        if (this.rng.chance(0.045)) delta += this.rng.gauss() * span * 0.11;
+        value = clamp(value + delta, bounds[key][0], bounds[key][1]);
+        mutations++;
+      }
+      child[key] = value;
+    }
+    return { genes: child, mutations };
+  }
+
+  _cellIndex(x, y) {
+    const gx = clamp(Math.floor(x), 0, GRID_W - 1);
+    const gy = clamp(Math.floor(y), 0, GRID_H - 1);
+    return gy * GRID_W + gx;
+  }
+
+  _active(type) {
+    return this.active[type] >= this.gen;
+  }
+
+  _nearestPredator(p) {
+    let best = null;
+    let bestDist = Infinity;
+    for (const hunter of this.predator) {
+      if (hunter.dead) continue;
+      const dx = hunter.x - p.x;
+      const dy = hunter.y - p.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < bestDist) {
+        bestDist = d2;
+        best = hunter;
+      }
+    }
+    return best ? { prey: p, hunter: best, dist: Math.sqrt(bestDist) } : null;
+  }
+
+  _forageDirection(p) {
+    const eyes = p.genes.vision;
+    let bestScore = 0.001;
+    let bestAngle = p.heading;
+    let found = false;
+    for (let k = 0; k < 12; k++) {
+      const angle = (k / 12) * TAU;
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+      for (let tier = 1; tier <= 3; tier++) {
+        const radius = eyes * (tier / 3);
+        const x = p.x + cos * radius;
+        const y = p.y + sin * radius;
+        if (x < 0.5 || x > WORLD_W - 0.5 || y < 0.5 || y > WORLD_H - 0.5) continue;
+        const food = this.food[this._cellIndex(x, y)];
+        if (food < 0.022) continue;
+        const forward = 1 + 0.14 * Math.cos(angle - p.heading);
+        const score = food * forward * (1 - 0.17 * (tier / 3));
+        if (score > bestScore) {
+          bestScore = score;
+          bestAngle = angle;
+          found = true;
+        }
+      }
+    }
+    return { angle: bestAngle, found };
+  }
+
+  _nearestPrey(predator) {
+    let best = null;
+    let bestDist = Infinity;
+    const sight = predator.genes.vision;
+    const maxD2 = sight * sight;
+    for (const p of this.prey) {
+      if (p.dead) continue;
+      const dx = p.x - predator.x;
+      const dy = p.y - predator.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < bestDist && d2 < maxD2) {
+        bestDist = d2;
+        best = p;
+      }
+    }
+    return best ? { target: best, dist: Math.sqrt(bestDist) } : null;
+  }
+
+  step() {
+    this.gen++;
+    this._stepEvents = [];
+    this._stepKills = [];
+    this._births = 0;
+    this._mutations = 0;
+    this._deaths = 0;
+    if (this.enabledEvents.length && this.gen - this.lastEventGen >= this.catastropheEvery) {
+      this._fireCatastrophe();
+    }
+    this._growPlants();
+    this._updatePrey();
+    this._updatePredators();
+    this.prey = this.prey.filter((p) => !p.dead);
+    this.predator = this.predator.filter((p) => !p.dead);
+    this._countPlants();
+    this._record();
+    return {
+      events: this._stepEvents.slice(),
+      kills: this._stepKills.slice(),
+      births: this._births,
+      deaths: this._deaths,
+      mutations: this._mutations
+    };
+  }
+
+  _growPlants() {
+    const drought = this._active("drought");
+    const bloom = this._active("bloom");
+    const weather = drought ? 0.055 : bloom ? 1.68 : 1;
+    const growth = 0.0032 * this.regrowth * weather;
+    for (let i = 0; i < PLANT_CELLS; i++) {
+      const f = this.food[i];
+      if (f >= 0.997) continue;
+      const fertility = this.fertility[i];
+      this.food[i] = Math.min(1, f + growth * fertility * (1 - f));
+    }
+  }
+
+  _edgeBounce(p) {
+    let bounced = false;
+    if (p.x < 0.3) { p.x = 0.3; p.heading = Math.PI - p.heading; bounced = true; }
+    if (p.x > WORLD_W - 0.3) { p.x = WORLD_W - 0.3; p.heading = Math.PI - p.heading; bounced = true; }
+    if (p.y < 0.3) { p.y = 0.3; p.heading = -p.heading; bounced = true; }
+    if (p.y > WORLD_H - 0.3) { p.y = WORLD_H - 0.3; p.heading = -p.heading; bounced = true; }
+    if (bounced) p.heading = normAngle(p.heading);
+  }
+
+  _updatePrey() {
+    const babies = [];
+    const plague = this._active("plague");
+    const bloom = this._active("bloom");
+    for (const p of this.prey) {
+      if (p.dead) continue;
+      p.px = p.x;
+      p.py = p.y;
+      p.age++;
+      p.cooldown = Math.max(0, p.cooldown - 1);
+      let drain = p.genes.metabolism;
+      if (plague) drain *= 1.55;
+      if (bloom) drain *= 1.24;
+      p.energy -= drain;
+      if (p.energy <= 0 || p.age > 520) {
+        p.dead = true;
+        this._deaths++;
+        continue;
+      }
+      const threat = this._nearestPredator(p);
+      const here = this.food[this._cellIndex(p.x, p.y)];
+      let desired = p.heading;
+      let speedFactor = 1;
+      if (threat && threat.dist < p.genes.vision * 0.68) {
+        desired = Math.atan2(p.y - threat.hunter.y, p.x - threat.hunter.x);
+        desired += this.rng.range(-0.32, 0.32);
+        speedFactor = 1.32;
+      } else if (here > 0.14) {
+        desired = p.heading + this.rng.range(-0.18, 0.18);
+        speedFactor = 0.22;
+      } else {
+        const forage = this._forageDirection(p);
+        desired = forage.angle;
+        speedFactor = forage.found ? 0.94 : 0.6;
+      }
+      p.heading = turnToward(p.heading, desired, threat ? 0.58 : 0.38);
+      p.heading = normAngle(p.heading + this.rng.gauss() * 0.035);
+      const distance = p.genes.speed * speedFactor;
+      p.x += Math.cos(p.heading) * distance;
+      p.y += Math.sin(p.heading) * distance;
+      this._edgeBounce(p);
+      const cell = this._cellIndex(p.x, p.y);
+      const available = this.food[cell];
+      if (available > 0.002) {
+        const eaten = Math.min(available, EAT_RATE);
+        this.food[cell] -= eaten;
+        p.energy += eaten * PLANT_ENERGY;
+      }
+      p.energy = Math.min(p.energy, 165);
+      const preyDensity = (this.prey.length + babies.length) / PREY_CAP;
+      const preyNeed = p.genes.repro * (1 + 1.3 * Math.pow(preyDensity, 2.6));
+      if (p.energy >= preyNeed && p.cooldown === 0 && this.prey.length + babies.length < PREY_CAP) {
+        const cost = p.genes.repro * 0.47;
+        if (p.energy > cost + 5) {
+          p.energy -= cost;
+          p.cooldown = 4;
+          const inherited = this._inheritGenes(p.genes, PREY_BOUNDS);
+          const childEnergy = Math.min(42, p.genes.repro * 0.32);
+          const child = this._makePrey(
+            clamp(p.x + this.rng.gauss() * 0.8, 0.4, WORLD_W - 0.4),
+            clamp(p.y + this.rng.gauss() * 0.8, 0.4, WORLD_H - 0.4),
+            inherited.genes,
+            childEnergy
+          );
+          child.heading = p.heading + this.rng.range(-0.6, 0.6);
+          babies.push(child);
+          this._births++;
+          this._mutations += inherited.mutations;
+        }
+      }
+    }
+    this.prey = this.prey.filter((p) => !p.dead).concat(babies);
+  }
+
+  _updatePredators() {
+    const babies = [];
+    const plague = this._active("plague");
+    for (const p of this.predator) {
+      if (p.dead) continue;
+      p.px = p.x;
+      p.py = p.y;
+      p.age++;
+      p.cooldown = Math.max(0, p.cooldown - 1);
+      p.huntCooldown = Math.max(0, p.huntCooldown - 1);
+      p.energy -= p.genes.metabolism * (plague ? 1.18 : 1);
+      if (p.energy <= 0 || p.age > 760) {
+        p.dead = true;
+        this._deaths++;
+        continue;
+      }
+      const found = this._nearestPrey(p);
+      let desired = p.heading;
+      let speedFactor = 0.55;
+      if (found) {
+        desired = Math.atan2(found.target.y - p.y, found.target.x - p.x);
+        speedFactor = 1;
+      } else {
+        desired = p.heading + this.rng.gauss() * 0.23;
+      }
+      p.heading = turnToward(p.heading, desired, found ? 0.67 : 0.22);
+      p.heading = normAngle(p.heading + this.rng.gauss() * 0.026);
+      const distance = p.genes.speed * speedFactor;
+      p.x += Math.cos(p.heading) * distance;
+      p.y += Math.sin(p.heading) * distance;
+      this._edgeBounce(p);
+      if (found && !found.target.dead && p.huntCooldown === 0) {
+        const dx = found.target.x - p.x;
+        const dy = found.target.y - p.y;
+        if (dx * dx + dy * dy < 1.45) {
+          found.target.dead = true;
+          this._deaths++;
+          this._stepKills.push({ x: found.target.x, y: found.target.y });
+          p.energy = Math.min(210, p.energy + 58);
+          p.huntCooldown = 1;
+        }
+      }
+      p.energy = Math.min(p.energy, 200);
+      const hunterDensity = (this.predator.length + babies.length) / PREDATOR_CAP;
+      const hunterNeed = p.genes.repro * (1 + 1.4 * Math.pow(hunterDensity, 2.8));
+      if (p.energy >= hunterNeed && p.cooldown === 0 && this.predator.length + babies.length < PREDATOR_CAP) {
+        const cost = p.genes.repro * 0.46;
+        if (p.energy > cost + 6) {
+          p.energy -= cost;
+          p.cooldown = 8;
+          const inherited = this._inheritGenes(p.genes, PREDATOR_BOUNDS);
+          const child = this._makePredator(
+            clamp(p.x + this.rng.gauss() * 0.9, 0.4, WORLD_W - 0.4),
+            clamp(p.y + this.rng.gauss() * 0.9, 0.4, WORLD_H - 0.4),
+            inherited.genes,
+            Math.min(52, p.genes.repro * 0.3)
+          );
+          babies.push(child);
+          this._births++;
+          this._mutations += inherited.mutations;
+        }
+      }
+    }
+    this.predator = this.predator.filter((p) => !p.dead).concat(babies);
+  }
+
+  _fireCatastrophe() {
+    let pool = this.enabledEvents.slice();
+    if (pool.length > 1 && this.lastEventType) {
+      const withoutLast = pool.filter((type) => type !== this.lastEventType);
+      if (withoutLast.length) pool = withoutLast;
+    }
+    const type = this.rng.pick(pool);
+    const meta = EVENT_META[type];
+    let detail = meta.detail;
+    let casualties = 0;
+    if (type === "drought") {
+      this.active.drought = this.gen + 7;
+    } else if (type === "plague") {
+      for (const p of this.prey) {
+        if (!p.dead && this.rng.chance(0.38)) {
+          p.dead = true;
+          this._deaths++;
+          casualties++;
+        }
+      }
+      for (const p of this.predator) {
+        if (!p.dead && this.rng.chance(0.1)) {
+          p.dead = true;
+          this._deaths++;
+        }
+      }
+      this.active.plague = this.gen + 3;
+      detail = casualties + " grazers lost · the herd weakens";
+    } else if (type === "bloom") {
+      for (let i = 0; i < PLANT_CELLS; i++) {
+        this.food[i] = Math.min(1, this.food[i] + 0.16 * (0.45 + this.fertility[i] * 0.55));
+      }
+      this.active.bloom = this.gen + 6;
+    }
+    const event = {
+      seq: this.events.length + 1,
+      gen: this.gen,
+      type,
+      label: meta.label,
+      kicker: meta.kicker,
+      color: meta.color,
+      glyph: meta.glyph,
+      detail,
+      casualties,
+      roman: roman(this.events.length + 1)
+    };
+    this.events.push(event);
+    this._stepEvents.push(event);
+    this.lastEventGen = this.gen;
+    this.lastEventType = type;
+  }
+
+  _countPlants() {
+    let count = 0;
+    let mass = 0;
+    for (let i = 0; i < PLANT_CELLS; i++) {
+      const f = this.food[i];
+      mass += f;
+      if (f > 0.055) count++;
+    }
+    this._plantColonies = count;
+    this._plantMass = mass;
+  }
+
+  _geneSummary(list) {
+    if (!list.length) return null;
+    const summary = {};
+    for (const def of GENE_DEFS) {
+      let sum = 0;
+      let sumSq = 0;
+      for (const p of list) {
+        const v = p.genes[def.key];
+        sum += v;
+        sumSq += v * v;
+      }
+      const mean = sum / list.length;
+      const variance = Math.max(0, sumSq / list.length - mean * mean);
+      summary[def.key] = { mean, sd: Math.sqrt(variance) };
+    }
+    return summary;
+  }
+
+  _record() {
+    this.history.push({
+      gen: this.gen,
+      counts: {
+        flora: this._plantColonies,
+        prey: this.prey.length,
+        predator: this.predator.length
+      },
+      floraMass: this._plantMass,
+      genes: {
+        prey: this._geneSummary(this.prey),
+        predator: this._geneSummary(this.predator)
+      },
+      births: this._births,
+      mutations: this._mutations,
+      deaths: this._deaths
+    });
+  }
+
+  setMutationRate(value) {
+    this.mutationRate = clamp(Number(value), 0, 0.3);
+  }
+
+  setRegrowth(value) {
+    this.regrowth = clamp(Number(value), 0.05, 3);
+  }
+
+  setCatastropheInterval(value) {
+    this.catastropheEvery = Math.max(2, Math.trunc(Number(value)));
+  }
+
+  setEnabledEvents(types) {
+    this.enabledEvents = types.filter((type) => EVENT_META[type]);
+  }
+
+  effectState() {
+    return {
+      drought: this._active("drought"),
+      plague: this._active("plague"),
+      bloom: this._active("bloom")
+    };
+  }
+
+  currentCounts() {
+    return {
+      flora: this._plantColonies,
+      prey: this.prey.length,
+      predator: this.predator.length
+    };
+  }
+
+  nextDisturbanceAt() {
+    return this.lastEventGen + this.catastropheEvery;
+  }
+
+  summary() {
+    return {
+      seed: this.seed,
+      generation: this.gen,
+      target: this.target,
+      config: {
+        generations: this.target,
+        mutationRate: this.mutationRate,
+        regrowth: this.regrowth,
+        catastropheEvery: this.catastropheEvery,
+        enabledEvents: this.enabledEvents.slice()
+      },
+      counts: this.currentCounts(),
+      events: this.events.slice(),
+      history: this.history.slice()
+    };
+  }
+}
+
+function runHeadless(options = {}) {
+  const generations = Math.max(1, Math.trunc(options.generations ?? 180));
+  const mutationRate = options.mutationRate != null
+    ? Number(options.mutationRate)
+    : clamp(Number(options.mutation ?? 3.8) / 100, 0, 0.3);
+  const sim = new VivariumSimulation({
+    seed: options.seed ?? 1160,
+    generations,
+    mutationRate,
+    regrowth: options.regrowth ?? 0.9,
+    catastropheEvery: options.catastropheEvery ?? 34,
+    enabledEvents: options.enabledEvents ?? options.events ?? ["drought", "plague", "bloom"]
+  });
+  while (sim.gen < sim.target) sim.step();
+  return sim.summary();
+}
+
+window.Vivarium = {
+  version: "1.0.0",
+  Simulation: VivariumSimulation,
+  runHeadless
+};
+
+function canvasEventColor(type) {
+  return ({ drought: "#e48b57", plague: "#dc7d99", bloom: "#75d4c7" }[type] || "#c8ad74");
+}
+
+function fitCanvas(canvas) {
+  const rect = canvas.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const width = Math.max(1, Math.round(rect.width));
+  const height = Math.max(1, Math.round(rect.height));
+  const pixelWidth = Math.round(width * dpr);
+  const pixelHeight = Math.round(height * dpr);
+  if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+    canvas.width = pixelWidth;
+    canvas.height = pixelHeight;
+  }
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx, width, height, dpr };
+}
+
+class WorldRenderer {
+  constructor(canvas, sim) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext("2d");
+    this.sim = sim;
+    this.w = 1;
+    this.h = 1;
+    this.dpr = 1;
+    this.plantSprites = [];
+    this.killFx = [];
+    this.pulses = [];
+    this.plantLayer = null;
+    this.plantLayerGen = -1;
+    this.resizeObserver = new ResizeObserver(() => this.resize());
+    this.resizeObserver.observe(canvas.parentElement);
+    this._buildSprites();
+    this.resize();
+  }
+
+  setSim(sim) {
+    this.sim = sim;
+    this.plantLayerGen = -1;
+    this.killFx = [];
+    this.pulses = [];
+    const rng = createRng(this.sim.seed ^ 0x51ed270b);
+    this.dust = [];
+    for (let i = 0; i < 46; i++) {
+      this.dust.push({
+        x: rng.next(),
+        y: rng.next(),
+        size: rng.range(0.4, 1.35),
+        phase: rng.range(0, TAU),
+        drift: rng.range(0.25, 1),
+        amplitude: rng.range(0.004, 0.023)
+      });
+    }
+    this.plantLayerGen = -1;
+  }
+
+  _buildSprites() {
+    this.plantSprites = [];
+    const spriteRng = createRng(9973);
+    for (let variant = 0; variant < 5; variant++) {
+      const size = 48;
+      const c = document.createElement("canvas");
+      c.width = size;
+      c.height = size;
+      const ctx = c.getContext("2d");
+      ctx.translate(size / 2, size / 2);
+      const lean = spriteRng.range(-0.18, 0.18);
+      ctx.rotate(lean);
+      const glow = ctx.createRadialGradient(0, 5, 0, 0, 5, size * 0.43);
+      glow.addColorStop(0, "rgba(173, 219, 111, .19)");
+      glow.addColorStop(0.6, "rgba(160, 210, 100, .05)");
+      glow.addColorStop(1, "rgba(160, 210, 100, 0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(-size / 2, -size / 2, size, size);
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "rgba(191, 225, 129, .84)";
+      ctx.lineWidth = 1.05;
+      ctx.beginPath();
+      ctx.moveTo(0, 16);
+      ctx.quadraticCurveTo(spriteRng.range(-1.2, 1.2), 5, spriteRng.range(-0.6, 0.6), -8);
+      ctx.stroke();
+      for (let i = 0; i < 2; i++) {
+        const y = 4 - i * 7;
+        const dir = i === 0 ? -1 : 1;
+        ctx.strokeStyle = i === 0 ? "rgba(188, 222, 124, .8)" : "rgba(198, 231, 139, .67)";
+        ctx.lineWidth = 0.82;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.quadraticCurveTo(dir * 6.2, y - 3.4, dir * 7.2, y - 8.2);
+        ctx.stroke();
+        ctx.fillStyle = "rgba(203, 234, 145, .36)";
+        ctx.beginPath();
+        ctx.ellipse(dir * 5.3, y - 5.3, 3.2, 1.5, dir * -0.45, 0, TAU);
+        ctx.fill();
+      }
+      ctx.fillStyle = "rgba(223, 244, 170, .86)";
+      ctx.beginPath();
+      ctx.arc(spriteRng.range(-0.8, 0.8), -8.5, spriteRng.range(0.7, 1.15), 0, TAU);
+      ctx.fill();
+      this.plantSprites.push(c);
+    }
+
+    const makeGlow = (color) => {
+      const c = document.createElement("canvas");
+      c.width = 64;
+      c.height = 64;
+      const ctx = c.getContext("2d");
+      const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      g.addColorStop(0, hexToRgba(color, 0.8));
+      g.addColorStop(0.25, hexToRgba(color, 0.28));
+      g.addColorStop(0.7, hexToRgba(color, 0.06));
+      g.addColorStop(1, hexToRgba(color, 0));
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 64, 64);
+      return c;
+    };
+    this.preyGlow = makeGlow(SPECIES.prey.color);
+    this.predatorGlow = makeGlow(SPECIES.predator.color);
+  }
+
+  resize() {
+    const rect = this.canvas.parentElement.getBoundingClientRect();
+    this.w = Math.max(1, Math.round(rect.width));
+    this.h = Math.max(1, Math.round(rect.height));
+    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const pixelWidth = Math.round(this.w * this.dpr);
+    const pixelHeight = Math.round(this.h * this.dpr);
+    if (this.canvas.width !== pixelWidth || this.canvas.height !== pixelHeight) {
+      this.canvas.width = pixelWidth;
+      this.canvas.height = pixelHeight;
+    }
+    this._buildBackground();
+    this.plantLayerGen = -1;
+  }
+
+  _buildBackground() {
+    const c = document.createElement("canvas");
+    c.width = Math.round(this.w * this.dpr);
+    c.height = Math.round(this.h * this.dpr);
+    const ctx = c.getContext("2d");
+    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    const w = this.w;
+    const h = this.h;
+    const base = ctx.createLinearGradient(0, 0, w * 0.25, h);
+    base.addColorStop(0, "#081813");
+    base.addColorStop(0.55, "#06120f");
+    base.addColorStop(1, "#040c0a");
+    ctx.fillStyle = base;
+    ctx.fillRect(0, 0, w, h);
+
+    let glow = ctx.createRadialGradient(w * 0.58, h * 0.39, 0, w * 0.58, h * 0.39, w * 0.68);
+    glow.addColorStop(0, "rgba(92, 133, 100, .12)");
+    glow.addColorStop(0.52, "rgba(41, 84, 64, .05)");
+    glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, w, h);
+    glow = ctx.createRadialGradient(w * 0.12, h * 0.96, 0, w * 0.12, h * 0.96, w * 0.55);
+    glow.addColorStop(0, "rgba(144, 124, 73, .055)");
+    glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, w, h);
+
+    const gx = w / WORLD_W;
+    const gy = h / WORLD_H;
+    ctx.strokeStyle = "rgba(190, 205, 176, .035)";
+    ctx.lineWidth = 0.5;
+    for (let x = 10; x < WORLD_W; x += 10) {
+      ctx.beginPath();
+      ctx.moveTo(x * gx, 0);
+      ctx.lineTo(x * gx, h);
+      ctx.stroke();
+    }
+    for (let y = 10; y < WORLD_H; y += 10) {
+      ctx.beginPath();
+      ctx.moveTo(0, y * gy);
+      ctx.lineTo(w, y * gy);
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = "rgba(211, 218, 193, .075)";
+    for (let x = 5; x < WORLD_W; x += 5) {
+      for (let y = 5; y < WORLD_H; y += 5) {
+        ctx.beginPath();
+        ctx.arc(x * gx, y * gy, 0.45, 0, TAU);
+        ctx.fill();
+      }
+    }
+
+    ctx.strokeStyle = "rgba(156, 188, 153, .035)";
+    ctx.lineWidth = 0.7;
+    for (let i = 0; i < 8; i++) {
+      const yBase = h * (0.18 + i * 0.09);
+      ctx.beginPath();
+      for (let px = 0; px <= w; px += 8) {
+        const wx = px / Math.max(1, w);
+        const yy = yBase + Math.sin(wx * 5.8 + i * 1.35) * (7 + i * 1.1) + Math.sin(wx * 2.4 - i * 0.8) * 3;
+        if (px === 0) ctx.moveTo(px, yy);
+        else ctx.lineTo(px, yy);
+      }
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = "rgba(202, 191, 158, .12)";
+    ctx.lineWidth = 0.65;
+    for (let x = 0; x <= WORLD_W; x += 10) {
+      const px = x * gx;
+      const len = x % 20 === 0 ? 5 : 2.6;
+      ctx.beginPath();
+      ctx.moveTo(px, h - 0.5);
+      ctx.lineTo(px, h - len);
+      ctx.moveTo(px, 0.5);
+      ctx.lineTo(px, len);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= WORLD_H; y += 10) {
+      const py = y * gy;
+      const len = y % 20 === 0 ? 5 : 2.6;
+      ctx.beginPath();
+      ctx.moveTo(0.5, py);
+      ctx.lineTo(len, py);
+      ctx.moveTo(w - 0.5, py);
+      ctx.lineTo(w - len, py);
+      ctx.stroke();
+    }
+
+    const vignette = ctx.createRadialGradient(w * 0.5, h * 0.48, Math.min(w, h) * 0.14, w * 0.5, h * 0.48, Math.max(w, h) * 0.7);
+    vignette.addColorStop(0, "rgba(0,0,0,0)");
+    vignette.addColorStop(0.7, "rgba(0,0,0,.14)");
+    vignette.addColorStop(1, "rgba(0,0,0,.5)");
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, w, h);
+    const topScrim = ctx.createLinearGradient(0, 0, 0, h * 0.17);
+    topScrim.addColorStop(0, "rgba(2, 8, 6, .34)");
+    topScrim.addColorStop(1, "rgba(2, 8, 6, 0)");
+    ctx.fillStyle = topScrim;
+    ctx.fillRect(0, 0, w, h * 0.17);
+    const bottomScrim = ctx.createLinearGradient(0, h * 0.82, 0, h);
+    bottomScrim.addColorStop(0, "rgba(2, 8, 6, 0)");
+    bottomScrim.addColorStop(1, "rgba(2, 8, 6, .42)");
+    ctx.fillStyle = bottomScrim;
+    ctx.fillRect(0, h * 0.82, w, h * 0.18);
+    this.background = c;
+  }
+
+  _buildPlantLayer() {
+    const c = document.createElement("canvas");
+    c.width = Math.round(this.w * this.dpr);
+    c.height = Math.round(this.h * this.dpr);
+    const ctx = c.getContext("2d");
+    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    const sim = this.sim;
+    if (!sim) return c;
+    const sx = this.w / GRID_W;
+    const sy = this.h / GRID_H;
+    for (let y = 0; y < GRID_H; y++) {
+      for (let x = 0; x < GRID_W; x++) {
+        const food = sim.food[y * GRID_W + x];
+        if (food < 0.028) continue;
+        const hash = ((x * 374761393) ^ (y * 668265263) ^ (x * 69069)) >>> 0;
+        const variant = hash % this.plantSprites.length;
+        const size = (7.2 + food * 10.4 + (hash % 5) * 0.35) * Math.min(sx, sy) / 9.2;
+        const px = (x + 0.5) * sx + ((hash >> 7) % 9 - 4) * 0.35;
+        const py = (y + 0.5) * sy + ((hash >> 13) % 9 - 4) * 0.35;
+        ctx.globalAlpha = 0.14 + Math.sqrt(Math.min(1, food)) * 0.82;
+        ctx.drawImage(this.plantSprites[variant], px - size / 2, py - size / 2, size, size);
+      }
+    }
+    ctx.globalAlpha = 1;
+    this.plantLayer = c;
+    this.plantLayerGen = sim.gen;
+  }
+
+  _screenPos(p, alpha) {
+    const t = clamp(alpha, 0, 1);
+    const x = p.px == null ? p.x : p.px + (p.x - p.px) * t;
+    const y = p.py == null ? p.y : p.py + (p.y - p.py) * t;
+    return {
+      x: (x / WORLD_W) * this.w,
+      y: (y / WORLD_H) * this.h
+    };
+  }
+
+  _screenAngle(heading) {
+    const dx = Math.cos(heading) * (this.w / WORLD_W);
+    const dy = Math.sin(heading) * (this.h / WORLD_H);
+    return Math.atan2(dy, dx);
+  }
+
+  render(now, alpha) {
+    if (!this.sim) return;
+    const ctx = this.ctx;
+    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    ctx.clearRect(0, 0, this.w, this.h);
+    if (this.background) ctx.drawImage(this.background, 0, 0, this.w, this.h);
+    if (this.plantLayerGen !== this.sim.gen || !this.plantLayer) this._buildPlantLayer();
+    if (this.plantLayer) ctx.drawImage(this.plantLayer, 0, 0, this.w, this.h);
+    this._drawDust(now);
+    this._drawCreatures(now, alpha);
+    this._drawKillFx(now);
+    this._drawPulses(now);
+    this._drawSweep(now);
+  }
+
+  _drawDust(now) {
+    if (!this.dust) return;
+    const ctx = this.ctx;
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter";
+    ctx.fillStyle = "rgba(211, 226, 196, .42)";
+    for (const mote of this.dust) {
+      const drift = now * 0.0000055 * mote.drift;
+      const x = ((mote.x + Math.sin(drift + mote.phase) * mote.amplitude) % 1 + 1) % 1 * this.w;
+      const y = ((mote.y + Math.cos(drift * 0.71 + mote.phase) * mote.amplitude * 0.7) % 1 + 1) % 1 * this.h;
+      ctx.globalAlpha = 0.09 + 0.1 * (0.5 + 0.5 * Math.sin(now * 0.0007 + mote.phase));
+      ctx.beginPath();
+      ctx.arc(x, y, mote.size, 0, TAU);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  _drawCreatures(now, alpha) {
+    const ctx = this.ctx;
+    const prey = this.sim.prey;
+    const predators = this.sim.predator;
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter";
+    for (const p of prey) {
+      const pos = this._screenPos(p, alpha);
+      const pulse = 0.72 + 0.28 * Math.sin(now * 0.0023 + p.id * 1.7);
+      const energy = clamp(p.energy / 90, 0.2, 1);
+      const size = 8 + p.genes.vision * 0.38;
+      ctx.globalAlpha = (0.18 + energy * 0.33) * pulse;
+      ctx.drawImage(this.preyGlow, pos.x - size / 2, pos.y - size / 2, size, size);
+    }
+    for (const p of predators) {
+      const pos = this._screenPos(p, alpha);
+      const pulse = 0.7 + 0.3 * Math.sin(now * 0.0017 + p.id * 1.3);
+      const energy = clamp(p.energy / 150, 0.25, 1);
+      const size = 15 + p.genes.vision * 0.54;
+      ctx.globalAlpha = (0.2 + energy * 0.34) * pulse;
+      ctx.drawImage(this.predatorGlow, pos.x - size / 2, pos.y - size / 2, size, size);
+    }
+    ctx.restore();
+
+    for (const p of prey) this._drawPrey(p, alpha, now);
+    for (const p of predators) this._drawPredator(p, alpha, now);
+  }
+
+  _drawPrey(p, alpha, now) {
+    const ctx = this.ctx;
+    const pos = this._screenPos(p, alpha);
+    const angle = this._screenAngle(p.heading);
+    const energy = clamp(p.energy / Math.max(24, p.genes.repro), 0, 1);
+    const tailLength = 4.4 + p.genes.speed * 4.2 + energy * 2.3;
+    const dx = Math.cos(angle);
+    const dy = Math.sin(angle);
+    ctx.save();
+    ctx.translate(pos.x, pos.y);
+    ctx.rotate(angle);
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "rgba(241, 185, 108, .34)";
+    ctx.lineWidth = 0.75;
+    ctx.beginPath();
+    ctx.moveTo(-2.4, 0);
+    ctx.quadraticCurveTo(-tailLength * 0.55, Math.sin(now * 0.001 + p.id) * 1.2, -tailLength, 0);
+    ctx.stroke();
+    ctx.strokeStyle = "rgba(247, 211, 146, .23)";
+    ctx.lineWidth = 0.55;
+    ctx.beginPath();
+    ctx.moveTo(-2, 0.8);
+    ctx.lineTo(-tailLength * 0.55, 2.2);
+    ctx.stroke();
+    ctx.fillStyle = "rgba(242, 185, 104, .9)";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 2.65 + energy * 0.42, 1.42 + energy * 0.18, 0, 0, TAU);
+    ctx.fill();
+    ctx.fillStyle = "rgba(255, 236, 194, .85)";
+    ctx.beginPath();
+    ctx.ellipse(0.5, -0.38, 0.75, 0.36, -0.2, 0, TAU);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  _drawPredator(p, alpha, now) {
+    const ctx = this.ctx;
+    const pos = this._screenPos(p, alpha);
+    const angle = this._screenAngle(p.heading);
+    const energy = clamp(p.energy / 140, 0, 1);
+    const scale = 0.9 + energy * 0.34;
+    const dx = Math.cos(angle);
+    const dy = Math.sin(angle);
+    ctx.save();
+    ctx.translate(pos.x, pos.y);
+    ctx.rotate(angle);
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "rgba(202, 160, 242, .24)";
+    ctx.lineWidth = 0.66;
+    ctx.beginPath();
+    ctx.moveTo(-2, 0);
+    ctx.quadraticCurveTo(-8, Math.sin(now * 0.0013 + p.id) * 2.3, -13 - p.genes.speed * 1.4, 0);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(6.1 * scale, 0);
+    ctx.lineTo(-2.1 * scale, 3.4 * scale);
+    ctx.lineTo(-0.6 * scale, 0);
+    ctx.lineTo(-2.1 * scale, -3.4 * scale);
+    ctx.closePath();
+    ctx.fillStyle = "rgba(205, 162, 243, .92)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(242, 226, 255, .76)";
+    ctx.lineWidth = 0.55;
+    ctx.beginPath();
+    ctx.moveTo(4.9 * scale, 0);
+    ctx.lineTo(-0.8 * scale, 0);
+    ctx.stroke();
+    ctx.fillStyle = "rgba(245, 236, 255, .92)";
+    ctx.beginPath();
+    ctx.arc(0.6, 0, 0.55, 0, TAU);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  addKill(x, y, now) {
+    this.killFx.push({ x, y, start: now });
+    if (this.killFx.length > 80) this.killFx.shift();
+  }
+
+  signalEvent(event) {
+    this.pulses.push({ color: event.color, type: event.type, start: performance.now() });
+    if (this.pulses.length > 5) this.pulses.shift();
+  }
+
+  _drawKillFx(now) {
+    if (!this.killFx.length) return;
+    const ctx = this.ctx;
+    ctx.save();
+    for (let i = this.killFx.length - 1; i >= 0; i--) {
+      const fx = this.killFx[i];
+      const age = clamp((now - fx.start) / 700, 0, 1);
+      if (age >= 1) {
+        this.killFx.splice(i, 1);
+        continue;
+      }
+      const x = (fx.x / WORLD_W) * this.w;
+      const y = (fx.y / WORLD_H) * this.h;
+      const radius = 1.5 + age * 8;
+      ctx.globalAlpha = (1 - age) * 0.42;
+      ctx.strokeStyle = "#f1b96c";
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, TAU);
+      ctx.stroke();
+      ctx.globalAlpha = (1 - age) * 0.55;
+      ctx.fillStyle = "#f7d59d";
+      ctx.beginPath();
+      ctx.arc(x, y, 1.1, 0, TAU);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  _drawPulses(now) {
+    if (!this.pulses.length) return;
+    const ctx = this.ctx;
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter";
+    for (let i = this.pulses.length - 1; i >= 0; i--) {
+      const pulse = this.pulses[i];
+      const age = clamp((now - pulse.start) / 2800, 0, 1);
+      if (age >= 1) {
+        this.pulses.splice(i, 1);
+        continue;
+      }
+      const eased = 1 - Math.pow(1 - age, 3);
+      const radius = eased * Math.max(this.w, this.h) * 0.68;
+      ctx.globalAlpha = Math.pow(1 - age, 1.7) * 0.34;
+      ctx.strokeStyle = pulse.color;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.ellipse(this.w * 0.5, this.h * 0.51, radius, radius * 0.55, 0, 0, TAU);
+      ctx.stroke();
+      if (pulse.type === "bloom") {
+        ctx.globalAlpha = Math.pow(1 - age, 2.2) * 0.24;
+        ctx.beginPath();
+        ctx.ellipse(this.w * 0.5, this.h * 0.51, radius * 0.72, radius * 0.4, 0, 0, TAU);
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+
+  _drawSweep(now) {
+    const ctx = this.ctx;
+    const period = 26000;
+    const phase = (now % period) / period;
+    const x = phase * this.w;
+    const halo = ctx.createLinearGradient(x - 110, 0, x + 26, 0);
+    halo.addColorStop(0, "rgba(170, 207, 158, 0)");
+    halo.addColorStop(0.76, "rgba(170, 207, 158, .018)");
+    halo.addColorStop(1, "rgba(201, 232, 191, .035)");
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    ctx.fillStyle = halo;
+    ctx.fillRect(x - 110, 0, 136, this.h);
+    ctx.strokeStyle = "rgba(212, 234, 199, .06)";
+    ctx.lineWidth = 0.6;
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, this.h);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+class InstrumentDial {
+  constructor(element, options) {
+    this.el = element;
+    this.min = options.min;
+    this.max = options.max;
+    this.step = options.step;
+    this.defaultValue = options.value;
+    this.value = options.value;
+    this.ariaFormat = options.ariaFormat;
+    this.onInput = options.onInput;
+    this.dragging = false;
+    this.render();
+    this.bind();
+  }
+
+  quantize(value) {
+    const stepped = this.min + Math.round((value - this.min) / this.step) * this.step;
+    const decimals = String(this.step).split(".")[1];
+    const precision = decimals ? decimals.length : 0;
+    return clamp(Number(stepped.toFixed(precision)), this.min, this.max);
+  }
+
+  set(value, emit = false) {
+    const next = this.quantize(value);
+    const changed = next !== this.value;
+    this.value = next;
+    this.render();
+    if (changed && emit && this.onInput) this.onInput(next);
+  }
+
+  render() {
+    const fraction = (this.value - this.min) / (this.max - this.min);
+    const angle = -135 + fraction * 270;
+    this.el.style.setProperty("--angle", angle.toFixed(2) + "deg");
+    this.el.style.setProperty("--sweep", (fraction * 270).toFixed(2));
+    this.el.setAttribute("aria-valuenow", String(this.value));
+    this.el.setAttribute("aria-valuetext", this.ariaFormat(this.value));
+  }
+
+  valueFromPointer(event) {
+    const rect = this.el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const raw = Math.atan2(event.clientX - cx, cy - event.clientY) * 180 / Math.PI;
+    const angle = clamp(raw, -135, 135);
+    const fraction = (angle + 135) / 270;
+    return this.min + fraction * (this.max - this.min);
+  }
+
+  bind() {
+    this.el.addEventListener("pointerdown", (event) => {
+      if (event.button !== 0) return;
+      event.preventDefault();
+      this.dragging = true;
+      this.el.focus({ preventScroll: true });
+      this.el.setPointerCapture(event.pointerId);
+      this.set(this.valueFromPointer(event), true);
+    });
+    this.el.addEventListener("pointermove", (event) => {
+      if (!this.dragging) return;
+      this.set(this.valueFromPointer(event), true);
+    });
+    const stop = (event) => {
+      if (!this.dragging) return;
+      this.dragging = false;
+      if (this.el.hasPointerCapture(event.pointerId)) this.el.releasePointerCapture(event.pointerId);
+    };
+    this.el.addEventListener("pointerup", stop);
+    this.el.addEventListener("pointercancel", stop);
+    this.el.addEventListener("keydown", (event) => {
+      let next = this.value;
+      if (event.key === "ArrowRight" || event.key === "ArrowUp") next += this.step;
+      else if (event.key === "ArrowLeft" || event.key === "ArrowDown") next -= this.step;
+      else if (event.key === "PageUp") next += this.step * 10;
+      else if (event.key === "PageDown") next -= this.step * 10;
+      else if (event.key === "Home") next = this.min;
+      else if (event.key === "End") next = this.max;
+      else return;
+      event.preventDefault();
+      this.set(next, true);
+    });
+    this.el.addEventListener("dblclick", (event) => {
+      event.preventDefault();
+      this.set(this.defaultValue, true);
+    });
+  }
+}
+
+class TooltipLayer {
+  constructor(element) {
+    this.el = element;
+    this.current = null;
+    this.timer = null;
+    this.bindAll();
+    window.addEventListener("scroll", () => this.hide(), true);
+    window.addEventListener("resize", () => this.hide());
+  }
+
+  bindAll() {
+    document.querySelectorAll("[data-tip]").forEach((anchor) => {
+      anchor.addEventListener("pointerenter", () => this.show(anchor));
+      anchor.addEventListener("pointerleave", () => this.hide());
+      anchor.addEventListener("focusin", () => this.show(anchor));
+      anchor.addEventListener("focusout", (event) => {
+        if (!anchor.contains(event.relatedTarget)) this.hide();
+      });
+    });
+  }
+
+  show(anchor) {
+    if (!anchor.dataset.tip) return;
+    clearTimeout(this.timer);
+    const label = anchor.dataset.tipTitle
+      || (anchor.querySelector("label, .control-label") || {}).textContent
+      || anchor.getAttribute("aria-label")
+      || (anchor.matches("button") ? anchor.textContent.trim() : "")
+      || "Instrument note";
+    const keys = anchor.dataset.keys;
+    this.el.innerHTML = "<b>" + this.escape(label.trim()) + "</b>" + this.escape(anchor.dataset.tip)
+      + (keys ? "<br><kbd>" + this.escape(keys) + "</kbd>" : "");
+    this.el.classList.add("is-visible");
+    this.el.setAttribute("aria-hidden", "false");
+    const rect = anchor.getBoundingClientRect();
+    const tipRect = this.el.getBoundingClientRect();
+    let left = rect.left + rect.width / 2 - tipRect.width / 2;
+    left = clamp(left, 10, window.innerWidth - tipRect.width - 10);
+    let top = rect.top - tipRect.height - 9;
+    if (top < 8) top = rect.bottom + 9;
+    top = clamp(top, 8, window.innerHeight - tipRect.height - 8);
+    this.el.style.left = left + "px";
+    this.el.style.top = top + "px";
+    this.current = anchor;
+  }
+
+  hide() {
+    clearTimeout(this.timer);
+    this.el.classList.remove("is-visible");
+    this.el.setAttribute("aria-hidden", "true");
+    this.current = null;
+  }
+
+  escape(text) {
+    return String(text).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+  }
+}
+
+class ReportRenderer {
+  constructor(app) {
+    this.app = app;
+    this.census = document.getElementById("censusChart");
+    this.traits = document.getElementById("traitsChart");
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.app.reportOpen) this.render();
+    });
+    this.resizeObserver.observe(this.census.parentElement);
+    this.resizeObserver.observe(this.traits.parentElement);
+  }
+
+  render() {
+    this.drawCensus();
+    this.drawTraits();
+  }
+
+  drawCensus() {
+    const sim = this.app.sim;
+    const { ctx, width, height } = fitCanvas(this.census);
+    ctx.clearRect(0, 0, width, height);
+    if (width < 40 || height < 40) return;
+    const history = sim.history;
+    const final = history[history.length - 1];
+    const maxGen = Math.max(1, final.gen);
+    const pad = { left: 76, right: 15, top: 25, bottom: 27 };
+    const plotW = Math.max(10, width - pad.left - pad.right);
+    const plotH = Math.max(10, height - pad.top - pad.bottom);
+    const events = sim.events;
+    const species = [
+      { key: "flora", label: "Flora", color: "#667f33", glyph: "flora", unit: "colonies" },
+      { key: "prey", label: "Grazers", color: "#ac6720", glyph: "prey", unit: "individuals" },
+      { key: "predator", label: "Hunters", color: "#70518f", glyph: "predator", unit: "individuals" }
+    ];
+    ctx.save();
+    ctx.font = '500 6px "JetBrains Mono", monospace';
+    ctx.textBaseline = "middle";
+    const eventColor = (type) => ({ drought: "#b66536", plague: "#a9506d", bloom: "#37877f" }[type] || "#9b7a40");
+    const eventSpacing = plotW / Math.max(1, events.length);
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      const x = pad.left + (event.gen / maxGen) * plotW;
+      ctx.globalAlpha = 0.22;
+      ctx.strokeStyle = eventColor(event.type);
+      ctx.setLineDash([2, 4]);
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      ctx.moveTo(x, pad.top - 9);
+      ctx.lineTo(x, pad.top + plotH);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = eventColor(event.type);
+      const symbolY = pad.top - 12;
+      this.drawEventMark(ctx, event.type, x, symbolY, eventSpacing > 10 ? 3.1 : 2.2, eventColor(event.type));
+      if (eventSpacing > 14) {
+        ctx.font = '500 6px "JetBrains Mono", monospace';
+        ctx.fillStyle = "rgba(20, 35, 29, .55)";
+        ctx.textAlign = "center";
+        ctx.fillText(event.roman, x, symbolY - 9);
+      }
+    }
+    const laneGap = 8;
+    const laneH = (plotH - laneGap * 2) / 3;
+    species.forEach((sp, laneIndex) => {
+      const laneTop = pad.top + laneIndex * (laneH + laneGap);
+      const values = history.map((h) => h.counts[sp.key]);
+      const peak = Math.max(1, ...values);
+      const bottom = laneTop + laneH;
+      ctx.strokeStyle = "rgba(20, 35, 29, .11)";
+      ctx.lineWidth = 0.55;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, bottom + 0.5);
+      ctx.lineTo(pad.left + plotW, bottom + 0.5);
+      ctx.stroke();
+      ctx.fillStyle = "rgba(20, 35, 29, .025)";
+      ctx.fillRect(pad.left, laneTop, plotW, laneH);
+      ctx.strokeStyle = "rgba(20, 35, 29, .05)";
+      ctx.setLineDash([1, 5]);
+      ctx.beginPath();
+      ctx.moveTo(pad.left, laneTop + laneH * 0.34);
+      ctx.lineTo(pad.left + plotW, laneTop + laneH * 0.34);
+      ctx.moveTo(pad.left, laneTop + laneH * 0.67);
+      ctx.lineTo(pad.left + plotW, laneTop + laneH * 0.67);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(pad.left, laneTop - 1, plotW, laneH + 2);
+      ctx.clip();
+      const xAt = (gen) => pad.left + (gen / maxGen) * plotW;
+      const yAt = (value) => bottom - (value / peak) * (laneH - 5);
+      ctx.beginPath();
+      ctx.moveTo(xAt(history[0].gen), yAt(history[0].counts[sp.key]));
+      for (let i = 1; i < history.length; i++) {
+        const h = history[i];
+        ctx.lineTo(xAt(h.gen), yAt(h.counts[sp.key]));
+      }
+      const grad = ctx.createLinearGradient(0, laneTop, 0, bottom);
+      grad.addColorStop(0, hexToRgba(sp.color, 0.15));
+      grad.addColorStop(1, hexToRgba(sp.color, 0.015));
+      ctx.lineTo(xAt(final.gen), bottom);
+      ctx.lineTo(xAt(history[0].gen), bottom);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(xAt(history[0].gen), yAt(history[0].counts[sp.key]));
+      for (let i = 1; i < history.length; i++) {
+        const h = history[i];
+        ctx.lineTo(xAt(h.gen), yAt(h.counts[sp.key]));
+      }
+      ctx.strokeStyle = sp.color;
+      ctx.lineWidth = 1.3;
+      ctx.lineJoin = "round";
+      ctx.stroke();
+      const finalValue = final.counts[sp.key];
+      const dotX = xAt(final.gen);
+      const dotY = yAt(finalValue);
+      ctx.fillStyle = "#f1ebdc";
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 2.3, 0, TAU);
+      ctx.fill();
+      ctx.strokeStyle = sp.color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 2.3, 0, TAU);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.textAlign = "right";
+      ctx.font = '500 7.8px "JetBrains Mono", monospace';
+      ctx.fillStyle = "rgba(20, 35, 29, .6)";
+      ctx.fillText(sp.label.toUpperCase(), pad.left - 11, laneTop + 8);
+      ctx.font = '400 14px "Charter", Georgia, serif';
+      ctx.fillStyle = sp.color;
+      ctx.fillText(formatInteger(finalValue), pad.left - 11, laneTop + 21);
+      ctx.font = '400 6.3px "JetBrains Mono", monospace';
+      ctx.fillStyle = "rgba(20, 35, 29, .44)";
+      ctx.fillText(sp.unit, pad.left - 11, laneTop + 32);
+      ctx.textAlign = "right";
+      ctx.font = '400 6.3px "JetBrains Mono", monospace';
+      ctx.fillStyle = "rgba(20, 35, 29, .42)";
+      ctx.fillText("peak " + formatInteger(peak), pad.left + plotW - 2, laneTop + 7);
+    });
+
+    for (const event of events) {
+      const x = pad.left + (event.gen / maxGen) * plotW;
+      ctx.strokeStyle = hexToRgba(eventColor(event.type), 0.23);
+      ctx.lineWidth = 0.65;
+      ctx.setLineDash([2, 4]);
+      ctx.beginPath();
+      ctx.moveTo(x, pad.top);
+      ctx.lineTo(x, pad.top + plotH);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    ctx.strokeStyle = "rgba(20, 35, 29, .25)";
+    ctx.lineWidth = 0.6;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, pad.top + plotH + 0.5);
+    ctx.lineTo(pad.left + plotW, pad.top + plotH + 0.5);
+    ctx.stroke();
+    ctx.fillStyle = "rgba(20, 35, 29, .47)";
+    ctx.font = '400 6.3px "JetBrains Mono", monospace';
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    for (let i = 0; i <= 4; i++) {
+      const gen = Math.round((maxGen * i) / 4);
+      const x = pad.left + (gen / maxGen) * plotW;
+      ctx.strokeStyle = "rgba(20, 35, 29, .25)";
+      ctx.beginPath();
+      ctx.moveTo(x, pad.top + plotH + 2);
+      ctx.lineTo(x, pad.top + plotH + 5);
+      ctx.stroke();
+      ctx.fillText(String(gen).padStart(3, "0"), x, pad.top + plotH + 8);
+    }
+    ctx.textAlign = "left";
+    ctx.textBaseline = "bottom";
+    ctx.fillStyle = "rgba(20, 35, 29, .42)";
+    ctx.fillText("GENERATION", pad.left, height - 4);
+    ctx.textAlign = "right";
+    ctx.fillText(maxGen + " GENERATIONS OBSERVED", pad.left + plotW, height - 4);
+    ctx.restore();
+    this.census.setAttribute("aria-label", "Population history across " + maxGen + " generations. Final census: " + formatInteger(final.counts.flora) + " flora colonies, " + formatInteger(final.counts.prey) + " grazers, " + formatInteger(final.counts.predator) + " hunters. Disturbances marked: " + (sim.events.length ? sim.events.map((event) => event.type + " at generation " + event.gen).join("; ") : "none") + ".");
+  }
+
+  drawEventMark(ctx, type, x, y, size, color) {
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 0.8;
+    if (type === "drought") {
+      ctx.beginPath();
+      ctx.arc(x, y, size * 0.56, 0, TAU);
+      ctx.stroke();
+      for (let i = 0; i < 6; i++) {
+        const angle = (i / 6) * TAU;
+        ctx.beginPath();
+        ctx.moveTo(x + Math.cos(angle) * size * 0.9, y + Math.sin(angle) * size * 0.9);
+        ctx.lineTo(x + Math.cos(angle) * size * 1.25, y + Math.sin(angle) * size * 1.25);
+        ctx.stroke();
+      }
+    } else if (type === "plague") {
+      ctx.beginPath();
+      ctx.arc(x, y, size * 0.62, 0, TAU);
+      ctx.stroke();
+      for (let i = 0; i < 4; i++) {
+        const angle = (i / 4) * TAU + 0.4;
+        ctx.beginPath();
+        ctx.arc(x + Math.cos(angle) * size * 1.15, y + Math.sin(angle) * size * 1.15, size * 0.25, 0, TAU);
+        ctx.fill();
+      }
+    } else {
+      ctx.beginPath();
+      for (let i = 0; i < 3; i++) {
+        const angle = (i / 3) * TAU - 1.2;
+        ctx.ellipse(x + Math.cos(angle) * size * 0.6, y + Math.sin(angle) * size * 0.6, size * 0.66, size * 0.38, angle, 0, TAU);
+      }
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(x, y, size * 0.22, 0, TAU);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  drawTraits() {
+    const sim = this.app.sim;
+    const { ctx, width, height } = fitCanvas(this.traits);
+    ctx.clearRect(0, 0, width, height);
+    if (width < 40 || height < 40) return;
+    const history = sim.history;
+    const finalGen = Math.max(1, history[history.length - 1].gen);
+    const cols = width < 700 ? 2 : 4;
+    const rows = width < 700 ? 2 : 1;
+    const gap = cols === 2 ? 18 : Math.max(12, width * 0.016);
+    const rowGap = 16;
+    const panelW = (width - gap * (cols - 1)) / cols;
+    const panelH = (height - rowGap * (rows - 1)) / rows;
+    const colors = { prey: "#ac6720", predator: "#70518f" };
+    GENE_DEFS.forEach((gene, index) => {
+      const col = index % cols;
+      const row = Math.floor(index / cols);
+      const x0 = col * (panelW + gap);
+      const panelY = row * (panelH + rowGap);
+      const plotX = x0 + 24;
+      const plotY = panelY + 24;
+      const plotW = panelW - 30;
+      const plotHeight = panelH - 58;
+      let low = Infinity;
+      let high = -Infinity;
+      for (const h of history) {
+        for (const kind of ["prey", "predator"]) {
+          const entry = h.genes[kind];
+          if (!entry) continue;
+          const stat = entry[gene.key];
+          low = Math.min(low, stat.mean - stat.sd);
+          high = Math.max(high, stat.mean + stat.sd);
+        }
+      }
+      if (!Number.isFinite(low) || !Number.isFinite(high)) {
+        low = 0;
+        high = 1;
+      }
+      let span = high - low;
+      if (span < 0.0001) span = Math.max(0.2, Math.abs(high) * 0.1 || 1);
+      const pad = span * 0.14;
+      low -= pad;
+      high += pad;
+      const yAt = (value) => plotY + plotHeight - ((value - low) / (high - low)) * plotHeight;
+      const xAt = (gen) => plotX + (gen / finalGen) * plotW;
+      ctx.save();
+      ctx.strokeStyle = "rgba(20, 35, 29, .23)";
+      ctx.lineWidth = 0.6;
+      ctx.beginPath();
+      ctx.moveTo(plotX, plotY);
+      ctx.lineTo(plotX, plotY + plotHeight);
+      ctx.lineTo(plotX + plotW, plotY + plotHeight);
+      ctx.stroke();
+      const gridCount = 3;
+      for (let g = 0; g < gridCount; g++) {
+        const val = low + (high - low) * (g / (gridCount - 1));
+        const y = yAt(val);
+        ctx.strokeStyle = "rgba(20, 35, 29, .08)";
+        ctx.setLineDash([1, 4]);
+        ctx.beginPath();
+        ctx.moveTo(plotX, y);
+        ctx.lineTo(plotX + plotW, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = "rgba(20, 35, 29, .44)";
+        ctx.font = '400 6px "JetBrains Mono", monospace';
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        ctx.fillText(gene.decimals === 0 ? Math.round(val).toString() : val.toFixed(gene.decimals), plotX - 4, y);
+      }
+      const eventColor = (type) => ({ drought: "#b66536", plague: "#a9506d", bloom: "#37877f" }[type] || "#9b7a40");
+      for (const event of sim.events) {
+        const x = xAt(event.gen);
+        ctx.strokeStyle = hexToRgba(eventColor(event.type), 0.22);
+        ctx.lineWidth = 0.6;
+        ctx.setLineDash([2, 4]);
+        ctx.beginPath();
+        ctx.moveTo(x, plotY);
+        ctx.lineTo(x, plotY + plotHeight);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = eventColor(event.type);
+        ctx.beginPath();
+        ctx.arc(x, plotY - 4, 1.15, 0, TAU);
+        ctx.fill();
+      }
+      ctx.beginPath();
+      ctx.rect(plotX, plotY - 1, plotW, plotHeight + 2);
+      ctx.clip();
+      for (const kind of ["prey", "predator"]) {
+        const points = [];
+        for (const h of history) {
+          const entry = h.genes[kind];
+          if (!entry) continue;
+          const stat = entry[gene.key];
+          points.push({ gen: h.gen, mean: stat.mean, sd: stat.sd });
+        }
+        if (!points.length) continue;
+        const upper = [];
+        const lower = [];
+        for (const p of points) {
+          upper.push([xAt(p.gen), yAt(p.mean + p.sd)]);
+          lower.push([xAt(p.gen), yAt(p.mean - p.sd)]);
+        }
+        ctx.beginPath();
+        ctx.moveTo(upper[0][0], upper[0][1]);
+        for (let i = 1; i < upper.length; i++) ctx.lineTo(upper[i][0], upper[i][1]);
+        for (let i = lower.length - 1; i >= 0; i--) ctx.lineTo(lower[i][0], lower[i][1]);
+        ctx.closePath();
+        ctx.fillStyle = hexToRgba(colors[kind], 0.14);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(xAt(points[0].gen), yAt(points[0].mean));
+        for (let i = 1; i < points.length; i++) ctx.lineTo(xAt(points[i].gen), yAt(points[i].mean));
+        ctx.strokeStyle = colors[kind];
+        ctx.lineWidth = 1.15;
+        ctx.lineJoin = "round";
+        ctx.stroke();
+        const last = points[points.length - 1];
+        const lastX = xAt(last.gen);
+        const lastY = yAt(last.mean);
+        ctx.fillStyle = "#f1ebdc";
+        ctx.beginPath();
+        ctx.arc(lastX, lastY, 1.8, 0, TAU);
+        ctx.fill();
+        ctx.strokeStyle = colors[kind];
+        ctx.lineWidth = 0.9;
+        ctx.stroke();
+      }
+      ctx.restore();
+      ctx.fillStyle = "rgba(20, 35, 29, .85)";
+      ctx.font = '500 8px "JetBrains Mono", monospace';
+      ctx.textAlign = "left";
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText(gene.label.toUpperCase(), x0, panelY + 9);
+      ctx.fillStyle = "rgba(20, 35, 29, .38)";
+      ctx.font = '400 5.8px "JetBrains Mono", monospace';
+      ctx.textAlign = "right";
+      ctx.fillText(gene.unit, x0 + panelW, panelY + 9);
+      ctx.textAlign = "left";
+      ctx.font = '400 5.8px "JetBrains Mono", monospace';
+      ctx.fillStyle = "rgba(20, 35, 29, .4)";
+      ctx.fillText("GEN 0", x0, panelY + panelH - 20);
+      ctx.textAlign = "right";
+      ctx.fillText(String(finalGen), x0 + panelW, panelY + panelH - 20);
+      const final = history[history.length - 1];
+      const finalPrey = final.genes.prey ? final.genes.prey[gene.key] : null;
+      const finalPred = final.genes.predator ? final.genes.predator[gene.key] : null;
+      ctx.textAlign = "left";
+      ctx.font = '400 5.5px "JetBrains Mono", monospace';
+      ctx.font = '400 6.2px "JetBrains Mono", monospace';
+      ctx.fillStyle = colors.prey;
+      if (finalPrey) ctx.fillText("P " + this.formatMean(gene, finalPrey), x0, panelY + panelH - 10);
+      ctx.fillStyle = colors.predator;
+      if (finalPred) {
+        ctx.textAlign = "right";
+        ctx.fillText("H " + this.formatMean(gene, finalPred), x0 + panelW, panelY + panelH - 10);
+      }
+      if (col < cols - 1) {
+        ctx.strokeStyle = "rgba(20, 35, 29, .11)";
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(x0 + panelW + gap / 2, panelY + 2);
+        ctx.lineTo(x0 + panelW + gap / 2, panelY + panelH - 15);
+        ctx.stroke();
+      }
+    });
+    const lastSample = sim.history[sim.history.length - 1];
+    const geneDescriptions = GENE_DEFS.map((gene) => {
+      const p = lastSample.genes.prey ? lastSample.genes.prey[gene.key] : null;
+      const h = lastSample.genes.predator ? lastSample.genes.predator[gene.key] : null;
+      return gene.label + (p ? ": grazers mean " + formatGeneValue(gene.key, p.mean) + " spread " + formatGeneValue(gene.key, p.sd) : ": grazers extinct") + (h ? "; hunters mean " + formatGeneValue(gene.key, h.mean) + " spread " + formatGeneValue(gene.key, h.sd) : "; hunters extinct");
+    });
+    this.traits.setAttribute("aria-label", "Trait drift across " + finalGen + " generations. Mean and one standard deviation spread. " + geneDescriptions.join(". ") + ".");
+  }
+
+  formatMean(gene, stat) {
+    const mean = gene.decimals === 0 ? Math.round(stat.mean).toString() : stat.mean.toFixed(gene.decimals);
+    const sd = gene.decimals === 0 ? Math.round(stat.sd).toString() : stat.sd.toFixed(gene.decimals);
+    return mean + " ±" + sd;
+  }
+}
+
+class VivariumApp {
+  constructor() {
+    this.state = {
+      seed: 1160,
+      generations: 180,
+      mutation: 3.8,
+      regrowth: 0.9,
+      speed: 6,
+      catastropheEvery: 34,
+      events: { drought: true, plague: true, bloom: true }
+    };
+    this.playing = true;
+    this.completed = false;
+    this.reportOpen = false;
+    this.acc = 0;
+    this.lastTime = performance.now();
+    this.lastHud = 0;
+    this.lastMicro = 0;
+    this.lastThroughputSample = 0;
+    this.stepTimes = [];
+    this.throughput = [0];
+    this.lastNote = 0;
+    this.bannerTimer = null;
+    this.bannerHideTimer = null;
+    this.washTimer = null;
+    this.reportTimer = null;
+    this.sim = this.createSimulation();
+    this.dom = this.collectDom();
+    this.renderer = new WorldRenderer(this.dom.worldCanvas, this.sim);
+    this.renderer.setSim(this.sim);
+    this.reportRenderer = new ReportRenderer(this);
+    this.tooltips = new TooltipLayer(this.dom.tooltip);
+    this.dials = this.createDials();
+    this.bindControls();
+    this.bindGlobal();
+    this.syncControls();
+    this.renderer.resize();
+    this.updateAll(true);
+    this.drawTimeline(performance.now());
+    this.drawMicros(performance.now(), true);
+    this.frame = this.frame.bind(this);
+    requestAnimationFrame(this.frame);
+    this.updateFieldNote(true);
+  }
+
+  collectDom() {
+    const ids = [
+      "worldWrap", "worldCanvas", "playBtn", "playIcon", "stepBtn", "transportState",
+      "timelineCanvas", "hudGen", "hudTarget", "genNow", "genTarget", "countFlora",
+      "countPrey", "countPredator", "metaSeed", "metaState", "sealProgress", "sealWord",
+      "liveTag", "seedInput", "seedDown", "seedUp", "seedShuffle", "genInput", "genDown",
+      "genUp", "regrowthInput", "regrowthOutput", "speedInput", "speedOutput",
+      "mutationOutput", "intervalOutput", "mutationDial", "intervalDial", "disturbanceCount",
+      "fieldNote", "noteSerial", "eventBanner", "eventWash", "eventGlyphUse", "eventKicker",
+      "eventTitle", "eventDetail", "finishBtn", "report", "reportDeck", "reportMeta",
+      "reportSeed", "reportGenerations", "outcomeLede", "finalCounts", "eventLedger",
+      "ledgerCount", "extendBtn", "replayBtn", "newBtn", "announcer", "specimen",
+      "apparatus", "tooltip", "censusChart", "traitsChart", "console"
+    ];
+    const out = {};
+    for (const id of ids) out[id] = document.getElementById(id);
+    out.toggles = Array.from(document.querySelectorAll(".toggle"));
+    out.micros = new Map();
+    document.querySelectorAll("canvas[data-micro]").forEach((canvas) => {
+      out.micros.set(canvas.dataset.micro, canvas);
+    });
+    return out;
+  }
+
+  createSimulation() {
+    return new VivariumSimulation({
+      seed: this.state.seed,
+      generations: this.state.generations,
+      mutationRate: this.state.mutation / 100,
+      regrowth: this.state.regrowth,
+      catastropheEvery: this.state.catastropheEvery,
+      enabledEvents: this.enabledEventTypes()
+    });
+  }
+
+  enabledEventTypes() {
+    return Object.keys(this.state.events).filter((type) => this.state.events[type]);
+  }
+
+  createDials() {
+    const mutation = new InstrumentDial(this.dom.mutationDial, {
+      min: 0.5,
+      max: 12,
+      step: 0.1,
+      value: this.state.mutation,
+      ariaFormat: (value) => value.toFixed(1) + " percent per gene per birth",
+      onInput: (value) => this.setMutation(value)
+    });
+    const interval = new InstrumentDial(this.dom.intervalDial, {
+      min: 10,
+      max: 120,
+      step: 1,
+      value: this.state.catastropheEvery,
+      ariaFormat: (value) => "Catastrophe every " + Math.round(value) + " generations",
+      onInput: (value) => this.setCatastropheEvery(value)
+    });
+    return { mutation, interval };
+  }
+
+  bindControls() {
+    this.dom.playBtn.addEventListener("click", () => this.togglePlayback());
+    this.dom.stepBtn.addEventListener("click", () => this.stepOne());
+    this.dom.finishBtn.addEventListener("click", () => this.finishRun(180, true));
+
+    this.dom.seedDown.addEventListener("click", () => this.setSeed(this.state.seed - 1));
+    this.dom.seedUp.addEventListener("click", () => this.setSeed(this.state.seed + 1));
+    this.dom.seedShuffle.addEventListener("click", () => this.setSeed(nextSeedFrom(this.state.seed)));
+    this.dom.seedInput.addEventListener("change", () => this.applySeedInput());
+    this.dom.seedInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.applySeedInput();
+        this.dom.seedInput.blur();
+      }
+    });
+
+    this.dom.genDown.addEventListener("click", () => this.applyGenerations(this.state.generations - 10));
+    this.dom.genUp.addEventListener("click", () => this.applyGenerations(this.state.generations + 10));
+    this.dom.genInput.addEventListener("change", () => this.applyGenerationsInput());
+    this.dom.genInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.applyGenerationsInput();
+        this.dom.genInput.blur();
+      }
+    });
+
+    this.dom.regrowthInput.addEventListener("input", (event) => this.setRegrowth(Number(event.target.value)));
+    this.dom.speedInput.addEventListener("input", (event) => this.setSpeed(Number(event.target.value)));
+
+    this.dom.toggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => this.toggleEvent(toggle.dataset.event));
+    });
+
+    this.dom.replayBtn.addEventListener("click", () => {
+      this.closeReport(false);
+      this.restart(this.state.seed, true);
+    });
+    this.dom.newBtn.addEventListener("click", () => {
+      this.closeReport(false);
+      this.restart(nextSeedFrom(this.state.seed), true);
+    });
+    this.dom.extendBtn.addEventListener("click", () => this.extendRun());
+  }
+
+  bindGlobal() {
+    document.addEventListener("keydown", (event) => {
+      if (this.reportOpen) {
+        if (event.key === "Tab") this.trapReportFocus(event);
+        return;
+      }
+      const target = event.target;
+      const interactive = target.closest("button, input, select, textarea, [role='slider'], [role='switch'], a");
+      if (!interactive && event.code === "Space") {
+        event.preventDefault();
+        this.togglePlayback();
+      } else if (!interactive && event.key === "ArrowRight") {
+        event.preventDefault();
+        this.stepOne();
+      }
+    });
+    window.addEventListener("resize", () => {
+      this.renderer.resize();
+      this.drawTimeline(performance.now());
+      if (this.reportOpen) this.reportRenderer.render();
+    });
+  }
+
+  trapReportFocus(event) {
+    const focusable = Array.from(this.dom.report.querySelectorAll("button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])"))
+      .filter((el) => el.tagName.toLowerCase() !== "use" && el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden");
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+    if (!this.dom.report.contains(active) || active === this.dom.report) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+      return;
+    }
+    if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  frame(now) {
+    const dt = Math.min(0.1, Math.max(0, (now - this.lastTime) / 1000));
+    this.lastTime = now;
+    if (this.playing && !this.reportOpen) {
+      this.acc += dt * this.state.speed;
+      let steps = 0;
+      while (this.acc >= 1 && steps < 14 && !this.completed) {
+        const result = this.sim.step();
+        this.consumeStep(result);
+        this.stepTimes.push(now);
+        this.acc -= 1;
+        steps++;
+        if (this.sim.gen >= this.state.generations) {
+          this.acc = 0;
+          this.finishRun(720, false);
+          break;
+        }
+      }
+      if (steps === 0) this.acc = Math.min(this.acc, 1.2);
+    }
+    if (now - this.lastThroughputSample > 650) {
+      this.lastThroughputSample = now;
+      this.stepTimes = this.stepTimes.filter((time) => now - time < 1600);
+      const measured = this.stepTimes.filter((time) => now - time < 1000).length;
+      this.throughput.push(measured);
+      if (this.throughput.length > 40) this.throughput.shift();
+    }
+    const alpha = this.playing && !this.reportOpen && this.state.speed <= 24 ? clamp(this.acc, 0, 1) : 1;
+    this.renderer.render(now, alpha);
+    this.drawTimeline(now);
+    if (now - this.lastHud > 90) {
+      this.lastHud = now;
+      this.updateLiveUI(now);
+    }
+    if (now - this.lastMicro > 240) {
+      this.lastMicro = now;
+      this.drawMicros(now);
+    }
+    requestAnimationFrame(this.frame);
+  }
+
+  consumeStep(result) {
+    const now = performance.now();
+    if (result.kills.length) {
+      for (const kill of result.kills) this.renderer.addKill(kill.x, kill.y, now);
+    }
+    for (const event of result.events) this.announceEvent(event);
+    if (result.events.length) this.updateFieldNote(true);
+  }
+
+  announceEvent(event) {
+    const meta = EVENT_META[event.type];
+    this.dom.eventBanner.hidden = false;
+    this.dom.eventBanner.style.setProperty("--event-color", event.color);
+    this.dom.eventBanner.style.setProperty("--event-line", hexToRgba(event.color, 0.5));
+    this.dom.eventGlyphUse.setAttribute("href", meta.glyph);
+    this.dom.eventKicker.textContent = "Disturbance " + event.roman + " · Generation " + padNumber(event.gen, 3);
+    this.dom.eventTitle.firstChild.textContent = event.label + " ";
+    this.dom.eventDetail.textContent = event.detail;
+    this.dom.eventBanner.classList.remove("is-showing", "is-leaving");
+    void this.dom.eventBanner.offsetWidth;
+    this.dom.eventBanner.classList.add("is-showing");
+    clearTimeout(this.bannerTimer);
+    clearTimeout(this.bannerHideTimer);
+    this.bannerTimer = setTimeout(() => {
+      this.dom.eventBanner.classList.add("is-leaving");
+      this.bannerHideTimer = setTimeout(() => {
+        this.dom.eventBanner.hidden = true;
+        this.dom.eventBanner.classList.remove("is-showing", "is-leaving");
+      }, 520);
+    }, 3000);
+
+    const wash = this.dom.eventWash;
+    const alpha = event.type === "drought" ? 0.22 : event.type === "plague" ? 0.15 : 0.17;
+    const tint = hexToRgba(event.color, alpha);
+    wash.style.background = event.type === "drought"
+      ? "radial-gradient(ellipse at 50% 115%, " + tint + ", transparent 68%), linear-gradient(180deg, " + hexToRgba(event.color, alpha * 0.35) + ", transparent 44%)"
+      : event.type === "plague"
+        ? "radial-gradient(circle at 51% 46%, " + tint + ", transparent 65%), linear-gradient(180deg, transparent, " + hexToRgba(event.color, alpha * 0.3) + ")"
+        : "radial-gradient(ellipse at 50% 102%, " + tint + ", transparent 68%), radial-gradient(circle at 50% 42%, " + hexToRgba(event.color, alpha * 0.55) + ", transparent 60%)";
+    wash.classList.remove("is-active");
+    void wash.offsetWidth;
+    wash.classList.add("is-active");
+    clearTimeout(this.washTimer);
+    this.washTimer = setTimeout(() => wash.classList.remove("is-active"), 1450);
+
+    this.renderer.signalEvent(event);
+    this.dom.announcer.textContent = event.label + " at generation " + event.gen + ". " + event.detail + ".";
+  }
+
+  setMutation(value) {
+    this.state.mutation = clamp(Number(value), 0.5, 12);
+    this.sim.setMutationRate(this.state.mutation / 100);
+    this.updateControlReadouts();
+    this.drawMicros(performance.now(), true);
+  }
+
+  setRegrowth(value) {
+    this.state.regrowth = clamp(Number(value), 0.2, 1.6);
+    this.sim.setRegrowth(this.state.regrowth);
+    this.updateControlReadouts();
+    this.drawMicros(performance.now(), true);
+  }
+
+  setSpeed(value) {
+    this.state.speed = clamp(Math.round(Number(value)), 1, 60);
+    this.updateControlReadouts();
+    this.drawMicros(performance.now(), true);
+  }
+
+  setCatastropheEvery(value) {
+    this.state.catastropheEvery = clamp(Math.round(Number(value)), 10, 120);
+    this.sim.setCatastropheInterval(this.state.catastropheEvery);
+    this.updateControlReadouts();
+    this.drawTimeline(performance.now());
+    this.drawMicros(performance.now(), true);
+  }
+
+  setSeed(seed) {
+    const normalized = normalizeSeed(seed);
+    if (normalized === this.state.seed) return;
+    this.restart(normalized, false);
+  }
+
+  applySeedInput() {
+    const value = Number(this.dom.seedInput.value);
+    if (!Number.isFinite(value)) {
+      this.dom.seedInput.value = String(this.state.seed);
+      return;
+    }
+    const normalized = normalizeSeed(value);
+    this.dom.seedInput.value = String(normalized);
+    if (normalized !== this.state.seed) this.restart(normalized, false);
+  }
+
+  applyGenerations(value) {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) {
+      this.dom.genInput.value = String(this.state.generations);
+      return;
+    }
+    const next = clamp(Math.round(parsed), 40, 1000);
+    this.state.generations = next;
+    this.dom.genInput.value = String(next);
+    this.sim.target = next;
+    this.updateControlReadouts();
+    this.updateLiveUI(performance.now());
+    if (this.sim.gen >= next) {
+      this.finishRun(320, true);
+    } else if (this.completed) {
+      clearTimeout(this.reportTimer);
+      this.reportTimer = null;
+      this.completed = false;
+      this.setPlaying(true);
+    }
+  }
+
+  applyGenerationsInput() {
+    this.applyGenerations(this.dom.genInput.value);
+    this.dom.genInput.value = String(this.state.generations);
+  }
+
+  toggleEvent(type) {
+    this.state.events[type] = !this.state.events[type];
+    this.sim.setEnabledEvents(this.enabledEventTypes());
+    this.updateToggles();
+    this.updateControlReadouts();
+    this.drawMicros(performance.now(), true);
+  }
+
+  restart(seed, focusPlay) {
+    this.tooltips.hide();
+    clearTimeout(this.reportTimer);
+    this.reportTimer = null;
+    this.closeReport(false);
+    this.state.seed = normalizeSeed(seed);
+    this.completed = false;
+    this.playing = true;
+    this.acc = 0;
+    this.throughput = [0];
+    this.stepTimes = [];
+    this.lastThroughputSample = performance.now();
+    this.dom.seedInput.value = String(this.state.seed);
+    this.dom.genInput.value = String(this.state.generations);
+    this.sim = this.createSimulation();
+    this.renderer.setSim(this.sim);
+    this.hideEventVisuals();
+    this.lastTime = performance.now();
+    this.lastHud = 0;
+    this.lastMicro = 0;
+    this.lastNote = 0;
+    this.updateAll(true);
+    this.updateFieldNote(true);
+    this.dom.announcer.textContent = "New chamber seeded with " + this.state.seed + ". Observation resumed.";
+    if (focusPlay) this.dom.playBtn.focus();
+    this.drawTimeline(performance.now());
+    this.drawMicros(performance.now(), true);
+  }
+
+  extendRun() {
+    if (!this.reportOpen) return;
+    const next = Math.min(1000, Math.max(this.state.generations + 60, this.sim.gen + 60));
+    if (next <= this.sim.gen) return;
+    this.state.generations = next;
+    this.sim.target = this.state.generations;
+    this.completed = false;
+    this.acc = 0;
+    this.lastTime = performance.now();
+    this.setPlaying(true);
+    this.closeReport(true);
+    this.dom.genInput.value = String(this.state.generations);
+    this.updateAll(true);
+    this.dom.announcer.textContent = "Observation extended to generation " + this.state.generations + ".";
+  }
+
+  togglePlayback() {
+    if (this.reportOpen) return;
+    if (this.sim.gen >= this.state.generations) return;
+    this.setPlaying(!this.playing);
+  }
+
+  setPlaying(playing) {
+    if (this.completed && playing) return;
+    this.playing = playing;
+    if (!playing) this.acc = 0;
+    this.lastTime = performance.now();
+    this.updatePlaybackUI();
+  }
+
+  stepOne() {
+    if (this.reportOpen) return;
+    if (this.sim.gen >= this.state.generations) return;
+    if (this.playing) this.setPlaying(false);
+    const result = this.sim.step();
+    this.consumeStep(result);
+    this.acc = 0;
+    this.updateAll(true);
+    this.drawTimeline(performance.now());
+    this.drawMicros(performance.now(), true);
+    if (this.sim.gen >= this.state.generations) this.finishRun(420, false);
+  }
+
+  finishRun(delay, truncate) {
+    if (this.completed || this.reportOpen) return;
+    clearTimeout(this.reportTimer);
+    this.playing = false;
+    this.acc = 0;
+    if (truncate && this.sim.gen > 0) {
+      this.sim.target = this.sim.gen;
+      this.state.generations = this.sim.gen;
+      this.dom.genInput.value = String(this.state.generations);
+      this.dom.genTarget.textContent = String(this.state.generations);
+    }
+    this.completed = true;
+    this.updatePlaybackUI();
+    this.updateLiveUI(performance.now());
+    this.dom.announcer.textContent = "Observation complete. The field report is being prepared.";
+    this.reportTimer = setTimeout(() => {
+      this.reportTimer = null;
+      this.openReport();
+    }, delay);
+  }
+
+  openReport() {
+    if (this.reportOpen) return;
+    this.reportOpen = true;
+    this.tooltips.hide();
+    document.body.classList.add("report-open");
+    this.dom.report.classList.add("is-open");
+    this.dom.report.setAttribute("aria-hidden", "false");
+    this.dom.specimen.inert = true;
+    this.dom.apparatus.inert = true;
+    this.dom.report.scrollTop = 0;
+    this.buildReport();
+    this.dom.report.focus({ preventScroll: true });
+    this.updateLiveUI(performance.now());
+    this.dom.announcer.textContent = "Field report opened. " + this.dom.outcomeLede.textContent;
+  }
+
+  closeReport(returnFocus) {
+    if (!this.reportOpen) return;
+    this.tooltips.hide();
+    this.reportOpen = false;
+    document.body.classList.remove("report-open");
+    this.dom.report.classList.remove("is-open");
+    this.dom.report.setAttribute("aria-hidden", "true");
+    this.dom.specimen.inert = false;
+    this.dom.apparatus.inert = false;
+    if (returnFocus) this.dom.playBtn.focus();
+  }
+
+  buildReport() {
+    const sim = this.sim;
+    const final = sim.history[sim.history.length - 1];
+    const counts = final.counts;
+    const survivors = ["flora", "prey", "predator"].filter((key) => counts[key] > 0);
+    const events = sim.events;
+    const generation = final.gen;
+    this.dom.reportSeed.textContent = sim.seed;
+    this.dom.reportGenerations.textContent = generation;
+    this.dom.reportMeta.textContent = "Seed " + sim.seed + " · " + generation + " generations · " + (events.length ? events.length + " " + (events.length === 1 ? "disturbance" : "disturbances") : "no disturbances");
+    this.dom.reportDeck.textContent = "A complete account of Specimen XIV — " + generation + " generations from founding seed to final census, drawn from the instrument's own record.";
+    this.dom.ledgerCount.textContent = padNumber(events.length, 2) + (events.length === 1 ? " event" : " events");
+
+    let verdict = "";
+    if (counts.prey > 0 && counts.predator > 0) {
+      verdict = "The seal held. Three kingdoms persisted; " + (events.length ? "the chamber endured " + events.length + " " + (events.length === 1 ? "disturbance" : "disturbances") : "the chamber ran undisturbed") + ". ";
+    } else if (counts.prey === 0 && counts.predator === 0) {
+      verdict = "The animal kingdom is absent. Flora remains, and the glass has grown very still. ";
+    } else if (counts.prey === 0) {
+      verdict = "The grazers were lost. Hunters remain in a narrowing chamber, and the canopy closes over their paths. ";
+    } else if (counts.predator === 0) {
+      verdict = "The hunters are gone. Grazers multiply against the glass, once more without a shadow above them. ";
+    } else {
+      verdict = "The final census is incomplete; one kingdom persists without the other. ";
+    }
+    const driftInsight = this.describeDrift();
+    this.dom.outcomeLede.innerHTML = this.highlightCounts(verdict + (driftInsight || ""));
+
+    const rows = [
+      { key: "flora", label: "Flora", count: counts.flora, glyph: "flora", suffix: "colonies" },
+      { key: "prey", label: "Grazers", count: counts.prey, glyph: "prey", suffix: "individuals" },
+      { key: "predator", label: "Hunters", count: counts.predator, glyph: "predator", suffix: "individuals" }
+    ];
+    this.dom.finalCounts.innerHTML = rows.map((row) => {
+      const color = SPECIES[row.key].color;
+      return '<div class="final-count" style="--c:' + color + '">'
+        + '<svg class="glyph" aria-hidden="true"><use href="#glyph-' + row.glyph + '"/></svg>'
+        + '<span>' + row.label + '</span>'
+        + '<b>' + formatInteger(row.count) + '<small>&nbsp;' + row.suffix + '</small></b>'
+        + '</div>';
+    }).join("");
+
+    if (events.length) {
+      this.dom.eventLedger.innerHTML = events.map((event) => {
+        const color = EVENT_META[event.type].color;
+        return '<div class="event-row" style="--event-c:' + color + '">'
+          + '<svg class="glyph" aria-hidden="true"><use href="' + event.glyph + '"/></svg>'
+          + '<span>' + event.label + '</span>'
+          + '<b>GEN ' + padNumber(event.gen, 3) + '</b>'
+          + '</div>';
+      }).join("");
+    } else {
+      this.dom.eventLedger.innerHTML = '<div class="event-row empty"><span>No disturbance was permitted.</span><b>—</b></div>';
+    }
+
+    this.dom.announcer.textContent = "Observation complete after " + generation + " generations. " + counts.flora + " flora colonies, " + counts.prey + " grazers, " + counts.predator + " hunters. " + events.length + " disturbances.";
+    requestAnimationFrame(() => this.reportRenderer.render());
+  }
+
+  highlightCounts(text) {
+    return text.replace(/(\d[\d,]*(?:\.\d+)?)/g, "<b>$1</b>");
+  }
+
+  describeDrift() {
+    const sim = this.sim;
+    const first = sim.history[0];
+    const last = sim.history[sim.history.length - 1];
+    let best = null;
+    for (const kind of ["prey", "predator"]) {
+      if (!first.genes[kind] || !last.genes[kind]) continue;
+      for (const gene of GENE_DEFS) {
+        const before = first.genes[kind][gene.key].mean;
+        const after = last.genes[kind][gene.key].mean;
+        const relative = Math.abs(after - before) / Math.max(0.001, gene.key === "repro" ? 60 : gene.key === "vision" ? 10 : 1.5);
+        if (!best || relative > best.relative) {
+          best = { kind, gene, before, after, relative };
+        }
+      }
+    }
+    if (!best || best.relative < 0.015) {
+      return "The founding lineages held their form almost exactly.";
+    }
+    const names = { prey: "Grazers’", predator: "Hunters’" };
+    const direction = best.after > best.before ? "rose" : "contracted";
+    return names[best.kind] + " " + best.gene.label.toLowerCase() + " " + direction
+      + " from " + formatGeneValue(best.gene.key, best.before) + " to " + formatGeneValue(best.gene.key, best.after)
+      + " " + best.gene.unit + ".";
+  }
+
+  hideEventVisuals() {
+    this.dom.eventBanner.hidden = true;
+    this.dom.eventBanner.classList.remove("is-showing", "is-leaving");
+    this.dom.eventWash.classList.remove("is-active");
+    clearTimeout(this.bannerTimer);
+    clearTimeout(this.bannerHideTimer);
+    clearTimeout(this.washTimer);
+  }
+
+  updatePlaybackUI() {
+    const active = this.playing && !this.completed;
+    const complete = this.completed;
+    this.dom.playIcon.setAttribute("href", active ? "#icon-pause" : "#icon-play");
+    this.dom.playBtn.disabled = complete;
+    this.dom.stepBtn.disabled = complete;
+    this.dom.playBtn.setAttribute("aria-label", complete ? "Observation complete" : active ? "Pause observation" : "Resume observation");
+    this.dom.transportState.textContent = complete ? "Complete" : active ? "Observing" : "Held";
+    this.dom.worldWrap.classList.toggle("is-paused", !active);
+    this.dom.liveTag.textContent = complete ? "Observation sealed" : active ? "Live observation" : "Observation held";
+    this.dom.metaState.textContent = complete ? "Complete" : active ? "In progress" : "Held";
+    this.dom.metaState.dataset.state = complete ? "complete" : active ? "live" : "held";
+    this.dom.sealWord.textContent = complete ? "recorded" : "sealed";
+  }
+
+  updateControlReadouts() {
+    this.dom.seedInput.value = String(this.state.seed);
+    this.dom.genInput.value = String(this.state.generations);
+    this.dom.mutationOutput.innerHTML = this.state.mutation.toFixed(1) + "<small>&nbsp;% / gene</small>";
+    this.dom.regrowthOutput.innerHTML = this.state.regrowth.toFixed(2) + "<small>&nbsp;× baseline</small>";
+    this.dom.speedOutput.innerHTML = Math.round(this.state.speed) + "<small>&nbsp;gen / sec</small>";
+    this.dom.intervalOutput.innerHTML = Math.round(this.state.catastropheEvery) + "<small>&nbsp;generations</small>";
+    this.dom.regrowthInput.value = String(this.state.regrowth);
+    this.dom.speedInput.value = String(this.state.speed);
+    this.dials.mutation.set(this.state.mutation);
+    this.dials.interval.set(this.state.catastropheEvery);
+    this.dom.regrowthInput.style.setProperty("--fill", ((this.state.regrowth - 0.2) / 1.4 * 100).toFixed(2) + "%");
+    this.dom.speedInput.style.setProperty("--fill", ((this.state.speed - 1) / 59 * 100).toFixed(2) + "%");
+    this.dom.regrowthInput.setAttribute("aria-valuetext", this.state.regrowth.toFixed(2) + " times baseline");
+    this.dom.speedInput.setAttribute("aria-valuetext", Math.round(this.state.speed) + " generations per second");
+    this.dom.regrowthInput.value = String(this.state.regrowth);
+    this.updateToggles();
+  }
+
+  updateToggles() {
+    this.dom.toggles.forEach((toggle) => {
+      const on = !!this.state.events[toggle.dataset.event];
+      toggle.setAttribute("aria-checked", String(on));
+    });
+    const count = this.enabledEventTypes().length;
+    this.dom.disturbanceCount.textContent = count ? count + " active" : "none armed";
+  }
+
+  syncControls() {
+    this.updateControlReadouts();
+    this.dom.metaSeed.textContent = String(this.state.seed);
+  }
+
+  updateAll(includeFieldNote) {
+    this.updateControlReadouts();
+    this.updatePlaybackUI();
+    this.updateLiveUI(performance.now());
+    this.dom.metaSeed.textContent = String(this.state.seed);
+    if (includeFieldNote) this.updateFieldNote(true);
+  }
+
+  updateLiveUI(now) {
+    if (!this.dom) return;
+    const counts = this.sim.currentCounts();
+    this.dom.countFlora.textContent = formatInteger(counts.flora);
+    this.dom.countPrey.textContent = formatInteger(counts.prey);
+    this.dom.countPredator.textContent = formatInteger(counts.predator);
+    this.dom.hudGen.textContent = padNumber(this.sim.gen, 3);
+    this.dom.genNow.textContent = padNumber(this.sim.gen, 3);
+    this.dom.hudTarget.textContent = String(this.state.generations);
+    this.dom.genTarget.textContent = String(this.state.generations);
+    this.dom.metaSeed.textContent = String(this.state.seed);
+    const progress = this.state.generations ? this.sim.gen / this.state.generations : 0;
+    const circumference = 273.32;
+    this.dom.sealProgress.style.strokeDashoffset = String(circumference * (1 - clamp(progress, 0, 1)));
+    this.dom.noteSerial.textContent = "XIV / " + padNumber(this.sim.gen, 3);
+    this.dom.worldCanvas.setAttribute("aria-label",
+      "A living terrarium at generation " + this.sim.gen + " of " + this.state.generations
+      + ", containing " + counts.flora + " flora colonies, " + counts.prey + " grazers and " + counts.predator + " hunters.");
+    this.dom.timelineCanvas.setAttribute("aria-label",
+      "Generation timeline at " + this.sim.gen + " of " + this.state.generations + ". "
+      + (this.sim.events.length ? "Disturbances: " + this.sim.events.map((event) => event.type + " at generation " + event.gen).join("; ") + "." : "No disturbances yet."));
+    if (now - this.lastNote > 1400) {
+      this.updateFieldNote(false);
+    }
+  }
+
+  updateFieldNote(force) {
+    if (!this.sim) return;
+    const now = performance.now();
+    if (!force && now - this.lastNote < 1400) return;
+    const h = this.sim.history;
+    const current = h[h.length - 1];
+    const previous = h[Math.max(0, h.length - 16)];
+    const preyDelta = current.counts.prey - previous.counts.prey;
+    const predatorDelta = current.counts.predator - previous.counts.predator;
+    const active = this.sim.effectState();
+    let note;
+    if (active.drought) {
+      note = "The soil draws back from the glass. Growth has stopped; every grazer is ranging.";
+    } else if (active.plague) {
+      note = "A pale dust moves through the herd. The next census will be smaller than the last.";
+    } else if (active.bloom) {
+      note = "The water has gone green and bright. The grazers feed upon their own undoing.";
+    } else if (current.counts.prey === 0 && current.counts.predator === 0) {
+      note = "The hunters and grazers are gone. Only the canopy remains, quietly closing over the paths.";
+    } else if (current.counts.prey === 0) {
+      note = "The grazers are gone. Hunters circle a silent canopy, and the glass feels very large.";
+    } else if (current.counts.predator === 0) {
+      note = "No hunters remain. The grazers multiply against the glass, without a shadow in the grass.";
+    } else if (predatorDelta > 4) {
+      note = "Hunter sign is rising at the eastern edge. The herd has begun to move as one.";
+    } else if (preyDelta > 8) {
+      note = "The grazers are increasing. New paths are being worn through the canopy.";
+    } else if (preyDelta < -8) {
+      note = "Grazer numbers are falling. The canopy closes quietly behind them.";
+    } else if (preyDelta > 0) {
+      note = "The chamber is near balance. Grazers press inward; the hunters keep a patient distance.";
+    } else if (this.sim.gen < 8) {
+      note = "The founding colony is settling into its glass. The first census is being taken.";
+    } else {
+      note = "A watchful quiet. The canopy breathes; the grazing lines are moving slowly.";
+    }
+    if (this.dom.fieldNote.textContent !== note) this.dom.fieldNote.textContent = note;
+    this.lastNote = now;
+  }
+
+  drawTimeline(now) {
+    const { ctx, width, height } = fitCanvas(this.dom.timelineCanvas);
+    ctx.clearRect(0, 0, width, height);
+    if (width < 10 || height < 10) return;
+    const pad = { left: 3, right: 3, top: 16, bottom: 8 };
+    const plotW = width - pad.left - pad.right;
+    const target = Math.max(1, this.state.generations);
+    const progress = clamp(this.sim.gen / target, 0, 1);
+    const trackY = Math.round(pad.top + (height - pad.top - pad.bottom) * 0.58) + 0.5;
+    ctx.save();
+    ctx.strokeStyle = "rgba(222, 216, 195, .25)";
+    ctx.lineWidth = 0.65;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, trackY);
+    ctx.lineTo(pad.left + plotW, trackY);
+    ctx.stroke();
+    const tickX = (fraction) => pad.left + fraction * plotW;
+    ctx.strokeStyle = "rgba(222, 216, 195, .2)";
+    for (let i = 0; i <= 8; i++) {
+      const x = tickX(i / 8);
+      const tall = i % 2 === 0;
+      ctx.beginPath();
+      ctx.moveTo(x, trackY - (tall ? 4 : 2));
+      ctx.lineTo(x, trackY + (tall ? 4 : 2));
+      ctx.stroke();
+    }
+    ctx.strokeStyle = "rgba(238, 232, 216, .75)";
+    ctx.lineWidth = 0.85;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, trackY);
+    ctx.lineTo(pad.left + progress * plotW, trackY);
+    ctx.stroke();
+    ctx.fillStyle = "#9b7a40";
+    const timelineEventGap = plotW / Math.max(1, this.sim.events.length);
+    for (const event of this.sim.events) {
+      const x = tickX(clamp(event.gen / target, 0, 1));
+      const color = canvasEventColor(event.type);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(x, trackY - 7);
+      ctx.lineTo(x + 3.3, trackY - 3.7);
+      ctx.lineTo(x, trackY - 0.5);
+      ctx.lineTo(x - 3.3, trackY - 3.7);
+      ctx.closePath();
+      ctx.fill();
+      if (timelineEventGap > 14) {
+        ctx.globalAlpha = 0.55;
+        ctx.font = '400 5.2px "JetBrains Mono", monospace';
+        ctx.textAlign = "center";
+        ctx.fillStyle = color;
+        ctx.fillText(event.roman, x, trackY - 10);
+        ctx.globalAlpha = 1;
+      }
+    }
+    const nextAt = this.sim.nextDisturbanceAt();
+    if (!this.completed && this.sim.enabledEvents.length && nextAt <= target) {
+      const x = tickX(clamp(nextAt / target, 0, 1));
+      ctx.strokeStyle = "rgba(238, 232, 216, .3)";
+      ctx.lineWidth = 0.6;
+      ctx.setLineDash([1, 2]);
+      ctx.beginPath();
+      ctx.moveTo(x, trackY - 4);
+      ctx.lineTo(x, trackY + 4);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    const headX = tickX(progress);
+    ctx.fillStyle = this.completed ? "#c8ad74" : "#eee8d8";
+    ctx.beginPath();
+    ctx.arc(headX, trackY, this.playing ? 2.4 : 2, 0, TAU);
+    ctx.fill();
+    if (this.playing) {
+      ctx.globalAlpha = 0.3;
+      ctx.strokeStyle = "#eee8d8";
+      ctx.beginPath();
+      ctx.arc(headX, trackY, 4.6 + 1.6 * (0.5 + 0.5 * Math.sin(now * 0.003)), 0, TAU);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+    ctx.fillStyle = "rgba(222, 216, 195, .4)";
+    ctx.font = '400 5.5px "JetBrains Mono", monospace';
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    ctx.fillText("000", pad.left, trackY + 9);
+    ctx.textAlign = "center";
+    ctx.fillText("GENERATION " + padNumber(this.sim.gen, 3) + " / " + String(target).padStart(3, "0"), pad.left + plotW * 0.5, trackY + 9);
+    ctx.textAlign = "right";
+    ctx.fillText(String(target).padStart(3, "0"), pad.left + plotW, trackY + 9);
+    ctx.restore();
+  }
+
+  drawMicros(now, force = false) {
+    if (!force && now - this.lastMicro < 220) return;
+    for (const [type, canvas] of this.dom.micros) {
+      if (!canvas || !canvas.isConnected) continue;
+      const { ctx, width, height } = fitCanvas(canvas);
+      if (width < 8 || height < 8) continue;
+      ctx.clearRect(0, 0, width, height);
+      let series = [];
+      let color = "#c8ad74";
+      if (type === "seed") {
+        series = seededAmplitude(this.state.seed);
+        color = "#c8ad74";
+      } else if (type === "mutation") {
+        series = this.sim.history.slice(-48).map((h) => h.births ? h.mutations / h.births : 0);
+        color = "#d8c18e";
+      } else if (type === "regrowth") {
+        series = this.sim.history.slice(-50).map((h) => h.counts.flora);
+        color = "#b8dd7c";
+      } else if (type === "speed") {
+        series = this.throughput.slice(-36);
+        color = "#c8ad74";
+      } else if (type === "generations") {
+        series = this.sim.history.slice(-50).map((h) => h.counts.prey + h.counts.predator);
+        color = "#b8dd7c";
+      } else if (type === "interval") {
+        series = this.sim.history.slice(-60).map((h) => h.counts.prey + h.counts.predator);
+        color = "#e48b57";
+      }
+      if (!series.length) series = [0, 0];
+      const min = Math.min(...series);
+      const max = Math.max(...series);
+      const flat = max - min < 0.00001;
+      const padY = 3;
+      const xAt = (index) => 1 + (index / Math.max(1, series.length - 1)) * (width - 2);
+      const yAt = (value) => flat ? height * 0.48 : height - padY - ((value - min) / (max - min)) * (height - padY * 2);
+      ctx.save();
+      ctx.strokeStyle = "rgba(222, 216, 195, .14)";
+      ctx.lineWidth = 0.5;
+      ctx.setLineDash([1, 3]);
+      ctx.beginPath();
+      ctx.moveTo(0, height - 2);
+      ctx.lineTo(width, height - 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(xAt(0), yAt(series[0]));
+      for (let i = 1; i < series.length; i++) ctx.lineTo(xAt(i), yAt(series[i]));
+      ctx.lineTo(xAt(series.length - 1), height - 2);
+      ctx.lineTo(xAt(0), height - 2);
+      ctx.closePath();
+      const grad = ctx.createLinearGradient(0, 0, 0, height);
+      grad.addColorStop(0, hexToRgba(color, 0.14));
+      grad.addColorStop(1, hexToRgba(color, 0.01));
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(xAt(0), yAt(series[0]));
+      for (let i = 1; i < series.length; i++) ctx.lineTo(xAt(i), yAt(series[i]));
+      ctx.strokeStyle = hexToRgba(color, 0.82);
+      ctx.lineWidth = 0.8;
+      ctx.lineJoin = "round";
+      ctx.stroke();
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(xAt(series.length - 1), yAt(series[series.length - 1]), 1.3, 0, TAU);
+      ctx.fill();
+      if (type === "interval") {
+        for (const event of this.sim.events) {
+          const fraction = clamp(event.gen / Math.max(1, this.state.generations), 0, 1);
+          const x = 1 + fraction * (width - 2);
+          ctx.fillStyle = hexToRgba(canvasEventColor(event.type), 0.45);
+          ctx.fillRect(x, 1.5, 0.8, height - 3);
+        }
+      }
+      ctx.restore();
+    }
+  }
+}
+
+const app = new VivariumApp();
+window.vivarium = app;
+</script>
+</body>
+</html>

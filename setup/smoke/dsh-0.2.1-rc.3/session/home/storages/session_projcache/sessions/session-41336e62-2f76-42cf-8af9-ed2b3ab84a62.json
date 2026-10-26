@@ -1,0 +1,188 @@
+{
+  "version": 7,
+  "record": {
+    "identity": {
+      "formatVersion": 4,
+      "createdAt": 1792974331333,
+      "cwd": "/work/bench2/dsh3-smoke/work",
+      "isSeeded": false,
+      "inheritedEventCount": 0
+    },
+    "rows": {
+      "title": {
+        "ver": 1,
+        "seq": 36,
+        "val": "Create hello.txt with hi"
+      },
+      "titleInput": {
+        "ver": 3,
+        "seq": 36,
+        "val": {
+          "first": {
+            "seq": 8,
+            "text": "Create hello.txt containing the word hi, then reply done."
+          },
+          "count": 1,
+          "lastSeq": 8
+        }
+      },
+      "llmRetry": {
+        "ver": 1,
+        "seq": 36,
+        "val": {}
+      },
+      "sandboxMode": {
+        "ver": 1,
+        "seq": 36,
+        "val": "workspace-write"
+      },
+      "goal": {
+        "ver": 6,
+        "seq": 36,
+        "val": {
+          "current": null,
+          "seenGoalIds": [],
+          "failure": null
+        }
+      },
+      "tokenUsage": {
+        "ver": 2,
+        "seq": 36,
+        "val": {
+          "totals": {
+            "uncachedInputTokens": 904,
+            "outputTokens": 290,
+            "cacheReadTokens": 22912,
+            "cacheWriteTokens": 0
+          },
+          "last": {
+            "turn": 1,
+            "step": 4,
+            "buckets": {
+              "uncachedInputTokens": 130,
+              "outputTokens": 13,
+              "cacheReadTokens": 6016,
+              "cacheWriteTokens": 0
+            }
+          }
+        }
+      },
+      "contextPressure": {
+        "ver": 5,
+        "seq": 36,
+        "val": {
+          "surfaceTokens": 1129,
+          "contextWindow": 1000000,
+          "pressureTokens": 6146,
+          "sampledSurfaceTokens": 1109
+        }
+      },
+      "contextBreakdown": {
+        "ver": 6,
+        "seq": 36,
+        "val": {
+          "systems": [
+            {
+              "seq": 7,
+              "tokens": 648
+            }
+          ],
+          "surfaceTokens": 1129,
+          "breakdown": {
+            "systemTokens": 648,
+            "toolsTokens": 4899,
+            "messageTokens": 481
+          }
+        }
+      },
+      "todos": {
+        "ver": 2,
+        "seq": 36,
+        "val": null
+      },
+      "turnBoundary": {
+        "ver": 2,
+        "seq": 36,
+        "val": {
+          "openTurnStartSeq": null,
+          "lastStepStartSeq": 33,
+          "lastStepBoundary": {
+            "kind": "end",
+            "seq": 35
+          },
+          "lastTurn": 1
+        }
+      },
+      "inbox": {
+        "ver": 1,
+        "seq": 36,
+        "val": {
+          "next-turn": [],
+          "next-step": []
+        }
+      },
+      "userQuestions": {
+        "ver": 2,
+        "seq": 36,
+        "val": {
+          "inheritedEventCount": 0,
+          "timed": false,
+          "questions": {
+            "active": [],
+            "settled": []
+          }
+        }
+      },
+      "plan": {
+        "ver": 3,
+        "seq": 36,
+        "val": {
+          "active": false,
+          "wanted": null,
+          "running": null,
+          "activeAtLastHeader": false
+        }
+      },
+      "permissions": {
+        "ver": 2,
+        "seq": 36,
+        "val": {
+          "preset": "workspace-write",
+          "sandbox": "workspace-write",
+          "approval": "ask",
+          "seeded": false
+        }
+      },
+      "workingDirectory": {
+        "ver": 1,
+        "seq": 36,
+        "val": "/work/bench2/dsh3-smoke/work"
+      },
+      "subagentCatalog": {
+        "ver": 6,
+        "seq": 36,
+        "val": {
+          "inheritedEventCount": 0
+        }
+      },
+      "subagentTiming": {
+        "ver": 3,
+        "seq": 36,
+        "val": {
+          "descriptorSeen": false,
+          "settledMs": 0
+        }
+      },
+      "subagent": {
+        "ver": 2,
+        "seq": 36,
+        "val": {}
+      },
+      "subagentModelSelectionPolicy": {
+        "ver": 1,
+        "seq": 36,
+        "val": null
+      }
+    }
+  }
+}

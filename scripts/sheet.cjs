@@ -1,0 +1,6 @@
+const { chromium } = require('playwright'); const fs = require('fs')
+const [out, ...pairs] = process.argv.slice(2)
+const rows = pairs.map((p) => { const [label, dir] = p.split('='); return `<tr><th>${label}</th>${['3s','120s'].map((t) => `<td><img src="data:image/png;base64,${fs.readFileSync(`${dir}/shot-${t}.png`).toString('base64')}"></td>`).join('')}</tr>` }).join('')
+;(async () => { const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1500, height: 800 } })
+await p.setContent(`<style>body{background:#111;color:#eee;font:15px sans-serif;margin:10px}th{text-align:left;width:190px;vertical-align:middle}img{width:620px;display:block}td{padding:4px}</style><table><tr><th></th><th>3s (live)</th><th>120s</th></tr>${rows}</table>`)
+await p.screenshot({ path: out, fullPage: true }); await b.close() })()

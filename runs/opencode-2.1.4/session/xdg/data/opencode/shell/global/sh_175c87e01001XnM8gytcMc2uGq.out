@@ -1,0 +1,11 @@
+{
+  bodySW: 390,
+  win: 390,
+  canvas: [ 364, 740, 364, 740 ],
+  arena: [ 362, 740 ],
+  pixel: [ 0, 0, 0, 0 ],
+  frames: 1863.1,
+  tick: 72,
+  res: [ undefined, undefined ],
+  dpr: 1
+}

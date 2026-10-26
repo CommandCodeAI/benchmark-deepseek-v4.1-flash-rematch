@@ -1,0 +1,17 @@
+state {
+  gen: 4,
+  events: [ 'drought:4' ],
+  active: 'drought',
+  banner: 'event-banner',
+  evTitle: 'Drought'
+}
+dash {
+  open: 'dashboard open',
+  stats: '4\nGENERATIONS OBSERVED\n01\nWEATHER EVENTS\n+12%\nSTALKER SPD SHIFT',
+  events: 1,
+  canv: [ 1017, 247, 1339, 242 ]
+}
+errors [
+  "Cannot read properties of undefined (reading 'toLowerCase')",
+  "Cannot read properties of undefined (reading 'toLowerCase')"
+]

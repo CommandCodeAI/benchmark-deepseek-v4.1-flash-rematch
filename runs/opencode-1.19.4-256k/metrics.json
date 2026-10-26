@@ -1,0 +1,25 @@
+{
+  "totalSec": 3379.993,
+  "finished": true,
+  "exit": 0,
+  "requests": 130,
+  "succeeded": 129,
+  "failedRequests": 1,
+  "failuresByKind": {
+    "truncated_stream": 1
+  },
+  "failureSamples": [
+    {
+      "id": "00010",
+      "status": 200
+    }
+  ],
+  "throughputTokS": 151.40188546043595,
+  "ttftAvg": 6.177635658914729,
+  "ttftP50": 4.481,
+  "ttftP95": 17.321,
+  "cacheHit": 0.989560301887706,
+  "uncachedInput": 388107,
+  "cachedInput": 36787968,
+  "output": 329839
+}

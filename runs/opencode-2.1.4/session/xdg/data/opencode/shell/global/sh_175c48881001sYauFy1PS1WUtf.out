@@ -1,0 +1,12 @@
+built 213643
+panel overflow 0
+headless {
+  seed: 1065,
+  gen: 12,
+  rec: 13,
+  events: 2,
+  deterministic: true,
+  sameSeedHeader: '1065',
+  canvas: [ 880, 568 ]
+}
+errors []

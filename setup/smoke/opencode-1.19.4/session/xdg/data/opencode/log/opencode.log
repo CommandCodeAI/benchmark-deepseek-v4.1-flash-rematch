@@ -1,0 +1,45 @@
+timestamp=2026-10-25T23:58:06.856Z level=INFO run=4fee4964 message="creating instance" directory=/work/bench2/oc-smoke/work
+timestamp=2026-10-25T23:58:06.857Z level=INFO run=4fee4964 message=fromDirectory directory=/work/bench2/oc-smoke/work
+timestamp=2026-10-25T23:58:06.904Z level=INFO run=4fee4964 message=bootstrapping directory=/work/bench2/oc-smoke/work
+timestamp=2026-10-25T23:58:06.910Z level=INFO run=4fee4964 message=loading path=/work/bench2/oc-smoke/xdg/config/opencode/config.json
+timestamp=2026-10-25T23:58:06.911Z level=INFO run=4fee4964 message=loading path=/work/bench2/oc-smoke/xdg/config/opencode/opencode.json
+timestamp=2026-10-25T23:58:06.917Z level=INFO run=4fee4964 message=loading path=/work/bench2/oc-smoke/xdg/config/opencode/opencode.jsonc
+timestamp=2026-10-25T23:58:07.185Z level=INFO run=4fee4964 message="all LSPs are disabled"
+timestamp=2026-10-25T23:58:07.186Z level=INFO run=4fee4964 message="all formatters are disabled"
+timestamp=2026-10-25T23:58:07.186Z level=INFO run=4fee4964 message=init
+timestamp=2026-10-25T23:58:08.336Z level=ERROR run=4fee4964 message="Failed to fetch models.dev" cause="Cause([Fail(HttpClientError: Transport error (GET https://models.opencode.ai/api.json) (cause: Error [ERR_PROXY_TUNNEL]: Proxy refused to open a tunnel: 403 Forbidden))])"
+timestamp=2026-10-26T00:08:48.910Z level=INFO run=3f7cad2b message="creating instance" directory=/work/bench2/oc-smoke/work
+timestamp=2026-10-26T00:08:48.912Z level=INFO run=3f7cad2b message=fromDirectory directory=/work/bench2/oc-smoke/work
+timestamp=2026-10-26T00:08:48.988Z level=INFO run=3f7cad2b message=bootstrapping directory=/work/bench2/oc-smoke/work
+timestamp=2026-10-26T00:08:48.996Z level=INFO run=3f7cad2b message=loading path=/work/bench2/oc-smoke/xdg/config/opencode/config.json
+timestamp=2026-10-26T00:08:48.997Z level=INFO run=3f7cad2b message=loading path=/work/bench2/oc-smoke/xdg/config/opencode/opencode.json
+timestamp=2026-10-26T00:08:49.005Z level=INFO run=3f7cad2b message=loading path=/work/bench2/oc-smoke/xdg/config/opencode/opencode.jsonc
+timestamp=2026-10-26T00:08:49.118Z level=INFO run=3f7cad2b message="all LSPs are disabled"
+timestamp=2026-10-26T00:08:49.120Z level=INFO run=3f7cad2b message="all formatters are disabled"
+timestamp=2026-10-26T00:08:49.120Z level=INFO run=3f7cad2b message=init
+timestamp=2026-10-26T00:08:49.291Z level=INFO run=3f7cad2b message=created id=ses_e8a762c75ffeF7U2f68DwR4281 slug=misty-knight version=1.19.4 projectID=global directory=/work/bench2/oc-smoke/work path="" workspaceID=undefined parentID=undefined title="New session - 2026-10-26T00:08:49.291Z" agent=undefined model=undefined metadata=undefined permission="[{\"permission\":\"question\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_enter\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_exit\",\"pattern\":\"*\",\"action\":\"deny\"}]" cost=0 tokens.input=0 tokens.output=0 tokens.reasoning=0 tokens.cache.read=0 tokens.cache.write=0 time.created=1792973329291 time.updated=1792973329291
+timestamp=2026-10-26T00:08:49.306Z level=INFO run=3f7cad2b message="event connected"
+timestamp=2026-10-26T00:08:49.387Z level=INFO run=3f7cad2b message=loop session.id=ses_e8a762c75ffeF7U2f68DwR4281 step=0
+timestamp=2026-10-26T00:08:50.233Z level=INFO run=3f7cad2b message=stream providerID=command-code modelID=deepseek/deepseek-v4.1-flash session.id=ses_e8a762c75ffeF7U2f68DwR4281 small=true agent=title mode=primary
+timestamp=2026-10-26T00:08:50.241Z level=INFO run=3f7cad2b message="llm runtime selected" llm.runtime=ai-sdk llm.provider=command-code llm.model=deepseek/deepseek-v4.1-flash
+timestamp=2026-10-26T00:08:50.301Z level=INFO run=3f7cad2b message=initialized
+timestamp=2026-10-26T00:08:50.313Z level=INFO run=3f7cad2b message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/work/bench2/oc-smoke/work git=/work/bench2/oc-smoke/xdg/data/opencode/snapshot/global/d769198e7f411cad402b596054365869291d4899
+timestamp=2026-10-26T00:08:50.320Z level=INFO run=3f7cad2b message="shell tool using shell" shell=/bin/bash
+timestamp=2026-10-26T00:08:50.336Z level=INFO run=3f7cad2b message=init count=15
+timestamp=2026-10-26T00:08:50.482Z level=INFO run=3f7cad2b message="watcher backend" directory=/work/bench2/oc-smoke/work platform=linux backend=inotify
+timestamp=2026-10-26T00:08:50.484Z level=INFO run=3f7cad2b message="project copy refresh started" projectID=global
+timestamp=2026-10-26T00:08:50.486Z level=INFO run=3f7cad2b message="project copy refresh done" projectID=global updated=[] removed=[]
+timestamp=2026-10-26T00:08:51.025Z level=INFO run=3f7cad2b message="booting location services" directory=/work/bench2/oc-smoke/work workspaceID=undefined
+timestamp=2026-10-26T00:08:51.029Z level=INFO run=3f7cad2b message=process session.id=ses_e8a762c75ffeF7U2f68DwR4281 messageID=msg_17589d732001mo4flOEN84TGW9
+timestamp=2026-10-26T00:08:51.030Z level=INFO run=3f7cad2b message=stream providerID=command-code modelID=deepseek/deepseek-v4.1-flash session.id=ses_e8a762c75ffeF7U2f68DwR4281 small=false agent=build mode=primary
+timestamp=2026-10-26T00:08:51.033Z level=INFO run=3f7cad2b message="llm runtime selected" llm.runtime=ai-sdk llm.provider=command-code llm.model=deepseek/deepseek-v4.1-flash
+timestamp=2026-10-26T00:08:51.244Z level=ERROR run=3f7cad2b message="Failed to fetch models.dev" cause="Cause([Fail(HttpClientError: Transport error (GET https://models.opencode.ai/api.json) (cause: Error [ERR_PROXY_TUNNEL]: Proxy refused to open a tunnel: 403 Forbidden))])"
+timestamp=2026-10-26T00:08:56.337Z level=INFO run=3f7cad2b message=evaluated permission=edit pattern=hello.txt action.permission=edit action.action=allow action.pattern=*
+timestamp=2026-10-26T00:08:56.339Z level=INFO run=3f7cad2b message=formatting file=/work/bench2/oc-smoke/work/hello.txt
+timestamp=2026-10-26T00:08:56.340Z level=INFO run=3f7cad2b message="touching file" file=/work/bench2/oc-smoke/work/hello.txt
+timestamp=2026-10-26T00:08:56.369Z level=INFO run=3f7cad2b message=tracking hash=7a2871192d49caaff5451df37b27afc373d8298b cwd=/work/bench2/oc-smoke/work git=/work/bench2/oc-smoke/xdg/data/opencode/snapshot/global/d769198e7f411cad402b596054365869291d4899
+timestamp=2026-10-26T00:08:56.393Z level=INFO run=3f7cad2b message=loop session.id=ses_e8a762c75ffeF7U2f68DwR4281 step=1
+timestamp=2026-10-26T00:08:56.412Z level=INFO run=3f7cad2b message=tracking hash=7a2871192d49caaff5451df37b27afc373d8298b cwd=/work/bench2/oc-smoke/work git=/work/bench2/oc-smoke/xdg/data/opencode/snapshot/global/d769198e7f411cad402b596054365869291d4899
+timestamp=2026-10-26T00:08:56.420Z level=INFO run=3f7cad2b message=process session.id=ses_e8a762c75ffeF7U2f68DwR4281 messageID=msg_17589ef4b001xS7wDzOZCWMB0X
+timestamp=2026-10-26T00:08:56.421Z level=INFO run=3f7cad2b message=stream providerID=command-code modelID=deepseek/deepseek-v4.1-flash session.id=ses_e8a762c75ffeF7U2f68DwR4281 small=false agent=build mode=primary
+timestamp=2026-10-26T00:08:56.423Z level=INFO run=3f7cad2b message="llm runtime selected" llm.runtime=ai-sdk llm.provider=command-code llm.model=deepseek/deepseek-v4.1-flash

@@ -1,0 +1,7 @@
+5350-      this.initControls();
+5351-      this.initTooltips();
+5352-      this.initDashboard();
+5353:      this.setTempo(DEFAULTS.tempo);
+5354-      this.syncControlsToSim(true);
+5355-      this.updateAll(true);
+5356-

@@ -2,7 +2,7 @@
 
 Round 1 rematch: Command Code × DeepSeek V4.1 Flash.
 
-**Play both games:** [commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/)
+**Play the games:** [commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/)
 · [The Nocturne Vivarium (V4.1 Flash)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash/output/index.html)
 · [Succession in vitro (V4.1 Flash Fast)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash-fast/output/index.html)
 
@@ -16,7 +16,8 @@ post ([image](./original-post-claim.webp), [demos](https://nazzysar.github.io/de
 reports a failed CommandCode GOAT run through the DeepSeek Harness (DSH): 2h 28m 04s,
 48.12s average TTFT, 154.47s P95 TTFT and 91 failed calls. It publishes no
 session files or logs, so with no transparency there is no way to see why things
-went wrong. It could be his network, a VPN, or the third-party DeepSeek Harness.
+went wrong. It could be his network, a VPN, the third-party DeepSeek Harness, or
+the Command Code Provider API large-request issue described [below](#every-harness-same-api-key).
 Command Code serves a standard API, and our harness recursively self-improves on
 every model we serve, which is why these runs held up.
 
@@ -27,8 +28,10 @@ V4.1 Flash Fast. Both succeeded with **0 failed calls** across 249 requests.
 ![Round 1 rematch](./round1-vs-dsh.png)
 
 Also: [`round1-two-runs.png`](./round1-two-runs.png) (just the two Command Code
-GOAT runs) and [`round1-all-five.png`](./round1-all-five.png) (Naz's three
-DeepSeek Harness runs next to ours).
+GOAT runs), [`round1-all-five.png`](./round1-all-five.png) (Naz's three
+DeepSeek Harness runs next to ours), and
+[`round1-all-harnesses.png`](./round1-all-harnesses.png) (every harness we ran,
+[below](#every-harness-same-api-key)).
 
 ## Results
 
@@ -52,6 +55,54 @@ Both runs exited `0` with `"subtype":"success"`, one attempt each, no reruns.
 Both generated pages auto-start, run to the end and switch into the dashboard
 with zero console errors and zero network requests (see `screenshots/`).
 
+## Every harness, same API key
+
+We then ran the same prompt on the same model (DeepSeek V4.1 Flash, max effort)
+through the latest versions of other harnesses, all of them pointed at Command
+Code's OpenAI-compatible **Provider API** (`https://api.commandcode.ai/provider/v1`)
+with the same Command Code key as BYOK. Each run is in `runs/` with its own
+session files, every request and response body, and the game it built.
+
+![Round 1: every harness](./round1-all-harnesses.png)
+
+| Harness | Result | Total time | Requests | Failed calls | Avg TTFT | TTFT P50 | TTFT P95 | Throughput | Cache hit | Output |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **Command Code harness** · V4.1 Flash | ✅ Success | 58m 20s | 111 | **0** | 7.08s | 5.84s | 13.65s | 136 tok/s | 97.6% | 325K |
+| **Command Code harness** · V4.1 Flash Fast | ✅ Success | 1h 29m 12s | 138 | **0** | 3.51s | 3.20s | 6.06s | 159 tok/s | 99.7% | 436K |
+| DeepSeek Harness 0.2.1-rc.3 | ✅ Success | 1h 21m 59s | 148 | 0 | 6.45s | 4.49s | 13.55s | 155 tok/s | 97.8% | 479K |
+| DeepSeek Harness 0.2.1-rc.2 | ✅ Success | 1h 21m 09s | 160 | 3 (cut-off streams) | 7.98s | 8.10s | 17.12s | 157 tok/s | 97.4% | 472K |
+| OpenCode 1.19.4, output cap raised to 256K | ✅ Success | 56m 20s | 130 | 1 (cut-off stream) | 6.18s | 4.48s | 17.32s | 151 tok/s | 99.0% | 330K |
+| OpenCode 1.19.4 stock | ❌ No game: 32K output cap | 7m 09s | 5 | 0 | 2.43s | 2.15s | 3.72s | 114 tok/s | 58.9% | 47K |
+| OpenCode 2.1.4 | ⚠️ Game built, exit 1 | 1h 09m 02s | 109 | 24 (16 cut-off, 8 × 503) | 13.69s | 6.03s | 33.28s | 157 tok/s | 98.2% | 248K |
+| Pi 1.4.0 | ⚠️ Game built, retries exhausted | 42m 29s | 67 | 12 (11 cut-off, 1 × 503) | 10.00s | 4.33s | 26.97s | 164 tok/s | 97.0% | 211K |
+| DeepSeek Harness · DeepSeek API (Naz, reported) | ✅ Success | 54m 12s | – | 0 | 2.50s | 1.97s | 4.16s | 211 tok/s | 99.6% | 836K |
+| DeepSeek Harness · OpenCode Go (Naz, reported) | ✅ Success | 1h 17m 37s | – | 3 | 6.20s | 2.90s | 40.45s | 159 tok/s | 99.0% | 442K |
+| DeepSeek Harness · CommandCode GOAT (Naz, reported) | ❌ Failed | 2h 28m 04s | – | 91 | 48.12s | 28.55s | 154.47s | 140 tok/s | 97.3% | 551K |
+
+What these runs show, plainly:
+
+- **The Command Code harness is the only one with zero failed calls on both
+  models.** OpenCode 1.19.4 with its output cap raised finished 2 minutes
+  faster than plain Flash on the Command Code harness, with one recoverable
+  cut-off stream.
+- **The DeepSeek Harness works through Command Code.** DSH 0.2.1-rc.3 (the
+  version Naz says he used) finished with 0 failed calls in 148 requests and a
+  13.55s P95 TTFT. His 91 failures and 48s average TTFT did not reproduce here.
+- **Stock OpenCode 1.19.4 caps every request at 32,000 output tokens**,
+  whatever the model allows. At max effort the model spent all of them
+  reasoning, the response was cut for length, and OpenCode ended the run with
+  no file written. The 256K row raises the cap with OpenCode's own
+  `OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`.
+- **Pi and OpenCode 2.1.4 hit a real Command Code Provider API bug.** Both read
+  their own screenshots back into context, so each request carried 15–24 MB of
+  base64 images. At that size the Provider API (a Cloudflare Worker) cut streams
+  mid-generation after about 33–38 seconds (HTTP 200, no `finish_reason`, no
+  usage) and then answered `503 Error 1102: Worker exceeded resource limits`.
+  The occasional cut-off on ~1 MB requests (DSH rc.2, OpenCode 256K) looks like
+  the same limit. The Command Code CLI uses a different endpoint and never hit
+  it. This is a Command Code-side issue and is being fixed; the response bodies
+  in `runs/*/proxy/` show exactly where each stream stopped.
+
 ## The games they built
 
 Both runs auto-start, simulate on their own, and switch into the post-run dashboard.
@@ -70,7 +121,41 @@ Compare with Naz's demos at [nazzysar.github.io/deepseek-benchmarks](https://naz
 |---|---|
 | [![V4.1 Flash Fast, live](./runs/deepseek-v4.1-flash-fast/screenshots/shot-3s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash-fast/output/index.html) | [![V4.1 Flash Fast, dashboard](./runs/deepseek-v4.1-flash-fast/screenshots/shot-120s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash-fast/output/index.html) |
 
-**▶ Play them live:** [The Nocturne Vivarium](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash/output/index.html) · [Succession in vitro](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash-fast/output/index.html) · [both, side by side](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/)
+### Other harnesses, same model, through the Command Code Provider API
+
+Stock OpenCode 1.19.4 built nothing, so it has no game.
+
+#### DeepSeek Harness 0.2.1-rc.3: "The Quiet Vivarium"
+
+| Live simulation | End-of-run dashboard |
+|---|---|
+| [![DeepSeek Harness 0.2.1-rc.3, live](./runs/dsh-0.2.1-rc.3/screenshots/shot-3s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/dsh-0.2.1-rc.3/output/index.html) | [![DeepSeek Harness 0.2.1-rc.3, dashboard](./runs/dsh-0.2.1-rc.3/screenshots/shot-120s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/dsh-0.2.1-rc.3/output/index.html) |
+
+#### DeepSeek Harness 0.2.1-rc.2: "The Glass Garden"
+
+| Live simulation | End-of-run dashboard |
+|---|---|
+| [![DeepSeek Harness 0.2.1-rc.2, live](./runs/dsh-0.2.1-rc.2/screenshots/shot-3s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/dsh-0.2.1-rc.2/output/index.html) | [![DeepSeek Harness 0.2.1-rc.2, dashboard](./runs/dsh-0.2.1-rc.2/screenshots/shot-120s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/dsh-0.2.1-rc.2/output/index.html) |
+
+#### OpenCode 1.19.4 (256K cap): "The Vivarium"
+
+| Live simulation | End-of-run dashboard |
+|---|---|
+| [![OpenCode 1.19.4 (256K cap), live](./runs/opencode-1.19.4-256k/screenshots/shot-3s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/opencode-1.19.4-256k/output/index.html) | [![OpenCode 1.19.4 (256K cap), dashboard](./runs/opencode-1.19.4-256k/screenshots/shot-120s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/opencode-1.19.4-256k/output/index.html) |
+
+#### OpenCode 2.1.4: "Glasshouse Ledger"
+
+| Live simulation | End-of-run dashboard |
+|---|---|
+| [![OpenCode 2.1.4, live](./runs/opencode-2.1.4/screenshots/shot-3s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/opencode-2.1.4/output/index.html) | [![OpenCode 2.1.4, dashboard](./runs/opencode-2.1.4/screenshots/shot-120s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/opencode-2.1.4/output/index.html) |
+
+#### Pi 1.4.0: "The Vivarium Ledger"
+
+| Live simulation | End-of-run dashboard |
+|---|---|
+| [![Pi 1.4.0, live](./runs/pi-1.4.0/screenshots/shot-3s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/pi-1.4.0/output/index.html) | [![Pi 1.4.0, dashboard](./runs/pi-1.4.0/screenshots/shot-120s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/pi-1.4.0/output/index.html) |
+
+**▶ Play them live:** [The Nocturne Vivarium](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash/output/index.html) · [Succession in vitro](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash-fast/output/index.html) · [all games on one page](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/)
 
 Or clone the repo and open [`runs/deepseek-v4.1-flash/output/index.html`](./runs/deepseek-v4.1-flash/output/index.html)
 or [`runs/deepseek-v4.1-flash-fast/output/index.html`](./runs/deepseek-v4.1-flash-fast/output/index.html)
@@ -136,6 +221,36 @@ gunzip -k events.ndjson.gz && sha256sum -c events.ndjson.sha256
 node ../../scripts/analyze.mjs .   # matches metrics.json byte for byte
 ```
 
+### Provider API runs
+
+Every other harness talked to Command Code through its own copy of
+[`scripts/proxy.mjs`](./scripts/proxy.mjs), a local pass-through proxy that
+forwards each request unchanged and records, per request, its timings, status,
+usage and any error (`proxy/calls.ndjson.gz`), plus the full request and
+response bodies. [`scripts/analyze-proxy.mjs`](./scripts/analyze-proxy.mjs)
+computes `metrics.json` with the same definitions as above:
+
+- **TTFT**: request start → first SSE chunk with content, reasoning or a tool call.
+- **Throughput**: output tokens ÷ (end − first chunk), summed over requests.
+- **Cache hit**: cached prompt tokens ÷ prompt tokens.
+- **Failed calls**: transport errors, HTTP 4xx/5xx, and HTTP 200 streams that
+  stopped before the usage block (cut off mid-generation). A client closing the
+  socket after the final chunk is not a failure.
+
+The Command Code harness rows are measured from the CLI's own event stream and
+the Provider API rows at the proxy, so the measuring point differs slightly; the
+definitions are the same.
+
+Reproduce a Provider API run:
+
+```
+cd runs/dsh-0.2.1-rc.3
+mkdir -p /tmp/r/proxy && cp start end exit /tmp/r/
+gunzip -c proxy/calls.ndjson.gz > /tmp/r/proxy/calls.ndjson
+(cd /tmp/r/proxy && sha256sum -c $OLDPWD/proxy/calls.ndjson.sha256)
+node ../../scripts/analyze-proxy.mjs /tmp/r   # matches metrics.json
+```
+
 ## Notes we are not hiding
 
 - Flash Fast had one slow request: 6m 24s at 28 tok/s for 10,751 tokens
@@ -147,14 +262,40 @@ node ../../scripts/analyze.mjs .   # matches metrics.json byte for byte
   the DSH harness, and V4.1 Flash rather than whatever "GOAT" routed to there.
   It shows what the Command Code stack does on this task today. It does not
   replay the post's run.
-- One run per model. Repeat runs would tighten the numbers.
+- One run per model and harness. Repeat runs would tighten the numbers.
+- Harness setup for the Provider API runs, all on the same machine, in
+  parallel, on 2026-10-26: DSH (`@deepseek-ai/dsh` 0.2.1-rc.2 and 0.2.1-rc.3,
+  headless profile, Command Code added as an OpenAI-compatible route with the
+  same 1M context / 256K output limits DSH uses for its own DeepSeek Flash,
+  `thinking` enabled plus `reasoning_effort: max`, telemetry disabled; see
+  `command-code.patch.yml`), OpenCode (`opencode-ai` 1.19.4 and `@opencode/cli`
+  2.1.4, `@ai-sdk/openai-compatible`, `reasoningEffort: max`, auto-approve; see
+  `opencode.json`), Pi (`@earendil-works/pi-coding-agent` 1.4.0,
+  `--thinking max`, `thinkingFormat: deepseek`; see `models.json`).
+- OpenCode and Pi hung at startup with stdin left open, so stdin was closed for
+  every run. Pi ran with `--offline`, which only skips its startup model-catalog
+  refresh. OpenCode could not reach models.dev from the machine, which only
+  affects its built-in catalog; the model was defined by hand.
+- Pi was configured with image input enabled and no image resize profile, which
+  made its requests larger than they would be with a resize profile.
+- OpenCode 1.19.4 ran with the machine's home directory, so a few skill
+  descriptions from that home directory ended up in its system prompt.
+- The first OpenCode 2.1.4 attempt crashed in 20 seconds without making a
+  request: a background service left over from our smoke test held its port.
+  It is kept in `setup/opencode-2.1.4-attempt1-port-conflict/`; the run in
+  `runs/opencode-2.1.4/` is the clean restart.
 - Machine-specific details were normalized before publishing, and nothing else
   was changed: local paths are rewritten (the working directory reads `/work`),
-  and a few names in the models' own listings of the machine's installed tools
-  read `[redacted]`. Token counts and timestamps are untouched, and the metrics
+  and machine-specific names (installed tools, home-directory files, host
+  directory names) read `[redacted]`, including where a model, a harness log or
+  a session echoed them. This applies inside every compressed log, session file
+  and database too. Token counts and timestamps are untouched, and the metrics
   reproduce exactly from the published logs.
 - The DeepSeek Harness columns (Naz's runs) are copied from his Round 1 image,
   not measured here.
+- Left out of the Provider API runs: installed npm packages, the empty `.git`
+  of each working dir, and OpenCode 2's local-service password file. The full
+  list is in [`setup/EXCLUDED.md`](./setup/EXCLUDED.md).
 
 ## What is in this repo
 
@@ -164,7 +305,8 @@ Nothing from the runs was thrown away.
 round1-*.png                results cards (scripts/card.mjs + layouts/*.json)
 original-post-claim.webp    the image from the post being answered
 prompt.txt                  the exact prompt
-scripts/                    ts.mjs, analyze.mjs, card.mjs, shot.cjs
+scripts/                    ts.mjs, analyze.mjs, card.mjs, shot.cjs, proxy.mjs,
+                            analyze-proxy.mjs, status.mjs, sheet.cjs
 scripts/reported/           Naz's three DeepSeek Harness runs, copied from his image
 layouts/                    which columns go in each card
 runs/<model>/
@@ -181,6 +323,21 @@ runs/<model>/
   tmp-files/                files the model wrote to /tmp (test scripts,
                             its own screenshots), attributed via its transcript
   screenshots/              our headless checks at 3s, 30s and 120s
+runs/<harness-version>/     Provider API runs (DSH, OpenCode, Pi)
+  run.sh, start, end, exit  launch script, epoch ms timestamps, exit code
+  stderr.txt, proxy.log     harness stderr and proxy log
+  events.ndjson.gz/.sha256  the harness's own JSON event stream, timestamped
+  proxy/calls.ndjson.gz     one line per model request: timings, status, usage, errors
+  proxy/bodies/*.res.gz     every response body, as streamed
+  proxy/requests.tar.zst    every request body (tar, zstd long-range: `zstd -d --long=27`)
+  metrics.json              computed metrics
+  session/                  the harness's own session files and state
+                            (DSH home/, OpenCode xdg/, Pi agent/)
+  command-code.patch.yml    DSH provider config  | opencode.json | models.json (Pi)
+  output/                   everything the model wrote, final index.html included
+  screenshots/              our headless checks at 3s, 30s and 120s
+setup/                      smoke tests for each harness, the failed first
+                            OpenCode 2 attempt, and EXCLUDED.md
 unattributed-tmp/           /tmp files from the run window whose names are built
                             dynamically, so neither transcript names them
                             (one, check-page.js, is named by both)

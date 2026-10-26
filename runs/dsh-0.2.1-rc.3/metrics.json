@@ -1,0 +1,18 @@
+{
+  "totalSec": 4918.709,
+  "finished": true,
+  "exit": 0,
+  "requests": 148,
+  "succeeded": 148,
+  "failedRequests": 0,
+  "failuresByKind": {},
+  "failureSamples": [],
+  "throughputTokS": 155.09742643013143,
+  "ttftAvg": 6.452770270270269,
+  "ttftP50": 4.493,
+  "ttftP95": 13.551,
+  "cacheHit": 0.9780176373670308,
+  "uncachedInput": 1024880,
+  "cachedInput": 45597952,
+  "output": 479207
+}

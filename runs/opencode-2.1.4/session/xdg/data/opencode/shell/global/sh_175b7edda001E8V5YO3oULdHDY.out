@@ -1,0 +1,13 @@
+{
+  speed: { label: 'Speed', unit: 'cells/beat', short: 'SPD' },
+  vision: { label: 'Vision', unit: 'cells', short: 'VIS' },
+  metabolism: { label: 'Metabolism', unit: '×', short: 'MET' },
+  reproduction: { label: 'Repro. threshold', unit: 'kcal', short: 'REP' }
+}
+2098:        main = meta.name.toLowerCase();
+2099:        sub = meta.note.replace(/\.$/, '').toLowerCase() + ' · ' + remainGens + ' gen remaining';
+2106:        sub = 'possible · ' + enabled.map(e => Vivarium.CATACLYSMS[e].name.toLowerCase()).join(' / ');
+2124:        ? `<span class="ev">${active.name.toLowerCase()}</span> · ${sub}`
+2301:      this.dom.dashNarrative.textContent = `${eventCount} weather interruption${eventCount === 1 ? '' : 's'} crossed the study. ${finalText} The largest inherited change was ${speciesName} ${geneMeta.label.toLowerCase()}, ${sign}${shiftPct}%.`;
+2305:        <div class="dash-stat"><b>${sign}${shiftPct}<em>%</em></b><span>${speciesName} ${geneMeta.short.toLowerCase()} shift</span></div>
+2308:        ? `A record of absence as much as presence. The colony ended with ${finalText.toLowerCase()}`

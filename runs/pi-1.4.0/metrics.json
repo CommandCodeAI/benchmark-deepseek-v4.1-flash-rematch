@@ -1,0 +1,42 @@
+{
+  "totalSec": 2549.421,
+  "finished": true,
+  "exit": 0,
+  "requests": 67,
+  "succeeded": 55,
+  "failedRequests": 12,
+  "failuresByKind": {
+    "truncated_stream": 11,
+    "server": 1
+  },
+  "failureSamples": [
+    {
+      "id": "00003",
+      "status": 200
+    },
+    {
+      "id": "00051",
+      "status": 200
+    },
+    {
+      "id": "00052",
+      "status": 200
+    },
+    {
+      "id": "00054",
+      "status": 200
+    },
+    {
+      "id": "00055",
+      "status": 200
+    }
+  ],
+  "throughputTokS": 164.33869411912173,
+  "ttftAvg": 10.004418181818183,
+  "ttftP50": 4.325,
+  "ttftP95": 26.966,
+  "cacheHit": 0.9704487577423873,
+  "uncachedInput": 244443,
+  "cachedInput": 8027392,
+  "output": 211085
+}

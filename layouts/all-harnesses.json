@@ -1,0 +1,80 @@
+{
+  "title": "Round 1: every harness",
+  "orientation": "rows",
+  "sub": "Round 1 prompt · DeepSeek V4.1 Flash at max reasoning effort · one run each, no reruns",
+  "foot": "TTFT: request start to first streamed token. Throughput: output tokens ÷ streaming time. Bold: best in column among runs that finished cleanly. Red: failed calls or no clean finish.<br>Command Code harness rows are measured from the CLI's own event stream; Provider API rows through a local logging proxy on the same machine.<br>Pi and OpenCode 2.1.4 failures were Command Code Provider API stream cut-offs and Cloudflare 1102 503s on 15–24 MB requests, a Command Code-side issue.<br>Reported rows are copied from Naz's Round 1 image. Sessions, raw logs and scripts: github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch",
+  "columns": [
+    {
+      "title": "Command Code GOAT",
+      "model": "DeepSeek V4.1 Flash",
+      "tag": "Command Code harness · measured by us",
+      "metrics": "../runs/deepseek-v4.1-flash/metrics.json"
+    },
+    {
+      "title": "Command Code GOAT",
+      "model": "DeepSeek V4.1 Flash Fast",
+      "tag": "Command Code harness · measured by us",
+      "metrics": "../runs/deepseek-v4.1-flash-fast/metrics.json"
+    },
+    {
+      "title": "DeepSeek Harness 0.2.1-rc.3",
+      "model": "DeepSeek V4.1 Flash",
+      "tag": "Command Code Provider API (BYOK) · measured by us",
+      "metrics": "../runs/dsh-0.2.1-rc.3/metrics.json",
+      "result": "Success"
+    },
+    {
+      "title": "DeepSeek Harness 0.2.1-rc.2",
+      "model": "DeepSeek V4.1 Flash",
+      "tag": "Command Code Provider API (BYOK) · measured by us",
+      "metrics": "../runs/dsh-0.2.1-rc.2/metrics.json",
+      "result": "Success"
+    },
+    {
+      "title": "OpenCode 1.19.4, 256K output cap",
+      "model": "DeepSeek V4.1 Flash",
+      "tag": "Command Code Provider API (BYOK) · measured by us",
+      "metrics": "../runs/opencode-1.19.4-256k/metrics.json",
+      "result": "Success"
+    },
+    {
+      "title": "OpenCode 1.19.4 stock",
+      "model": "DeepSeek V4.1 Flash",
+      "tag": "Command Code Provider API (BYOK) · measured by us",
+      "metrics": "../runs/opencode-1.19.4-stock/metrics.json",
+      "result": "No game: 32K output cap"
+    },
+    {
+      "title": "OpenCode 2.1.4",
+      "model": "DeepSeek V4.1 Flash",
+      "tag": "Command Code Provider API (BYOK) · measured by us",
+      "metrics": "../runs/opencode-2.1.4/metrics.json",
+      "result": "Game built, exit 1"
+    },
+    {
+      "title": "Pi 1.4.0",
+      "model": "DeepSeek V4.1 Flash",
+      "tag": "Command Code Provider API (BYOK) · measured by us",
+      "metrics": "../runs/pi-1.4.0/metrics.json",
+      "result": "Game built, retries exhausted"
+    },
+    {
+      "title": "DeepSeek Harness",
+      "model": "DeepSeek API",
+      "tag": "reported by Naz @nothingto12",
+      "metrics": "../scripts/reported/deepseek-api-via-dsh.json"
+    },
+    {
+      "title": "DeepSeek Harness",
+      "model": "OpenCode Go",
+      "tag": "reported by Naz @nothingto12",
+      "metrics": "../scripts/reported/opencode-go-via-dsh.json"
+    },
+    {
+      "title": "DeepSeek Harness",
+      "model": "CommandCode GOAT",
+      "tag": "reported by Naz @nothingto12",
+      "metrics": "../scripts/reported/commandcode-goat-via-dsh.json"
+    }
+  ]
+}
