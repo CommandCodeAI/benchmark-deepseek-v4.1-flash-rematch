@@ -1,0 +1,15 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.evaluate: TypeError: Cannot read properties of null (reading 'getBoundingClientRect')
+    at qs (eval at evaluate (:311:30), <anonymous>:2:60)
+    at Array.map (<anonymous>)
+    at eval (eval at evaluate (:311:30), <anonymous>:3:304)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at [stdin]:8:24 {
+  log: []
+}
+
+Node.js v22.22.0

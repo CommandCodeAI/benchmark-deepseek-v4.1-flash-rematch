@@ -1,0 +1,13 @@
+collapsed { panel: 46, rail: 'flex', desk: '1311.22px 46px' }
+dial { val: '7.0', aria: '7', sim: 0.07 }
+tooltip {
+  show: true,
+  text: 'Every run is generated from this integer. Re-enter the same seed to replay the identical colony — every mutation, meal and weather event included.'
+}
+seed { seed: 42, header: '000042', gen: 0 }
+weather {
+  enabled: [],
+  foot: 'WEATHER SYSTEM DISARMED\nNO AUTOMATIC EVENTS',
+  forecast: 'NO CATASTROPHE IS SCHEDULED'
+}
+errors []

@@ -1,0 +1,25 @@
+# Route DSH to Command Code's OpenAI-compatible Provider API (through the local
+# logging proxy on :47016), matching DSH's own DeepSeek Flash limits
+# (1M context, 256K output), at max reasoning effort.
+- id: llm-pi-ai
+  config:
+    providers:
+      command-code:
+        displayName: Command Code
+        apiKeyEnv: CMD_API_KEY
+        api: openai-completions
+        baseURL: http://127.0.0.1:47016/provider/v1
+        compat:
+          thinkingFormat: deepseek
+        models:
+          - id: deepseek/deepseek-v4.1-flash
+            name: DeepSeek V4.1 Flash
+            contextWindow: 1000000
+            maxTokens: 256000
+            reasoningEfforts:
+              max: max
+- id: agent-default-model
+  config:
+    provider: command-code
+    model: deepseek/deepseek-v4.1-flash
+    reasoningEffort: max

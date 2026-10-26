@@ -1,0 +1,57 @@
+1280 800 {
+  body: [ 1280, 800 ],
+  vw: 1280,
+  vh: 800,
+  panel: 'relative',
+  panelW: 326,
+  scroll: 95,
+  foot: 'flex',
+  arena: {
+    x: 27.515625,
+    y: 106.89929962158203,
+    width: 880.421875,
+    height: 567.640625,
+    top: 106.89929962158203,
+    right: 907.9375,
+    bottom: 674.539924621582,
+    left: 27.515625
+  }
+} errors []
+1024 768 {
+  body: [ 1024, 768 ],
+  vw: 1024,
+  vh: 768,
+  panel: 'relative',
+  panelW: 306,
+  scroll: 123,
+  foot: 'flex',
+  arena: {
+    x: 22.015625,
+    y: 102.43351745605469,
+    width: 659.125,
+    height: 539.984375,
+    top: 102.43351745605469,
+    right: 681.140625,
+    bottom: 642.4178924560547,
+    left: 22.015625
+  }
+} errors []
+900 720 {
+  body: [ 1257, 754 ],
+  vw: 900,
+  vh: 720,
+  panel: 'fixed',
+  panelW: 350,
+  scroll: 1,
+  foot: 'none',
+  arena: {
+    x: 19.34375,
+    y: 104.4859619140625,
+    width: 861.3125,
+    height: 546,
+    top: 104.4859619140625,
+    right: 880.65625,
+    bottom: 650.4859619140625,
+    left: 19.34375
+  }
+} errors []

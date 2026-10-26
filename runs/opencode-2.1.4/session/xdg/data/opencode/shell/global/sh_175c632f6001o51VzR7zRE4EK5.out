@@ -1,0 +1,59 @@
+1280 800 {
+  sw: 1280,
+  sh: 800,
+  vw: 1280,
+  panelPos: 'relative',
+  panelX: 926.484375,
+  arena: {
+    x: 27.515625,
+    y: 107.1067886352539,
+    width: 880.421875,
+    height: 567.640625,
+    top: 107.1067886352539,
+    right: 907.9375,
+    bottom: 674.7474136352539,
+    left: 27.515625
+  },
+  overflowPanel: 0
+} errs []
+900 720 {
+  sw: 1257,
+  sh: 758,
+  vw: 900,
+  panelPos: 'fixed',
+  panelX: 907,
+  arena: {
+    x: 19.34375,
+    y: 100.40223693847656,
+    width: 861.3125,
+    height: 554,
+    top: 100.40223693847656,
+    right: 880.65625,
+    bottom: 654.4022369384766,
+    left: 19.34375
+  },
+  overflowPanel: 0
+} errs []
+390 844 {
+  sw: 747,
+  sh: 898,
+  vw: 390,
+  panelPos: 'fixed',
+  panelX: 397,
+  arena: {
+    x: 13,
+    y: 114.80693817138672,
+    width: 364,
+    height: 658,
+    top: 114.80693817138672,
+    right: 377,
+    bottom: 772.8069381713867,
+    left: 13
+  },
+  overflowPanel: 0
+} errs []
+mobile panel {
+  x: 40,
+  open: 'instrument mobile-open',
+  backdrop: 'panel-backdrop open'
+}

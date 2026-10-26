@@ -1,0 +1,12 @@
+built
+event state {
+  tempo: 8,
+  gen: 7,
+  tick: 761,
+  events: [ 'drought:4' ],
+  banner: 'event-banner show',
+  active: undefined,
+  title: 'Drought',
+  subtitle: 'The canopy turns to paper.'
+}
+errors []

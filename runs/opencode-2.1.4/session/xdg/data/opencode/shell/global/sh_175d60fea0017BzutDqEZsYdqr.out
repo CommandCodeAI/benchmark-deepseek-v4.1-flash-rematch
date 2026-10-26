@@ -1,0 +1,16 @@
+http://www.w3.org/2000/svg
+scripts 2 [ 33764, 88466 ]
+script 0 ok
+script 1 ok
+controls [
+  [ 'mutationDial', true ],
+  [ 'intervalDial', true ],
+  [ 'foodRange', true ],
+  [ 'gensRange', true ],
+  [ 'seedInput', true ],
+  [ 'seedReroll', true ],
+  [ 'sealEarly', true ],
+  [ 'collapsePanel', true ],
+  [ 'newRunBtn', true ],
+  [ 'replayBtn', true ]
+]

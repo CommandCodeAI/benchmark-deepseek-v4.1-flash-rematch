@@ -1,0 +1,66 @@
+{ tempo: 2, tick: 19, gen: 0, elapsed: 488.7, fpsText: '00:00' }
+{ tempo: 2, tick: 62, gen: 0, elapsed: 1555.3, fpsText: '00:01' }
+{
+  tempo: 2,
+  tick: 102,
+  gen: 1,
+  elapsed: 2571.9000000000005,
+  fpsText: '00:02'
+}
+{
+  tempo: 2,
+  tick: 146,
+  gen: 1,
+  elapsed: 3671.7000000000003,
+  fpsText: '00:03'
+}
+{
+  tempo: 2,
+  tick: 184,
+  gen: 1,
+  elapsed: 4605.100000000001,
+  fpsText: '00:04'
+}
+8x {
+  tempo: 8,
+  tick: 379,
+  gen: 3,
+  elapsed: 6188.4000000000015,
+  banner: 'event-banner',
+  events: 0
+}
+ERRSTACK TypeError: Cannot read properties of undefined (reading 'toLowerCase')
+    at Object.updateForecasts (file:///work/bench2/opencode2/work/index.html:6047:43)
+    at Object.updateAll (file:///work/bench2/opencode2/work/index.html:5986:12)
+    at Object.frame (file:///work/bench2/opencode2/work/index.html:5874:14)
+    at file:///work/bench2/opencode2/work/index.html:5880:39
+8x {
+  tempo: 8,
+  tick: 398,
+  gen: 4,
+  elapsed: 6305.000000000002,
+  banner: 'event-banner show',
+  events: 1
+}
+8x {
+  tempo: 8,
+  tick: 398,
+  gen: 4,
+  elapsed: 6305.000000000002,
+  banner: 'event-banner show',
+  events: 1
+}
+8x {
+  tempo: 8,
+  tick: 398,
+  gen: 4,
+  elapsed: 6305.000000000002,
+  banner: 'event-banner show',
+  events: 1
+}
+ERRSTACK TypeError: Cannot read properties of undefined (reading 'toLowerCase')
+    at Object.updateForecasts (file:///work/bench2/opencode2/work/index.html:6047:43)
+    at Object.updateAll (file:///work/bench2/opencode2/work/index.html:5986:12)
+    at Object.completeRun (file:///work/bench2/opencode2/work/index.html:6189:12)
+    at HTMLButtonElement.<anonymous> (file:///work/bench2/opencode2/work/index.html:5633:14)
+dash open

@@ -29,6 +29,7 @@
 	.ours { border-color: #3a3a3a; background: var(--card); }
 	.theirs h3 { color: #ff8a8a; }
 	section { margin-top: 48px; }
+	.note { color: var(--muted); font-size: 14px; margin: -6px 0 14px; }
 	section h3 { font-size: 15px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
 	.card img { width: 100%; border: 1px solid var(--line); border-radius: 10px; display: block; }
 	ul { padding-left: 18px; color: #cfcfcf; }
@@ -48,8 +49,8 @@
 			<a class="btn" href="https://github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch">Open the repo →</a>
 		</div>
 		<div class="side theirs">
-			<h3>Naz's runs: unverified</h3>
-			<p><a href="https://x.com/nothingto12/status/2114460558758236351">His Round 1 post</a> reports a failed CommandCode GOAT run with 91 failed calls, but publishes no session files or logs. With no transparency, there is no way to see why things went wrong. It could be his network, a VPN, or the third-party DeepSeek Harness (DSH). Command Code serves a standard API, and our harness recursively self-improves on every model we serve, which is why these runs held up.</p>
+			<h3>Naz's run: not a stock benchmark</h3>
+			<p><a href="https://x.com/nothingto12/status/2114460558758236351">His Round 1 post</a> reports a failed CommandCode GOAT run with 91 failed calls. <a href="https://github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch/tree/main/naz-session">His own session files</a> show image input on, 92 screenshots resent on every request (up to ~20 MB each) and 3 concurrent Agent Teams agents. "2h 28m 04s" is a helper agent he stopped by hand after the build had already failed, and the TTFT numbers were computed by the agent itself, retries included. With no screenshots in context, his run had 0 failures and a 3.9s P50 TTFT. We're hardening the API for heavy image payloads anyway.</p>
 		</div>
 	</div>
 
@@ -74,6 +75,64 @@
 		</article>
 	</div>
 
+
+	<section>
+		<h3>Other harnesses · same model · Command Code Provider API (BYOK)</h3>
+		<p class="note">Stock OpenCode 1.19.4 built nothing (32K output cap). Pi and OpenCode 2.1.4 failures were Command Code Provider API cut-offs on 15–24 MB requests, a Command Code-side issue.</p>
+	</section>
+	<div class="runs">
+		<article class="run">
+			<a href="runs/dsh-0.2.1-rc.3/output/index.html"><img src="runs/dsh-0.2.1-rc.3/screenshots/shot-3s.png" alt="The Quiet Vivarium, live simulation"></a>
+			<div class="body">
+				<h2>The Quiet Vivarium</h2>
+				<div class="model">DeepSeek Harness 0.2.1-rc.3 · DeepSeek V4.1 Flash</div>
+				<div class="stats">1h 21m 59s · 0 failed calls · 6.45s avg TTFT · 155 tok/s</div>
+				<a class="btn" href="runs/dsh-0.2.1-rc.3/output/index.html">Open the game →</a>
+			</div>
+		</article>
+		<article class="run">
+			<a href="runs/dsh-0.2.1-rc.2/output/index.html"><img src="runs/dsh-0.2.1-rc.2/screenshots/shot-3s.png" alt="The Glass Garden, live simulation"></a>
+			<div class="body">
+				<h2>The Glass Garden</h2>
+				<div class="model">DeepSeek Harness 0.2.1-rc.2 · DeepSeek V4.1 Flash</div>
+				<div class="stats">1h 21m 09s · 3 failed calls · 7.98s avg TTFT · 157 tok/s</div>
+				<a class="btn" href="runs/dsh-0.2.1-rc.2/output/index.html">Open the game →</a>
+			</div>
+		</article>
+		<article class="run">
+			<a href="runs/opencode-1.19.4-256k/output/index.html"><img src="runs/opencode-1.19.4-256k/screenshots/shot-3s.png" alt="The Vivarium, live simulation"></a>
+			<div class="body">
+				<h2>The Vivarium</h2>
+				<div class="model">OpenCode 1.19.4, 256K output cap · DeepSeek V4.1 Flash</div>
+				<div class="stats">56m 20s · 1 failed call · 6.18s avg TTFT · 151 tok/s</div>
+				<a class="btn" href="runs/opencode-1.19.4-256k/output/index.html">Open the game →</a>
+			</div>
+		</article>
+		<article class="run">
+			<a href="runs/opencode-2.1.4/output/index.html"><img src="runs/opencode-2.1.4/screenshots/shot-3s.png" alt="Glasshouse Ledger, live simulation"></a>
+			<div class="body">
+				<h2>Glasshouse Ledger</h2>
+				<div class="model">OpenCode 2.1.4 · DeepSeek V4.1 Flash</div>
+				<div class="stats">1h 09m 02s · 24 failed calls · exit 1 · 13.69s avg TTFT</div>
+				<a class="btn" href="runs/opencode-2.1.4/output/index.html">Open the game →</a>
+			</div>
+		</article>
+		<article class="run">
+			<a href="runs/pi-1.4.0/output/index.html"><img src="runs/pi-1.4.0/screenshots/shot-3s.png" alt="The Vivarium Ledger, live simulation"></a>
+			<div class="body">
+				<h2>The Vivarium Ledger</h2>
+				<div class="model">Pi 1.4.0 · DeepSeek V4.1 Flash</div>
+				<div class="stats">42m 29s · 12 failed calls · retries exhausted · 10.00s avg TTFT</div>
+				<a class="btn" href="runs/pi-1.4.0/output/index.html">Open the game →</a>
+			</div>
+		</article>
+	</div>
+
+	<section class="card">
+		<h3>Results: every harness</h3>
+		<img src="round1-all-harnesses.png" alt="Results table for every harness: Command Code harness runs, DeepSeek Harness, OpenCode and Pi through the Command Code Provider API, and Naz's reported runs">
+	</section>
+
 	<section class="card">
 		<h3>Results</h3>
 		<img src="round1-vs-dsh.png" alt="Round 1 rematch results table: two Command Code GOAT runs next to the DeepSeek Harness run reported by Naz">
@@ -84,11 +143,11 @@
 		<ul>
 			<li><a href="https://x.com/nothingto12/status/2114460558758236351">Naz's Round 1 post</a> and <a href="https://nazzysar.github.io/deepseek-benchmarks/">his demos</a> to compare</li>
 			<li><a href="https://github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch">The repo</a>: full sessions, raw event logs, scripts, and how every number was measured</li>
-			<li><a href="round1-all-five.png">All five runs in one table</a> · <a href="round1-two-runs.png">just the two Command Code GOAT runs</a></li>
+			<li><a href="round1-all-harnesses.png">Every harness in one table</a> · <a href="round1-all-five.png">all five runs from the first round</a> · <a href="round1-two-runs.png">just the two Command Code GOAT runs</a></li>
 		</ul>
 	</section>
 
-	<footer>Both games are single self-contained HTML files with no network requests. Screenshots are from our headless check.</footer>
+	<footer>Every game is a single self-contained HTML files with no network requests. Screenshots are from our headless check.</footer>
 </main>
 </body>
 </html>

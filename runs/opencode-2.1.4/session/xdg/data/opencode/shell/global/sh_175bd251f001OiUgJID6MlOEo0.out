@@ -1,0 +1,25 @@
+event state {
+  tempo: 8,
+  gen: 4,
+  events: [ 'drought:4' ],
+  bannerShown: true,
+  panelScroll: 0
+}
+wait 2000 false 8
+wait 4000 false 11
+wait 6000 false 14
+wait 8000 false 17
+wait 10000 false 21
+wait 12000 false 24
+wait 14000 false 27
+wait 16000 false 30
+wait 18000 false 32
+wait 20000 false 35
+wait 22000 true 36
+dashboard {
+  open: true,
+  stats: '36\nGENERATIONS OBSERVED\n06\nWEATHER EVENTS\n+69%\nGRAZER SPD SHIFT',
+  events: 6,
+  banner: false
+}
+errors []

@@ -1,0 +1,69 @@
+timestamp=2026-10-26T00:09:33.379Z level=INFO run=5ec59fb1 message="creating instance" directory=/work/bench2/opencode/work
+timestamp=2026-10-26T00:09:33.381Z level=INFO run=5ec59fb1 message=fromDirectory directory=/work/bench2/opencode/work
+timestamp=2026-10-26T00:09:33.441Z level=INFO run=5ec59fb1 message=bootstrapping directory=/work/bench2/opencode/work
+timestamp=2026-10-26T00:09:33.465Z level=INFO run=5ec59fb1 message=loading path=/work/bench2/opencode/xdg/config/opencode/config.json
+timestamp=2026-10-26T00:09:33.466Z level=INFO run=5ec59fb1 message=loading path=/work/bench2/opencode/xdg/config/opencode/opencode.json
+timestamp=2026-10-26T00:09:33.473Z level=INFO run=5ec59fb1 message=loading path=/work/bench2/opencode/xdg/config/opencode/opencode.jsonc
+timestamp=2026-10-26T00:09:33.774Z level=INFO run=5ec59fb1 message="all LSPs are disabled"
+timestamp=2026-10-26T00:09:33.776Z level=INFO run=5ec59fb1 message="all formatters are disabled"
+timestamp=2026-10-26T00:09:33.776Z level=INFO run=5ec59fb1 message=init
+timestamp=2026-10-26T00:09:34.003Z level=INFO run=5ec59fb1 message=created id=ses_e8a757dccffe6kygWUQylnEwmj slug=tidy-lagoon version=1.19.4 projectID=global directory=/work/bench2/opencode/work path="" workspaceID=undefined parentID=undefined title="New session - 2026-10-26T00:09:34.003Z" agent=undefined model=undefined metadata=undefined permission="[{\"permission\":\"question\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_enter\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_exit\",\"pattern\":\"*\",\"action\":\"deny\"}]" cost=0 tokens.input=0 tokens.output=0 tokens.reasoning=0 tokens.cache.read=0 tokens.cache.write=0 time.created=1792973374003 time.updated=1792973374003
+timestamp=2026-10-26T00:09:34.018Z level=INFO run=5ec59fb1 message="event connected"
+timestamp=2026-10-26T00:09:34.104Z level=INFO run=5ec59fb1 message=loop session.id=ses_e8a757dccffe6kygWUQylnEwmj step=0
+timestamp=2026-10-26T00:09:34.978Z level=INFO run=5ec59fb1 message=stream providerID=command-code modelID=deepseek/deepseek-v4.1-flash session.id=ses_e8a757dccffe6kygWUQylnEwmj small=true agent=title mode=primary
+timestamp=2026-10-26T00:09:34.986Z level=INFO run=5ec59fb1 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=command-code llm.model=deepseek/deepseek-v4.1-flash
+timestamp=2026-10-26T00:09:35.091Z level=INFO run=5ec59fb1 message=initialized
+timestamp=2026-10-26T00:09:35.104Z level=INFO run=5ec59fb1 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/work/bench2/opencode/work git=/work/bench2/opencode/xdg/data/opencode/snapshot/global/ecc9217548d55351489d5abcde5631c4f00a2abf
+timestamp=2026-10-26T00:09:35.114Z level=INFO run=5ec59fb1 message="shell tool using shell" shell=/bin/bash
+timestamp=2026-10-26T00:09:35.137Z level=INFO run=5ec59fb1 message=init count=15
+timestamp=2026-10-26T00:09:35.212Z level=INFO run=5ec59fb1 message="watcher backend" directory=/work/bench2/opencode/work platform=linux backend=inotify
+timestamp=2026-10-26T00:09:35.382Z level=INFO run=5ec59fb1 message="project copy refresh started" projectID=global
+timestamp=2026-10-26T00:09:35.384Z level=INFO run=5ec59fb1 message="project copy refresh done" projectID=global updated=[] removed=[]
+timestamp=2026-10-26T00:09:35.600Z level=ERROR run=5ec59fb1 message="Failed to fetch models.dev" cause="Cause([Fail(HttpClientError: Transport error (GET https://models.opencode.ai/api.json) (cause: Error [ERR_PROXY_TUNNEL]: Proxy refused to open a tunnel: 403 Forbidden))])"
+timestamp=2026-10-26T00:09:35.827Z level=INFO run=5ec59fb1 message="booting location services" directory=/work/bench2/opencode/work workspaceID=undefined
+timestamp=2026-10-26T00:09:35.832Z level=INFO run=5ec59fb1 message=process session.id=ses_e8a757dccffe6kygWUQylnEwmj messageID=msg_1758a85fb001PPpmyE7ycZf5lc
+timestamp=2026-10-26T00:09:35.834Z level=INFO run=5ec59fb1 message=stream providerID=command-code modelID=deepseek/deepseek-v4.1-flash session.id=ses_e8a757dccffe6kygWUQylnEwmj small=false agent=build mode=primary
+timestamp=2026-10-26T00:09:35.840Z level=INFO run=5ec59fb1 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=command-code llm.model=deepseek/deepseek-v4.1-flash
+timestamp=2026-10-26T00:09:39.623Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern=pwd action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:39.623Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="ls -la" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:39.623Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="git status --short" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:39.623Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="find . -maxdepth 2 -type f" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:39.623Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="head -50" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:39.670Z level=INFO run=5ec59fb1 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/work/bench2/opencode/work git=/work/bench2/opencode/xdg/data/opencode/snapshot/global/ecc9217548d55351489d5abcde5631c4f00a2abf
+timestamp=2026-10-26T00:09:39.692Z level=INFO run=5ec59fb1 message=loop session.id=ses_e8a757dccffe6kygWUQylnEwmj step=1
+timestamp=2026-10-26T00:09:39.709Z level=INFO run=5ec59fb1 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/work/bench2/opencode/work git=/work/bench2/opencode/xdg/data/opencode/snapshot/global/ecc9217548d55351489d5abcde5631c4f00a2abf
+timestamp=2026-10-26T00:09:39.717Z level=INFO run=5ec59fb1 message=process session.id=ses_e8a757dccffe6kygWUQylnEwmj messageID=msg_1758a986e001TG5Ejzm48SGTek
+timestamp=2026-10-26T00:09:39.717Z level=INFO run=5ec59fb1 message=stream providerID=command-code modelID=deepseek/deepseek-v4.1-flash session.id=ses_e8a757dccffe6kygWUQylnEwmj small=false agent=build mode=primary
+timestamp=2026-10-26T00:09:39.724Z level=INFO run=5ec59fb1 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=command-code llm.model=deepseek/deepseek-v4.1-flash
+timestamp=2026-10-26T00:09:41.724Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="which chromium chromium-browser google-chrome playwright node npm python3" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:41.724Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern=true action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:41.724Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="node --version" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:41.724Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="python3 --version" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:41.724Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="ls /usr/bin" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:41.724Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="grep -Ei 'chrome|chromium|firefox'" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:41.886Z level=INFO run=5ec59fb1 message="resolved path" arg=.git/config resolved=/work/bench2/opencode/work/.git/config
+timestamp=2026-10-26T00:09:41.886Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="git log --oneline -5 2>/dev/null" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:41.886Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern=true action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:41.886Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="cat .git/config" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:09:41.916Z level=INFO run=5ec59fb1 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/work/bench2/opencode/work git=/work/bench2/opencode/xdg/data/opencode/snapshot/global/ecc9217548d55351489d5abcde5631c4f00a2abf
+timestamp=2026-10-26T00:09:41.931Z level=INFO run=5ec59fb1 message=loop session.id=ses_e8a757dccffe6kygWUQylnEwmj step=2
+timestamp=2026-10-26T00:09:41.946Z level=INFO run=5ec59fb1 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/work/bench2/opencode/work git=/work/bench2/opencode/xdg/data/opencode/snapshot/global/ecc9217548d55351489d5abcde5631c4f00a2abf
+timestamp=2026-10-26T00:09:41.952Z level=INFO run=5ec59fb1 message=process session.id=ses_e8a757dccffe6kygWUQylnEwmj messageID=msg_1758aa12c0011ljvpn9fUP0K91
+timestamp=2026-10-26T00:09:41.952Z level=INFO run=5ec59fb1 message=stream providerID=command-code modelID=deepseek/deepseek-v4.1-flash session.id=ses_e8a757dccffe6kygWUQylnEwmj small=false agent=build mode=primary
+timestamp=2026-10-26T00:09:41.954Z level=INFO run=5ec59fb1 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=command-code llm.model=deepseek/deepseek-v4.1-flash
+timestamp=2026-10-26T00:10:33.901Z level=INFO run=5ec59fb1 message=cleanup prune=7.days
+timestamp=2026-10-26T00:11:41.734Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="playwright --version" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:11:41.734Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="node -e \"const {chromium}=require('/opt/node22/lib/node_modules/playwright'); console.log(!!chromium)\" 2>/dev/null" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:11:41.734Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="npm root -g" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:11:41.735Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern="ls $(npm root -g)" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:11:41.735Z level=INFO run=5ec59fb1 message=evaluated permission=bash pattern=head action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-26T00:11:42.893Z level=INFO run=5ec59fb1 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/work/bench2/opencode/work git=/work/bench2/opencode/xdg/data/opencode/snapshot/global/ecc9217548d55351489d5abcde5631c4f00a2abf
+timestamp=2026-10-26T00:11:42.909Z level=INFO run=5ec59fb1 message=loop session.id=ses_e8a757dccffe6kygWUQylnEwmj step=3
+timestamp=2026-10-26T00:11:42.929Z level=INFO run=5ec59fb1 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/work/bench2/opencode/work git=/work/bench2/opencode/xdg/data/opencode/snapshot/global/ecc9217548d55351489d5abcde5631c4f00a2abf
+timestamp=2026-10-26T00:11:42.937Z level=INFO run=5ec59fb1 message=process session.id=ses_e8a757dccffe6kygWUQylnEwmj messageID=msg_1758c79c0001NcDxAjBsOLL8te
+timestamp=2026-10-26T00:11:42.938Z level=INFO run=5ec59fb1 message=stream providerID=command-code modelID=deepseek/deepseek-v4.1-flash session.id=ses_e8a757dccffe6kygWUQylnEwmj small=false agent=build mode=primary
+timestamp=2026-10-26T00:11:42.941Z level=INFO run=5ec59fb1 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=command-code llm.model=deepseek/deepseek-v4.1-flash
+timestamp=2026-10-26T00:16:41.038Z level=INFO run=5ec59fb1 message=tracking hash=4b825dc642cb6eb9a060e54bf8d69288fbee4904 cwd=/work/bench2/opencode/work git=/work/bench2/opencode/xdg/data/opencode/snapshot/global/ecc9217548d55351489d5abcde5631c4f00a2abf
+timestamp=2026-10-26T00:16:41.059Z level=INFO run=5ec59fb1 message=loop session.id=ses_e8a757dccffe6kygWUQylnEwmj step=4
+timestamp=2026-10-26T00:16:41.062Z level=INFO run=5ec59fb1 message="exiting loop" session.id=ses_e8a757dccffe6kygWUQylnEwmj
+timestamp=2026-10-26T00:16:41.075Z level=INFO run=5ec59fb1 message="disposing instance" directory=/work/bench2/opencode/work

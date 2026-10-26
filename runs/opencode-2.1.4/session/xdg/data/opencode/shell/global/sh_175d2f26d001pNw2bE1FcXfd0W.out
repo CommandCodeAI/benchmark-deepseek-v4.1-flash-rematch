@@ -1,0 +1,7 @@
+{
+  s1: { open: true, seed: 1065, gen: 36, trait: [ 1339, 241 ] },
+  s2: { open: false, seed: 1065, gen: 0, status: 'LIVE' },
+  s3: { seed: 295515, open: false, gen: 0 },
+  newSeedChanged: true,
+  errors: []
+}
