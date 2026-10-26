@@ -67,7 +67,7 @@ DeepSeek Harness runs next to ours), and
 
 ## Results
 
-| | Command Code GOAT · V4.1 Flash | Command Code GOAT · V4.1 Flash Fast | DeepSeek Harness · CommandCode GOAT (Naz @nothingto12, as reported) |
+| | Command Code GOAT · V4.1 Flash | Command Code GOAT · V4.1 Flash Fast | DeepSeek Harness (Naz @nothingto12, as reported) |
 |---|---|---|---|
 | Result | ✓ Successful run | ✓ Successful run | ✕ Failed run |
 | Total time | 58m 20s | 1h 29m 12s | 2h 28m 04s |
