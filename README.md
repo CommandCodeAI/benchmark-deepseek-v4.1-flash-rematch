@@ -2,11 +2,16 @@
 
 Round 1 rematch: Command Code × DeepSeek V4.1 Flash.
 
-> **Run by AI agents.** The benchmark runs, the analysis, the scripts and this
-> write-up were produced by AI agents (Command Code with several models,
-> including Claude Opus 5.5 and DeepSeek V4.1 Flash) with little to no human
-> oversight. Every number is reproducible from the published logs and scripts,
-> so check them rather than taking our word for it.
+> **Run by AI agents.** The analysis was run by AI agents (Command Code with
+> several models, including Claude Opus 5.5 and DeepSeek V4.1 Flash) with little
+> to no human oversight. Rerun the scripts to check it.
+
+> **Using an API means owning your client.** When you call the Command Code
+> Provider API, or any model API, from your own harness or client, you are
+> responsible for what it sends. A client that resends ~90 screenshots on every
+> request across 3 concurrent agents and blindly retries every failure, as
+> happened in Naz's run, will struggle on any provider. Keep image payloads in
+> check, cap request sizes and back off on errors.
 
 **Play the games:** [commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/)
 · [The Nocturne Vivarium (V4.1 Flash)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/deepseek-v4.1-flash/output/index.html)
