@@ -67,7 +67,7 @@ DeepSeek Harness runs next to ours), and
 
 ## Results
 
-| | Command Code GOAT · V4.1 Flash | Command Code GOAT · V4.1 Flash Fast | DeepSeek Harness (Naz @nothingto12, as reported) |
+| | Command Code GOAT · V4.1 Flash | Command Code GOAT · V4.1 Flash Fast | DeepSeek Harness (Naz @nothingto12, reported, unverified) |
 |---|---|---|---|
 | Result | ✓ Successful run | ✓ Successful run | ✕ Failed run |
 | Total time | 58m 20s | 1h 29m 12s | 2h 28m 04s |
@@ -107,9 +107,9 @@ session files, every request and response body, and the game it built.
 | OpenCode 1.19.4 stock | ❌ No game: 32K output cap | 7m 09s | 5 | 0 | 2.43s | 2.15s | 3.72s | 114 tok/s | 58.9% | 47K |
 | OpenCode 2.1.4 | ⚠️ Game built, exit 1 | 1h 09m 02s | 109 | 24 (16 cut-off, 8 × 503) | 13.69s | 6.03s | 33.28s | 157 tok/s | 98.2% | 248K |
 | Pi 1.4.0 | ⚠️ Game built, retries exhausted | 42m 29s | 67 | 12 (11 cut-off, 1 × 503) | 10.00s | 4.33s | 26.97s | 164 tok/s | 97.0% | 211K |
-| DeepSeek Harness · DeepSeek API (Naz, reported) | ✅ Success | 54m 12s | – | 0 | 2.50s | 1.97s | 4.16s | 211 tok/s | 99.6% | 836K |
-| DeepSeek Harness · OpenCode Go (Naz, reported) | ✅ Success | 1h 17m 37s | – | 3 | 6.20s | 2.90s | 40.45s | 159 tok/s | 99.0% | 442K |
-| DeepSeek Harness · CommandCode GOAT (Naz, reported) | ❌ Failed | 2h 28m 04s | – | 91 | 48.12s | 28.55s | 154.47s | 140 tok/s | 97.3% | 551K |
+| DeepSeek Harness · DeepSeek API (Naz, reported, unverified) | ✅ Success | 54m 12s | – | 0 | 2.50s | 1.97s | 4.16s | 211 tok/s | 99.6% | 836K |
+| DeepSeek Harness · OpenCode Go (Naz, reported, unverified) | ✅ Success | 1h 17m 37s | – | 3 | 6.20s | 2.90s | 40.45s | 159 tok/s | 99.0% | 442K |
+| DeepSeek Harness · CommandCode GOAT (Naz, reported, unverified) | ❌ Failed | 2h 28m 04s | – | 91 | 48.12s | 28.55s | 154.47s | 140 tok/s | 97.3% | 551K |
 
 What these runs show, plainly:
 

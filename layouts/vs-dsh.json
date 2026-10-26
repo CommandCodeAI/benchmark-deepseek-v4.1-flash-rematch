@@ -1,7 +1,7 @@
 {
   "title": "Round 1 rematch",
   "sub": "Round 1 prompt · max reasoning effort · one run each, no reruns",
-  "foot": "TTFT: request start to first streamed token. Throughput: output tokens ÷ streaming time. Bold: best in row.<br>Sessions, raw logs and scripts: github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch<br>Reported columns are copied from Naz's Round 1 image.",
+  "foot": "TTFT: request start to first streamed token. Throughput: output tokens ÷ streaming time. Bold: best in row among verified runs.<br>Sessions, raw logs and scripts: github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch<br>Unverified columns are copied from Naz's Round 1 image and not ranked.",
   "columns": [
     {
       "title": "Command Code GOAT",
@@ -18,8 +18,9 @@
     {
       "title": "DeepSeek Harness",
       "model": "CommandCode GOAT",
-      "tag": "reported by Naz @nothingto12",
-      "metrics": "../scripts/reported/commandcode-goat-via-dsh.json"
+      "tag": "reported by Naz @nothingto12 · agent-computed numbers, not a stock run",
+      "metrics": "../scripts/reported/commandcode-goat-via-dsh.json",
+      "unverified": true
     }
   ]
 }
