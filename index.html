@@ -49,8 +49,8 @@
 			<a class="btn" href="https://github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch">Open the repo →</a>
 		</div>
 		<div class="side theirs">
-			<h3>Naz's runs: unverified</h3>
-			<p><a href="https://x.com/nothingto12/status/2114460558758236351">His Round 1 post</a> reports a failed CommandCode GOAT run with 91 failed calls, but publishes no session files or logs. With no transparency, there is no way to see why things went wrong. It could be his network, a VPN, the third-party DeepSeek Harness (DSH), or the Command Code Provider API large-request issue shown below. Command Code serves a standard API, and our harness recursively self-improves on every model we serve, which is why these runs held up.</p>
+			<h3>Naz's run: not a stock benchmark</h3>
+			<p><a href="https://x.com/nothingto12/status/2114460558758236351">His Round 1 post</a> reports a failed CommandCode GOAT run with 91 failed calls. <a href="https://github.com/CommandCodeAI/benchmark-deepseek-v4.1-flash-rematch/tree/main/naz-session">His own session files</a> show image input on, 92 screenshots resent on every request (up to ~20 MB each) and 3 concurrent Agent Teams agents. "2h 28m 04s" is a helper agent he stopped by hand after the build had already failed, and the TTFT numbers were computed by the agent itself, retries included. With no screenshots in context, his run had 0 failures and a 3.9s P50 TTFT. We're hardening the API for heavy image payloads anyway.</p>
 		</div>
 	</div>
 

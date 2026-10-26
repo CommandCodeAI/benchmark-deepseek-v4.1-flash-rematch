@@ -10,16 +10,37 @@ Round 1 rematch: Command Code × DeepSeek V4.1 Flash.
 files, the raw timestamped event logs, every file the models wrote, and the
 scripts behind every number. Anyone can check them and recompute the results.
 
-**Naz's runs are unverified.** His
+**Naz's run was not a stock benchmark.** His
 ["Round 1 - DeepSeek API vs OpenCode Go vs CommandCode GOAT"](https://x.com/nothingto12/status/2114460558758236351)
 post ([image](./original-post-claim.webp), [demos](https://nazzysar.github.io/deepseek-benchmarks/))
 reports a failed CommandCode GOAT run through the DeepSeek Harness (DSH): 2h 28m 04s,
-48.12s average TTFT, 154.47s P95 TTFT and 91 failed calls. It publishes no
-session files or logs, so with no transparency there is no way to see why things
-went wrong. It could be his network, a VPN, the third-party DeepSeek Harness, or
-the Command Code Provider API large-request issue described [below](#every-harness-same-api-key).
-Command Code serves a standard API, and our harness recursively self-improves on
-every model we serve, which is why these runs held up.
+48.12s average TTFT, 154.47s P95 TTFT and 91 failed calls. He has since published
+his session files, and we put them here with a full analysis:
+**[`naz-session/`](./naz-session/)**. They show image input turned on, 92
+screenshots resent on every request (up to ~20 MB each), and 3 concurrent Agent
+Teams agents. "2h 28m 04s" is a helper agent he stopped by hand, after the build
+had already failed, and the TTFT numbers were computed by the agent itself,
+retries and waits included. With no screenshots in context, his own run had 0
+failures and a 3.9s P50 TTFT.
+
+> Naz, your run wasn't a stock benchmark. It was ~90 screenshots across 3
+> concurrent Agent Teams agents, with image input on. DSH resends every image on
+> every turn, so each request grew toward 20 MB, times 3 agents, nonstop.
+>
+> On top of that, DSH:
+>
+> - retries a 1102 five times blindly, so one failure becomes six heavy requests
+> - replays every image during compaction
+> - has no image offload by default (Zayd's plugin exists for exactly this)
+>
+> That's where your 91 failed calls and 48s TTFT came from. The harness kept
+> piling the same images on.
+>
+> We ran DSH ourselves on stock config with the same model and key: rc.3 had 0
+> failures in 148 requests. All data is public in this repo.
+>
+> We're hardening the API for heavy image payloads anyway (streaming media
+> upstream, 32 MB limit). Happy to rerun your exact setup side by side once it ships.
 
 We ran the **same prompt** ([`prompt.txt`](./prompt.txt)) at the **same reasoning
 effort (max)** through the **Command Code harness** on DeepSeek V4.1 Flash and
@@ -168,13 +189,12 @@ Over 249 model requests across two runs, the Command Code service returned
 prompt. Average TTFT was 7.08s and 3.51s, against the 48.12s the post reports,
 and P95 TTFT was 13.65s and 6.06s, against 154.47s.
 
-The post ran through the DSH harness over the author's own network, and those are
-the parts of the path that differ from ours. Its 34 transport failures are
-connections that broke between the client and the service, which points at that
-network or the harness's HTTP handling. Its 57 server errors are responses that
-came back, which can be caused by how a harness builds requests, or by the
-service at that moment; without that run's logs nobody can tell which. If the
-author publishes their raw logs, we will go through them.
+The post's run differs from ours in three ways its logs make visible: image
+input on, 92 screenshots resent on every request, and 3 concurrent agents. Its
+59 server errors are Cloudflare 1102 responses from our API worker running out
+of memory on those ~20 MB image requests; its transport errors and cut-off
+streams fall in the same window. Without screenshots in context it had none of
+them. Details and every number: [`naz-session/`](./naz-session/).
 
 ## Setup
 
@@ -292,7 +312,8 @@ node ../../scripts/analyze-proxy.mjs /tmp/r   # matches metrics.json
   and database too. Token counts and timestamps are untouched, and the metrics
   reproduce exactly from the published logs.
 - The DeepSeek Harness columns (Naz's runs) are copied from his Round 1 image,
-  not measured here.
+  not measured here. His CommandCode GOAT session files are in `naz-session/`,
+  copied unchanged from his own repo.
 - Left out of the Provider API runs: installed npm packages, the empty `.git`
   of each working dir, and OpenCode 2's local-service password file. The full
   list is in [`setup/EXCLUDED.md`](./setup/EXCLUDED.md).
@@ -308,6 +329,8 @@ prompt.txt                  the exact prompt
 scripts/                    ts.mjs, analyze.mjs, card.mjs, shot.cjs, proxy.mjs,
                             analyze-proxy.mjs, status.mjs, sheet.cjs
 scripts/reported/           Naz's three DeepSeek Harness runs, copied from his image
+naz-session/                Naz's own CommandCode GOAT session files (as he published
+                            them) and our analysis, with scripts/analyze.py
 layouts/                    which columns go in each card
 runs/<model>/
   run.sh                    exact launch script
