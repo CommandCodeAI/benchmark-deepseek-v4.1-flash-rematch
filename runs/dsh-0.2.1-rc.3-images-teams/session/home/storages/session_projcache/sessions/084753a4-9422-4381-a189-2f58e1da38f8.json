@@ -1,0 +1,247 @@
+{
+  "version": 7,
+  "record": {
+    "identity": {
+      "formatVersion": 4,
+      "createdAt": 1793122710123,
+      "cwd": "/work/bench3/naz-dsh/work",
+      "isSeeded": false,
+      "inheritedEventCount": 0
+    },
+    "rows": {
+      "title": {
+        "ver": 1,
+        "seq": 675,
+        "val": "You are \"chartwright\", the data-visualiz"
+      },
+      "titleInput": {
+        "ver": 3,
+        "seq": 675,
+        "val": {
+          "first": {
+            "seq": 8,
+            "text": "You are \"chartwright\", the data-visualization / dashboard specialist on a 3-person team building a single-file, offline interactive ecology piece called VIVARIUM. The Lead is building the seeded simulation engine, vitrine renderer and boot; atelier is designing the page and controls. You own the end-of-run dashboard, \"THE RECORD\".\n\nSTART HERE:\n1. Read /work/bench3/naz-dsh/work/DESIGN-BRIEF.md in full (especially sections 8 and 9).\n2. Read src/shell.html, especially the `<section class=\"record\" id=\"record\">` markup and canvas ids. Do not edit it.\n3. Read src/engine.js (contract; initially a stub, Lead will replace) and src/dashboard.js/css stubs.\n4. Claim shared task \"task-2\" (team_task_list → team_task_get → team_task_update action claim with current revision). Mark complete when your files are integration-ready.\n\nYOUR FILES ONLY: src/dashboard.js, src/dashboard.css, plus throwaway test harness/screenshots under shots/chart-* (e.g. shots/chart-test.html, shots/chart-*.png/mjs). Do NOT edit other files (shell, engine, render, controls, design.css, boot, round 1/index.html, DESIGN-BRIEF.md, assemble.mjs).\n\nWHAT TO BUILD:\n- window.VIVARIUM_DASHBOARD = { render(world, opts), show(), hide(), onResize() }.\n- #chart-pop (canvas): \"FIG. 2 — Census of the three kingdoms\". Three population curves (flora #4f6f52, herbivora #ab7a35, carnivora #93372d) across generations; x generations, y count; ink-on-paper style with subtle deterministic hand-drawn wobble/roughness derived from world.seed; axes with sensible ticks, tick numbers in mono, labels; catastrophe markers as vertical rust dashed rules (#7a2b23) with tiny wax pins and rotated labels (SICCITAS/PESTILENTIA/INCENDIUM + gen); end-state counts labelled; species glyphs in the legend; no gridline clutter. Canvas must be DPR-aware.\n- #chart-traits (canvas): \"FIG. 3–14 — Drift at the four loci\". A 3×4 matrix: rows = flora, herbivora, carnivora; columns = speed, vision, metabolism, threshold. Each cell: mean line (species color) + ±1 SD spread band (translucent wash + fine hatching), shared x-axis (generations), per-gene y ranges/units, fainter catastrophe markers behind. Column titles + one-line expression note per taxon/gene (flora: growth/dispersal/light conversion/seeding biomass; fauna/predators: locomotion/perception/energy conversion/breeding energy). Row labels with glyph + Latin taxon name. This must read cleanly at 1280–1440 width, 3 rows of ~90–100px tall each.\n- #record-summary: semantic HTML summary card in the same voice/type (small-caps labels, mono values): final counts, catastrophe roster with generations, largest single-generation drop per species, mean mutation count, diversity note, survival/extinction note. #record-notes: a closing \"study note\" / weather roster. Keep it restrained and editorial.\n- src/dashboard.css: style the full .record overlay/sheet/header/actions/grid/captions/summary/footer/responsive so the whole record fits 1440×900 WITHOUT page scroll (cover: header, Fig 2 + summary side column, Fig 3–14 full-width, footer). Reuse tokens from design.css; do not redefine global page styles. Buttons: Replay this seed, New study, Return to the plate — ledger/ink styling, visible focus. No rounded-card dashboard look; this is the next page of the naturalist's ledger.\n- show()/hide() toggle the record (hidden attribute + is-open class for CSS transition if you add one; coordinate conservatively: boot calls these). render(world, opts) fills canvases and text; onResize re-renders last world.\n- Data contract: world.seed, world.config, world.generation, world.counts, world.events [{gen,tick,type,id,latin,name,note,duration}], world.history[{gen,counts:{flora,herbivora,carnivora},traits:{flora:{speed:{mean,sd,min,max},...},herbivora:{...},carnivora:{...}},mutations,event,diversity}]. `world.history` is the source of truth; handle 0–120 generations, missing/zero SD, and extinctions gracefully. Everything deterministic from the seed.\n- No external assets/libraries/fonts/network. Canvas 2D only.\n\nPREVIEW/TEST LOOP:\n- Build a mock-world harness under shots/chart-* to develop the rendering before the real engine lands; open it with headless Chrome and use read_image.\n- Once Lead's boot lands (watch for src/boot.js changes), assemble your own preview: `node assemble.mjs --out shots/preview-chart.html --quiet`, then load with URL `?seed=1977&gens=6&speed=8` and trigger `window.__VIVARIUM__.conclude()` via CDP or use `?gens=6&speed=8` and wait for auto-end, then screenshot. Never write round 1/index.html yourself.\n- Headless Chrome example: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless=new --disable-gpu --no-sandbox --user-data-dir=/tmp/chrome-chart --hide-scrollbars --window-size=1440,900 --screenshot=shots/chart-record.png --virtual-time-budget=8000 'file:///.../shots/preview-chart.html?seed=1977&gens=6&speed=8'. Use a unique profile dir. For interactions, a small Node CDP script using built-in WebSocket is fine (no npm installs).\n- Iterate on layout and legibility with real screenshots at 1440×900 and 1280×800; watch for clipped labels, scrollbars, overlapping captions, giant blank areas.\n\nSend the Lead a concise progress message with paths + status + any data-contract needs. Keep write scope disjoint. Visual quality bar is high: these charts should look like hand-inked scientific plates, not a chart library default."
+          },
+          "count": 1,
+          "lastSeq": 8
+        }
+      },
+      "llmRetry": {
+        "ver": 1,
+        "seq": 675,
+        "val": {}
+      },
+      "sandboxMode": {
+        "ver": 1,
+        "seq": 675,
+        "val": "workspace-write"
+      },
+      "goal": {
+        "ver": 6,
+        "seq": 675,
+        "val": {
+          "current": null,
+          "seenGoalIds": [],
+          "failure": null
+        }
+      },
+      "tokenUsage": {
+        "ver": 2,
+        "seq": 675,
+        "val": {
+          "totals": {
+            "uncachedInputTokens": 425203,
+            "outputTokens": 208092,
+            "cacheReadTokens": 18098560,
+            "cacheWriteTokens": 0
+          },
+          "last": {
+            "turn": 1,
+            "step": 101,
+            "buckets": {
+              "uncachedInputTokens": 986,
+              "outputTokens": 765,
+              "cacheReadTokens": 282752,
+              "cacheWriteTokens": 0
+            }
+          }
+        }
+      },
+      "contextPressure": {
+        "ver": 5,
+        "seq": 675,
+        "val": {
+          "surfaceTokens": 214246,
+          "contextWindow": 1000000,
+          "pressureTokens": 283738,
+          "sampledSurfaceTokens": 213528
+        }
+      },
+      "contextBreakdown": {
+        "ver": 6,
+        "seq": 675,
+        "val": {
+          "systems": [
+            {
+              "seq": 7,
+              "tokens": 1076
+            }
+          ],
+          "surfaceTokens": 214246,
+          "breakdown": {
+            "systemTokens": 1076,
+            "toolsTokens": 5067,
+            "messageTokens": 213170
+          }
+        }
+      },
+      "todos": {
+        "ver": 2,
+        "seq": 675,
+        "val": [
+          {
+            "content": "Read brief, shell, module stubs; claim task-2",
+            "status": "completed"
+          },
+          {
+            "content": "Message Lead with data-contract needs and status",
+            "status": "in_progress"
+          },
+          {
+            "content": "Build mock-world harness under shots/chart-* with edge-case modes",
+            "status": "pending"
+          },
+          {
+            "content": "Implement dashboard.js core: DPR canvas, PRNG jitter, plate frame, helpers",
+            "status": "pending"
+          },
+          {
+            "content": "Implement FIG. 2 census chart (curves, axes, catastrophe rules/pins/labels, legend, end counts)",
+            "status": "pending"
+          },
+          {
+            "content": "Implement FIG. 3–14 trait matrix (3x4, mean line + SD band, notes, shared gen axis, row labels)",
+            "status": "pending"
+          },
+          {
+            "content": "Fill #record-summary + #record-notes + meta with semantic editorial HTML",
+            "status": "pending"
+          },
+          {
+            "content": "Write dashboard.css: full record overlay/sheet/header/grid/summary/footer/responsive no-scroll at 1440x900",
+            "status": "pending"
+          },
+          {
+            "content": "Screenshot iterate at 1440x900 and 1280x800 via headless Chrome + read_image",
+            "status": "pending"
+          },
+          {
+            "content": "Integrate with real engine/boot when landed; test conclude + auto-end; final polish",
+            "status": "pending"
+          },
+          {
+            "content": "Report to Lead, mark task-2 complete",
+            "status": "pending"
+          }
+        ]
+      },
+      "turnBoundary": {
+        "ver": 2,
+        "seq": 675,
+        "val": {
+          "openTurnStartSeq": null,
+          "lastStepStartSeq": 672,
+          "lastStepBoundary": {
+            "kind": "end",
+            "seq": 674
+          },
+          "lastTurn": 1
+        }
+      },
+      "inbox": {
+        "ver": 1,
+        "seq": 675,
+        "val": {
+          "next-turn": [],
+          "next-step": []
+        }
+      },
+      "userQuestions": {
+        "ver": 2,
+        "seq": 675,
+        "val": {
+          "inheritedEventCount": 0,
+          "timed": false,
+          "questions": {
+            "active": [],
+            "settled": []
+          }
+        }
+      },
+      "plan": {
+        "ver": 3,
+        "seq": 675,
+        "val": {
+          "active": false,
+          "wanted": null,
+          "running": null,
+          "activeAtLastHeader": false
+        }
+      },
+      "permissions": {
+        "ver": 2,
+        "seq": 675,
+        "val": {
+          "preset": null,
+          "sandbox": "workspace-write",
+          "approval": "never",
+          "seeded": false
+        }
+      },
+      "workingDirectory": {
+        "ver": 1,
+        "seq": 675,
+        "val": "/work/bench3/naz-dsh/work"
+      },
+      "subagentCatalog": {
+        "ver": 6,
+        "seq": 675,
+        "val": {
+          "inheritedEventCount": 0
+        }
+      },
+      "subagentTiming": {
+        "ver": 3,
+        "seq": 675,
+        "val": {
+          "descriptorSeen": true,
+          "settledMs": 4404804,
+          "lastTurnCompleted": true
+        }
+      },
+      "subagent": {
+        "ver": 2,
+        "seq": 675,
+        "val": {
+          "identity": {
+            "mode": "continuable",
+            "label": "Canvas data-viz specialist: final THE RECORD dashboard (population + trait drift charts) and its CSS",
+            "seq": 0
+          }
+        }
+      },
+      "agentTeam": {
+        "ver": 4,
+        "seq": 675,
+        "val": {
+          "id": "084753a4-9422-4381-a189-2f58e1da38f8",
+          "members": [],
+          "tasks": [],
+          "messages": [],
+          "delivered": [],
+          "nextTaskNumber": 1
+        }
+      }
+    }
+  }
+}

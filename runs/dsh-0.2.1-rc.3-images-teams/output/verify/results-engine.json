@@ -1,0 +1,233 @@
+{
+  "suite": "engine",
+  "summary": {
+    "PASS": 20,
+    "FAIL": 0,
+    "NOTE": 2,
+    "SKIP": 0,
+    "bySeverity": {},
+    "total": 22,
+    "durationMs": 84070
+  },
+  "results": [
+    {
+      "id": "B1",
+      "area": "engine",
+      "description": "API surface: all 11 contract functions + GENE_KEYS/SPECIES/CATACLYSMS/DEFAULTS shape",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "functions ok (aliases: {\"snapshotInsteadOfGetSnapshot\":true,\"getActiveEventsInsteadOfWorldActiveEvents\":true}), 3 species",
+      "ms": 1
+    },
+    {
+      "id": "B21",
+      "area": "engine",
+      "description": "world shape contract: config/seed/generation/tick/ticksIntoGen/finished/counts/history/events/activeEvents",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"missing\":[],\"deviations\":[]}",
+      "ms": 4
+    },
+    {
+      "id": "B20",
+      "area": "engine",
+      "description": "PARAMS ranges match the brief (seed/mutation/regrowth/generations/speed/interval)",
+      "status": "PASS",
+      "severity": "minor",
+      "optional": false,
+      "detail": "{\"seed\":\"1..9999/1\",\"mutation\":\"0..0.2/0.005\",\"regrowth\":\"0.2..2.5/0.05\",\"generations\":\"10..120/1\",\"speed\":\"0.25..8/0.05\",\"interval\":\"3..20/1\"}",
+      "ms": 0
+    },
+    {
+      "id": "B2",
+      "area": "engine",
+      "description": "seed 1977: two worlds, same 40 gens => identical non-stub hash; history complete",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "hash=e5583cc8, history=41",
+      "ms": 3606
+    },
+    {
+      "id": "B3",
+      "area": "engine",
+      "description": "different seed => different hash (1977 vs 1978/42/9999)",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"42\":\"74354917\",\"1978\":\"06b473bc\",\"9999\":\"73e202c6\"}",
+      "ms": 3351
+    },
+    {
+      "id": "B4",
+      "area": "engine",
+      "description": "deterministic across two separate node processes (same seed => same hash; different seed differs)",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "p1=5c39c7a2 p2=5c39c7a2",
+      "ms": 2080
+    },
+    {
+      "id": "B5",
+      "area": "engine",
+      "description": "hash stable when intervening reads (getStats/snapshot) happen; reads are pure",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "hash=151e752b",
+      "ms": 1032
+    },
+    {
+      "id": "B6",
+      "area": "engine",
+      "description": "history integrity: >=100 gens of counts/traits/events shape, monotonic gens",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "history=101, events=24, diversity=0.370",
+      "ms": 3598
+    },
+    {
+      "id": "B7",
+      "area": "engine",
+      "description": "all 3 taxa x 4 genes present in every history gen with finite mean/sd (min/max sane)",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "41 gens x 3 taxa x 4 genes validated",
+      "ms": 1674
+    },
+    {
+      "id": "B8-note",
+      "area": "engine",
+      "description": "headless speed measured",
+      "status": "NOTE",
+      "severity": "info",
+      "detail": "100 gens in 3490ms (~14x realtime); benchmark {\"ms\":3485,\"ticksPerSec\":861}",
+      "ms": 0
+    },
+    {
+      "id": "B8",
+      "area": "engine",
+      "description": "headless speed: 100 gens much faster than real time; benchmark ticksPerSec > realtime",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "100 gens in 3489.5ms; benchmark={\"ms\":3485,\"ticksPerSec\":861}",
+      "ms": 7131
+    },
+    {
+      "id": "B9",
+      "area": "engine",
+      "description": "catastrophe interval control changes frequency (interval 3 vs 12 over 60 gens)",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "n3=19, n12=4, gaps=[3,3,3,3,3,3,3,3]",
+      "ms": 5155
+    },
+    {
+      "id": "B10",
+      "area": "engine",
+      "description": "all three catastrophe types occur over a long run; events well-formed",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "types={\"drought\":13,\"plague\":13,\"wildfire\":13}, total=39",
+      "ms": 4224
+    },
+    {
+      "id": "B11",
+      "area": "engine",
+      "description": "catastrophe effects measurable: event active/expires + catastrophes alter run outcome",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "first=drought@gen3 remaining=2; on!=off; expires",
+      "ms": 2215
+    },
+    {
+      "id": "B12-short",
+      "area": "engine",
+      "description": "setParam(generations) below current generation",
+      "status": "NOTE",
+      "severity": "info",
+      "detail": "finished=true (UI/boot may enforce end-of-run; flag if neither)",
+      "ms": 0
+    },
+    {
+      "id": "B12",
+      "area": "engine",
+      "description": "live setParam: mutation/regrowth/interval/catastrophes read back and take effect",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "live params ok; events after interval change=7; shortenedFinished=true",
+      "ms": 6893
+    },
+    {
+      "id": "B13",
+      "area": "engine",
+      "description": "extreme params + extinction handled without crash/NaN/negative counts",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "ran 9 extreme worlds; 6 showed a zero-count species (no crash)",
+      "ms": 41876
+    },
+    {
+      "id": "B14",
+      "area": "engine",
+      "description": "runTick contract: generation = 30 ticks; ticksIntoGen wraps; tick counts",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "30 ticks/gen, tick accounting ok",
+      "ms": 111
+    },
+    {
+      "id": "B15",
+      "area": "engine",
+      "description": "resetWorld: reseeds to gen 0, keeps params, accepts overrides, clears events",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "reset ok, params retained, initial history entries=1",
+      "ms": 767
+    },
+    {
+      "id": "B16",
+      "area": "engine",
+      "description": "plain serialisable state snapshot incl config/seed/generation/counts/activeEvents",
+      "status": "PASS",
+      "severity": "minor",
+      "optional": false,
+      "detail": "snapshot keys=seed,generation,tick,finished,counts,config,events,activeEvents,historyLength,lastHistory",
+      "ms": 213
+    },
+    {
+      "id": "B17",
+      "area": "engine",
+      "description": "DIRT: engine source contains no Math.random / Date / network / DOM access",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "no Math.random/Date/DOM/network in engine source",
+      "ms": 3
+    },
+    {
+      "id": "B18",
+      "area": "engine",
+      "description": "assembled deliverable inlines engine verbatim (extractable for parity test)",
+      "status": "PASS",
+      "severity": "minor",
+      "optional": false,
+      "detail": "{\"snapshot\":\"f820f20a872901d9\",\"bytes\":321258,\"engineInlinedVerbatim\":true,\"note\":\"engine byte-identical inside deliverable; browser parity check follows in browser suite\"}",
+      "ms": 133
+    }
+  ],
+  "at": "2026-10-27T18:57:03.539Z"
+}

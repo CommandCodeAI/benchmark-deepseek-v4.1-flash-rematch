@@ -1,0 +1,479 @@
+{
+  "suite": "browser",
+  "summary": {
+    "PASS": 41,
+    "FAIL": 0,
+    "NOTE": 6,
+    "SKIP": 0,
+    "bySeverity": {},
+    "total": 47,
+    "durationMs": 88523
+  },
+  "results": [
+    {
+      "id": "ENV",
+      "area": "env",
+      "description": "testing snapshot f820f20a872901d9 (313.7 KB, stable=true)",
+      "status": "NOTE",
+      "severity": "info",
+      "detail": "file:///work/bench3/naz-dsh/work/verify/snapshots/browser-2026-10-27T18-57-03-862Z.html",
+      "ms": 0
+    },
+    {
+      "id": "ENV-BROWSER",
+      "area": "env",
+      "description": "headless Chrome version",
+      "status": "NOTE",
+      "severity": "info",
+      "detail": "Chrome/156.0.8078.48 / protocol 1.3",
+      "ms": 0
+    },
+    {
+      "id": "C1",
+      "area": "autostart",
+      "description": "default URL auto-starts without params: generation advances from 0",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"startedAfterMs\":0,\"total\":40,\"rule\":\"gen 01 / 40\"}",
+      "ms": 4
+    },
+    {
+      "id": "C2",
+      "area": "offline",
+      "description": "offline: only the local document is requested (network + resource entries)",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"requests\":1,\"urls\":1,\"perfEntries\":0}",
+      "ms": 501
+    },
+    {
+      "id": "C3",
+      "area": "autostart",
+      "description": "auto-transition to THE RECORD at run end (default N=40)",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"autoEndedAfterMs\":19791,\"meta\":\"Seed 1901 · 40 generations · 1,200 ticks · 4 catastrophes\",\"title\":\"A Closed Ecology\"}",
+      "ms": 39
+    },
+    {
+      "id": "C4",
+      "area": "autostart",
+      "description": "run end reaches configured generation; cursor/status concluded; charts non-blank",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"gen\":40,\"pop\":0.061,\"traits\":0.1574,\"vitrine\":0.4308,\"rule\":{\"tickChildren\":41,\"numerals\":[\"0\",\"5\",\"10\",\"15\",\"20\",\"25\",\"30\",\"35\",\"40\"],\"numeralCount\":9,\"cursor\":1,\"cursorLabel\":\"GEN 40\",\"progress\":\"642.938px\"}}",
+      "ms": 76
+    },
+    {
+      "id": "C9",
+      "area": "engine",
+      "description": "simulation purity: live world (after renderer/controls/playback) equals fresh headless reference",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"hash\":\"f295d84d\",\"gen\":40,\"historyGens\":41,\"counts\":{\"flora\":534,\"herbivora\":144,\"carnivora\":41}}",
+      "ms": 985
+    },
+    {
+      "id": "E1",
+      "area": "catastrophe",
+      "description": "catastrophe fires automatically: banner appears with latin/name/gen/note and live region",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"bannersSeen\":[\"Pestilentia|Plague|GEN 08\",\"Incendium|Wildfire|GEN 16\",\"Siccitas|Drought|GEN 24\",\"Pestilentia|Plague|GEN 32\"],\"note\":\"A pestilence moves through the fauna; the weak are taken first.\"}",
+      "ms": 0
+    },
+    {
+      "id": "E2",
+      "area": "catastrophe",
+      "description": "event wash seen on page during catastrophe (watercolour overlay, no flash)",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"exists\":true,\"cls\":\"wash is-active is-plague\",\"opacity\":\"0\",\"background\":\"rgba(0, 0, 0, 0)\",\"hasEventClass\":true,\"hidden\":false,\"rect\":{\"x\":0,\"y\":0,\"w\":1440,\"h\":900,\"right\":1440,\"bottom\":900}}",
+      "ms": 0
+    },
+    {
+      "id": "E3",
+      "area": "catastrophe",
+      "description": "persistent condition note appears while catastrophe active",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "PESTILENTIA · 2 SEASONS REMAIN",
+      "ms": 0
+    },
+    {
+      "id": "E4",
+      "area": "catastrophe",
+      "description": "wax seals pinned on rule + ledger entries appended for events",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"seals\":4,\"ledgerEntries\":6,\"counter\":\"06\",\"eventEntry\":\"GEN 08Pestilentia · Plague. A pestilence moves through the fauna; the weak are taken first.\"}",
+      "ms": 6
+    },
+    {
+      "id": "E5",
+      "area": "catastrophe",
+      "description": "dashboard shows catastrophe markers (rust/violet ink pixels on census chart)",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"waxPins\":53,\"broadWax\":1792,\"rust\":3960}",
+      "ms": 48
+    },
+    {
+      "id": "C5",
+      "area": "errors",
+      "description": "zero console errors / page exceptions / failed requests during full default run",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "no errors",
+      "ms": 1
+    },
+    {
+      "id": "D-ENV",
+      "area": "controls",
+      "description": "controls mounted: 8; paused=true",
+      "status": "NOTE",
+      "severity": "info",
+      "detail": "seed:INPUT@spinbutton, mutation:INPUT, regrowth:INPUT, generations:INPUT@spinbutton, speed:DIV@slider, interval:DIV@slider, catastrophes:BUTTON@switch, trails:BUTTON@switch",
+      "ms": 0
+    },
+    {
+      "id": "D1",
+      "area": "controls",
+      "description": "all 8 required instruments present; ≥8 sparkline canvases in folio; 4 distinct control builds",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"missing\":[],\"sparks\":8,\"sizes\":[\"76x22\",\"76x22\",\"76x22\",\"76x22\",\"76x22\",\"76x22\",\"76x22\",\"76x22\"],\"nativeRanges\":2,\"roleSliders\":2,\"switchLike\":2,\"steppers\":[\"INPUT/spinbutton\",\"INPUT/spinbutton\"]}",
+      "ms": 1
+    },
+    {
+      "id": "D2",
+      "area": "controls",
+      "description": "every instrument row has label + unit + numeric live readout",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"seed\":\"iSeedi−+Recast19011 – 9999seed\",\"mutation\":\"iiMutation ratei00.2000.0606.0% · Δ+39per locus / birth\",\"regrowth\":\"iiiRegrowthi0.20×2.50×1.00×flora vigour\",\"generations\":\"ivGenerationsi−+40gen 1generations\",\"speed\":\"vTempoilogarithmic scale0.25×8×2.0×60 t/s realisedticks / second\",\"interval\":\"viWeather rhythmiweather rhythm3208seal every 8 gengens between events\",\"catastrophes\":\"viiCatastrophesiweatherARMEDARMEDevery 8 genweather\",\"trails\":\"viiiGhost trailsiopticsONONpencil ghostsghosts\"}",
+      "ms": 0
+    },
+    {
+      "id": "G-ARIA",
+      "area": "a11y",
+      "description": "ARIA: sliders valuemin/max/now, switches aria-checked, canvases role=img+label, no unnamed buttons",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"sliders\":4,\"switches\":2,\"canvases\":11,\"charts\":[\"sim-canvas\",\"chart-pop\",\"chart-traits\"],\"live\":3}",
+      "ms": 1
+    },
+    {
+      "id": "G-SKIP",
+      "area": "a11y",
+      "description": "skip link: present, first Tab stop, visible on focus, jumps to the plate canvas",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"text\":\"Skip to the specimen under glass\",\"href\":\"#sim-canvas\",\"rect\":{\"x\":16,\"y\":-60,\"w\":263.984375,\"h\":33.9375},\"visible\":true,\"after\":{\"hash\":\"#sim-canvas\",\"active\":\"sim-canvas\"}}",
+      "ms": 650
+    },
+    {
+      "id": "D3-trail",
+      "area": "controls",
+      "description": "tab trail",
+      "status": "NOTE",
+      "severity": "info",
+      "detail": "BUTTON#btn-play > BUTTON#btn-step > BUTTON#btn-conclude > BUTTON#folio-toggle > BUTTON > BUTTON > seed > BUTTON > BUTTON > BUTTON > mutation > BUTTON > regrowth > BUTTON > BUTTON > generations > BUTTON > BUTTON > speed > BUTTON > interval > BUTTON > catastrophes > BUTTON > trails > BODY > A > CANVAS#sim-canvas > BUTTON#btn-play",
+      "ms": 0
+    },
+    {
+      "id": "D3",
+      "area": "controls",
+      "description": "keyboard: every instrument reachable by Tab",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"stops\":29,\"instrumentsReached\":8}",
+      "ms": 2159
+    },
+    {
+      "id": "D4",
+      "area": "a11y",
+      "description": "keyboard focus state visible on every stop (2px ink outline / brass tick)",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"stops\":28,\"sampleOutline\":\"solid 2px rgb(33, 29, 22) offset 3px\"}",
+      "ms": 1916
+    },
+    {
+      "id": "D5",
+      "area": "controls",
+      "description": "sliders/dials: arrows + Home/End + PageUp/PageDown change values; boundaries respected",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"mutation\":{\"changedRight\":true,\"homeEndDiffer\":true,\"pageUpChanged\":true,\"pageDownChanged\":true,\"before\":\"0.06\",\"home\":\"0\",\"end\":\"0.2\"},\"regrowth\":{\"changedRight\":true,\"homeEndDiffer\":true,\"pageUpChanged\":true,\"pageDownChanged\":true,\"before\":\"1\",\"home\":\"0.2\",\"end\":\"2.5\"},\"speed\":{\"changedRight\":true,\"homeEndDiffer\":true,\"pageUpChanged\":true,\"pageDownChanged\":true,\"before\":\"2\",\"home\":\"0.25\",\"end\":\"8\"},\"interval\":{\"changedRight\":true,\"homeEndDiffer\":true,\"pageUpChanged\":true,\"pageDownChanged\":true,\"before\":\"8\",\"home\":\"3\",\"end\":\"20\"}}",
+      "ms": 2618
+    },
+    {
+      "id": "D6",
+      "area": "controls",
+      "description": "steppers (seed/generations) adjustable from keyboard; seed recast resets the study",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"before\":\"1901\",\"after\":\"1902\",\"seedText\":\"1902\",\"gen\":0,\"recastNote\":\"The plate i  reca t.\"}",
+      "ms": 134
+    },
+    {
+      "id": "D7",
+      "area": "controls",
+      "description": "toggles: Space and Enter flip switch state (aria-checked)",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"trails\":{\"before\":\"false\",\"after\":\"true\",\"changed\":true},\"catastrophes\":{\"before\":\"true\",\"after\":\"false\",\"changed\":true}}",
+      "ms": 470
+    },
+    {
+      "id": "D8",
+      "area": "controls",
+      "description": "tooltips: appear on hover AND focus, have content, dismiss on Escape, aria-describedby wired",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"triggers\":19,\"hoverOk\":true,\"escOk\":true,\"focusOk\":true,\"describedByOk\":true,\"inViewport\":true,\"sample\":\"viii · field noteGhost trailsFaint pencil ghosts behind each creature, showing the last few ticks of its path. A reading aid for the eye alo\"}",
+      "ms": 1045
+    },
+    {
+      "id": "D9",
+      "area": "controls",
+      "description": "folio fold/unfold: collapses to spine, folded controls leave tab order, state persists after reload",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"before\":383,\"folded\":34,\"expanded\":383,\"persisted\":true,\"afterReloadWidth\":34}",
+      "ms": 5261
+    },
+    {
+      "id": "D10",
+      "area": "layout",
+      "description": "no clipping at 1440×900: no page scroll, controls inside viewport, no clipped text",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"itemCount\":2,\"canScroll\":[false,false],\"overflowVisible\":2}",
+      "ms": 124
+    },
+    {
+      "id": "D11",
+      "area": "controls",
+      "description": "pause/resume + step shortcuts: Space halts/resumes, G advances exactly one generation",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"before\":2,\"pausedAt\":2,\"stepped\":3,\"resumed\":4}",
+      "ms": 3169
+    },
+    {
+      "id": "D12",
+      "area": "controls",
+      "description": "shortcuts: ? opens shortcut note, Escape closes; typing in seed input does not trigger shortcuts",
+      "status": "PASS",
+      "severity": "minor",
+      "optional": false,
+      "detail": "{\"noteOpened\":true,\"typingProtected\":true}",
+      "ms": 1204
+    },
+    {
+      "id": "D13",
+      "area": "controls",
+      "description": "live params: mutation/speed/interval readouts update and apply; generations shortening ends the run",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"mutation\":\"0.06 -> 0.08\",\"speedRow\":\"vTempoilogarithmic scale0.25×8×8.0×60 t/s realisedticks / se\",\"rate\":\"8.0× · 240 ticks/s\",\"intervalRow\":\"viWeather rhythmiweather rhythm3203seal every 3 gengens betw\",\"endedAfterMs\":4199}",
+      "ms": 5741
+    },
+    {
+      "id": "D14",
+      "area": "controls",
+      "description": "specimen tag: hovering/clicking a creature pins a card with taxon, genes+units, energy/age",
+      "status": "PASS",
+      "severity": "minor",
+      "optional": false,
+      "detail": "{\"text\":\"Lepus agrestisHerbivoraSpeed1.52 cells/tickVision7.79 cellsMetabolism1.11 indexThreshold0.97 energyClick the glass to pin · energy 0.25\"}",
+      "ms": 2872
+    },
+    {
+      "id": "C6",
+      "area": "errors",
+      "description": "zero JS/console errors across control + keyboard interactions",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "no errors",
+      "ms": 1
+    },
+    {
+      "id": "G-CONTRAST",
+      "area": "a11y",
+      "description": "contrast: 25 low-contrast text nodes of 169 sampled (<4.5:1)",
+      "status": "NOTE",
+      "severity": "info",
+      "detail": "[{\"tag\":\"SPAN\",\"cls\":\"rule__seal rule__seal--plague\",\"text\":\"P\",\"ratio\":1.13,\"fs\":6.5},{\"tag\":\"SPAN\",\"cls\":\"rule__seal rule__seal--drought\",\"text\":\"S\",\"ratio\":1.13,\"fs\":6.5},{\"tag\":\"SPAN\",\"cls\":\"rule__seal rule__seal--wildfire\",\"text\":\"I\",\"ratio\":1.13,\"fs\":6.5},{\"tag\":\"SPAN\",\"cls\":\"rule__seal rule__seal--wildfire\",\"text\":\"I\",\"ratio\":1.13,\"fs\":6.5},{\"tag\":\"SPAN\",\"cls\":\"rule__seal rule__seal--drought\",\"text\":\"S\",\"ratio\":1.13,\"fs\":6.5},{\"tag\":\"SPAN\",\"cls\":\"rule__seal rule__seal--plague\",\"text\":\"P\",\"ratio\":1.13,\"fs\":6.5}]",
+      "ms": 0
+    },
+    {
+      "id": "F1",
+      "area": "dashboard",
+      "description": "record layout: fits 1440×900 without scroll; header/meta/summary populated; 3 actions present",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"title\":\"A Closed Ecology\",\"meta\":\"Seed 1901 · 40 generations · 1,200 ticks · 12 catastrophes\",\"summaryLen\":451,\"actions\":[\"↺ Replay this seed\",\"✳ New study\",\"← Return to the plate\"]}",
+      "ms": 38
+    },
+    {
+      "id": "F2",
+      "area": "dashboard",
+      "description": "FIG.2 census chart: ink + all three species colours present, axes/legible ink, catastrophe markers",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"nonBgRatio\":0.0728,\"dark\":1534,\"flora\":3594,\"fauna\":6051,\"predator\":4904,\"waxPins\":153}",
+      "ms": 35
+    },
+    {
+      "id": "F3",
+      "area": "dashboard",
+      "description": "FIG.3-14 trait chart: 3×4 matrix all cells drawn (mean line + spread band)",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"nonBgRatio\":0.1622,\"dark\":627,\"nearInk\":281,\"minCell\":0.14477987421383648,\"dpr\":1}",
+      "ms": 38
+    },
+    {
+      "id": "F4",
+      "area": "dashboard",
+      "description": "record fits 1280×800 and charts re-render on resize (DPR-aware)",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"sheet\":{\"x\":23,\"y\":12,\"w\":1233.9,\"h\":776,\"right\":1257,\"bottom\":788},\"sheetScroll\":{\"scrollH\":774,\"clientH\":774,\"scrollW\":1232,\"clientW\":1232},\"pop\":0.0905,\"traits\":0.1619}",
+      "ms": 1697
+    },
+    {
+      "id": "F5",
+      "area": "dashboard",
+      "description": "record summary card: catastrophe roster + survival/diversity evidence",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"summary\":\"Summary of the Studyseed 1901 · 40 gen · 12 weathersFinal censusFlora16peak 1,085 · −98%Herbivora229peak 232 · +173%Carnivora27peak 50 · +35%WeatherPPestilentiaG05IIncendiumG08SSiccitasG11IIncendiumG14SSiccitasG17PPestilentiaG20+6 more · 12 visits · first G05 \",\"notes\":\"Weather rosterPestilentia G05 · Incendium G08 · Siccitas G11 · Incendium G14 · Siccitas G17 · Pestilentia G20 · Siccitas G23 · Incendium G26 · +4Margin note2 ge\"}",
+      "ms": 35
+    },
+    {
+      "id": "F6",
+      "area": "dashboard",
+      "description": "record actions work: Replay this seed / New study / Return to the plate",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"replay\":{\"recordHidden\":true,\"seedAfter\":\"1901\",\"seedBefore\":\"1901\",\"gen\":7},\"newSeed\":{\"recordHidden\":true,\"seedChanged\":true,\"seedAfter\":\"5526\",\"gen\":7},\"back\":{\"recordHidden\":true,\"plateVisible\":true}}",
+      "ms": 6616
+    },
+    {
+      "id": "C7",
+      "area": "errors",
+      "description": "no JS errors during fast run + dashboard interactions",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "no errors",
+      "ms": 0
+    },
+    {
+      "id": "P6",
+      "area": "autostart",
+      "description": "URL params: ?gens=12&speed=8 completes fast; ?cat=0 means no events/seals/markers",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"elapsedMs\":2806,\"meta\":\"Seed 1901 · 12 generations · 360 ticks · no catastrophes\",\"seals\":0,\"waxPins\":0}",
+      "ms": 2879
+    },
+    {
+      "id": "G-RM",
+      "area": "a11y",
+      "description": "prefers-reduced-motion: emulation active, page still auto-runs, record reachable, no errors",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"startedAfterMs\":1,\"rm\":true}",
+      "ms": 2927
+    },
+    {
+      "id": "H-1280",
+      "area": "layout",
+      "description": "1280×800: no page scroll / horizontal overflow; controls inside viewport; canvas legible size",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"doc\":{\"w\":1280,\"h\":800},\"canvas\":{\"cssW\":732.4,\"cssH\":412},\"items\":2}",
+      "ms": 279
+    },
+    {
+      "id": "H-1024",
+      "area": "layout",
+      "description": "1024×768: degrades without horizontal overflow; plate + folio remain usable",
+      "status": "PASS",
+      "severity": "minor",
+      "optional": false,
+      "detail": "{\"doc\":{\"x\":0,\"y\":0,\"scrollH\":1314,\"scrollW\":1024},\"canScrollX\":false,\"canvas\":{\"cssW\":942,\"cssH\":529.9},\"items\":221}",
+      "ms": 275
+    },
+    {
+      "id": "B19-note",
+      "area": "engine",
+      "description": "cross-engine full-run parity",
+      "status": "NOTE",
+      "severity": "info",
+      "detail": "40-gen hash differs across JS engines (node=7896c3bc browser=f295d84d); early 3 gens and within-browser determinism agree (expected FP amplification)",
+      "ms": 0
+    },
+    {
+      "id": "B19",
+      "area": "engine",
+      "description": "browser engine: same seed twice => identical hash; reload => same hash; early gens match node",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "{\"seed\":1901,\"seedDefault\":1901,\"engineVersion\":\"1.0.0\",\"browserHash\":\"f295d84d\",\"nodeEarly\":\"a880a900\",\"earlyMatch\":true,\"fullMatch\":false}",
+      "ms": 7031
+    },
+    {
+      "id": "C8",
+      "area": "autostart",
+      "description": "default study seed is the documented 1901; masthead matches world; ?seed=1977 still deterministic",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"default\":{\"seed\":1901,\"metaSeed\":\"1901\",\"worldSeed\":1901,\"defaults\":1901},\"seed1977\":{\"hash\":\"2255f1de\",\"gen\":40}}",
+      "ms": 2286
+    }
+  ],
+  "at": "2026-10-27T18:58:32.264Z"
+}

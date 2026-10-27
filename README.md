@@ -131,6 +131,64 @@ What these runs show, plainly:
   Provider API will stream the images upstream instead of failing. That
   improvement is in progress.
 
+## Naz's setup, rerun
+
+Naz's session files ([`naz-session/`](./naz-session/)) show three things none
+of the stock runs above had: image input on, Agent Teams (a lead plus
+teammates working at the same time), and the prompt prefixed with
+`within the round 1 folder:`. We reran DSH 0.2.1-rc.3 with all three on the
+same Provider API on 2026-10-27, one attempt, through the same logging proxy.
+The run is in [`runs/dsh-0.2.1-rc.3-images-teams/`](./runs/dsh-0.2.1-rc.3-images-teams/).
+
+| | This rerun | Naz's run (from his logs) | DSH 0.2.1-rc.3 stock |
+|---|---|---|---|
+| Result | ✅ Success, exit 0 | ❌ Lead turn ended in an error | ✅ Success |
+| Image input | on | on | off |
+| Agents | 4 (lead + 3 teammates) | 3 (lead + 2 teammates) | 1 |
+| Screenshots sent | 78 | 92 | 0 |
+| Largest request | 21.1 MB (27 images) | 19 to 24 MB | no images |
+| Total time | 1h 40m 52s | 2h 28m 04s (helper agent stopped by hand) | 1h 21m 59s |
+| Requests | 541 | 448 attempts | 148 |
+| Failed calls | **14 (2.6%)**, all retried | 98 | 0 |
+| HTTP 503s | **0** | 59 | 0 |
+| Avg TTFT | 20.28s | 36.2s (successful attempts) | 6.45s |
+| TTFT P50 / P95 | 12.67s / 63.55s | 29.1s / 99.6s (successful attempts) | 4.49s / 13.55s |
+| Throughput | 192 tok/s | 140 tok/s (reported) | 155 tok/s |
+| Cache hit | 98.7% | 97.3% (reported) | 97.8% |
+| Output | 998K | 551K (reported) | 479K |
+
+By screenshots in context, successful requests only for TTFT, same buckets as
+the [`naz-session/`](./naz-session/) analysis:
+
+| Screenshots in context | This rerun: requests / failed | TTFT P50 / P95 | Naz: requests / failed | TTFT P50 / P95 |
+|---|---|---|---|---|
+| 0 | 139 / 5 | 3.5s / 5.5s | 74 / 0 | 3.9s / 8.3s |
+| 1-5 | 139 / 1 | 10.9s / 22.5s | 63 / 1 | 8.2s / 16.8s |
+| 6-10 | 97 / 6 | 22.3s / 43.7s | 20 / 1 | 24.6s / 51.3s |
+| 11-20 | 141 / 1 | 33.4s / 67.3s | 103 / 29 | 41.3s / 82.4s |
+| 21+ | 25 / 1 | 63.9s / 80.4s | 90 / 67 | 64.9s / 125.0s |
+
+What this rerun shows:
+
+- **The slowdown reproduces.** TTFT grows with the screenshots in context the
+  same way in both runs: about 3.5s with none, about 64s with 21 or more. Heavy
+  image payloads are slow on the Provider API today, and that part of the
+  original post holds. Streaming images upstream is the fix in progress.
+- **The failures mostly do not.** With 11 or more screenshots in context, 2 of
+  166 requests failed here, against 96 of 193 in Naz's run. There were no 503s.
+- **All 14 failures were transport errors with no HTTP status**, and DSH retried
+  each one once and carried on. Most came in groups that hit several agents at
+  the same instant: 1 connection reset at +3.3 min; 4 timeouts that all fired
+  within 0.1s of each other at +9.8 min, on small requests with no images sent
+  as the three teammates started; and 9 HTTP/2 stream errors between +45 and
+  +74 min, three of them within 0.1s of each other across three agents. See
+  the note on the proxy below.
+- The lead started its three teammates on its own, 7 minutes in, the same way
+  Naz's lead started his two. Nothing in the prompt asked for it.
+
+`node scripts/images-in-context.mjs <run-dir>` recomputes the per-agent and
+per-bucket numbers ([`images-in-context.json`](./runs/dsh-0.2.1-rc.3-images-teams/images-in-context.json)).
+
 ## The games they built
 
 Both runs auto-start, simulate on their own, and switch into the post-run dashboard.
@@ -164,6 +222,12 @@ Stock OpenCode 1.19.4 built nothing, so it has no game.
 | Live simulation | End-of-run dashboard |
 |---|---|
 | [![DeepSeek Harness 0.2.1-rc.2, live](./runs/dsh-0.2.1-rc.2/screenshots/shot-3s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/dsh-0.2.1-rc.2/output/index.html) | [![DeepSeek Harness 0.2.1-rc.2, dashboard](./runs/dsh-0.2.1-rc.2/screenshots/shot-120s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/dsh-0.2.1-rc.2/output/index.html) |
+
+#### DeepSeek Harness 0.2.1-rc.3, Naz's setup (images + Agent Teams): "Vivarium"
+
+| Live simulation | End-of-run dashboard |
+|---|---|
+| [![DeepSeek Harness 0.2.1-rc.3 with images and Agent Teams, live](./runs/dsh-0.2.1-rc.3-images-teams/screenshots/shot-3s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/dsh-0.2.1-rc.3-images-teams/output/round%201/index.html) | [![DeepSeek Harness 0.2.1-rc.3 with images and Agent Teams, dashboard](./runs/dsh-0.2.1-rc.3-images-teams/screenshots/shot-120s.png)](https://commandcodeai.github.io/benchmark-deepseek-v4.1-flash-rematch/runs/dsh-0.2.1-rc.3-images-teams/output/round%201/index.html) |
 
 #### OpenCode 1.19.4 (256K cap): "The Vivarium"
 
@@ -324,6 +388,34 @@ node ../../scripts/analyze-proxy.mjs /tmp/r   # matches metrics.json
 - Left out of the Provider API runs: installed npm packages, the empty `.git`
   of each working dir, and OpenCode 2's local-service password file. The full
   list is in [`setup/EXCLUDED.md`](./setup/EXCLUDED.md).
+- Naz's setup rerun ([`runs/dsh-0.2.1-rc.3-images-teams/`](./runs/dsh-0.2.1-rc.3-images-teams/)),
+  2026-10-27, one attempt: DSH 0.2.1-rc.3, headless profile with auto-approval,
+  where Naz ran it interactively with approvals set to ask. Image input is
+  declared on the model (`input: [text, image]` in `command-code.patch.yml`).
+  Agent Teams is the `@deepseek-ai/dsh-experimental-agent-team-profile` bundle
+  that ships inside DSH 0.2.1-rc.3, added to the headless profile (see
+  `run.sh`). DSH's stock image offload stayed on, which caps the base64 image
+  payload at 20 MiB per request. Naz's own skills were not loaded, and the
+  model used headless Chrome for its screenshots.
+- The proxy for that rerun used undici 8.12.3, which talks HTTP/2 to the API,
+  so all four agents' requests shared one connection. A timeout or stream
+  error on that connection hits every agent at once, which matches how the
+  rerun's failures grouped. DSH talking to the API directly may not have seen
+  some of them.
+- The rerun had fewer of the heaviest requests than Naz's run: 25 carried 21
+  or more screenshots, against 90 in his, most of those from his prover agent,
+  which kept running QA for about an hour after the lead's turn had failed. No
+  request came near the Provider API's 32 MB request limit (largest 21.1 MB).
+- In its first steps the rerun's lead ran machine inventory commands (git
+  config, app and global npm package listings, the Playwright cache). Their
+  output reads `[redacted]` and local paths read `/work/bench3/...`, the same
+  normalization as the other runs.
+- The rerun's request bodies need a 2 GB window to decompress:
+  `zstd -d --long=31 requests.tar.zst`. With `--long=27` the archive was over
+  GitHub's 100 MB file limit.
+- The rerun's game screenshots come from the same `shot.cjs`, launched on the
+  machine's Chrome (`channel: 'chrome'`). Files the model wrote to `/tmp` are
+  not included, as with the other Provider API runs.
 
 ## What is in this repo
 
@@ -334,7 +426,8 @@ round1-*.png                results cards (scripts/card.mjs + layouts/*.json)
 original-post-claim.webp    the image from the post being answered
 prompt.txt                  the exact prompt
 scripts/                    ts.mjs, analyze.mjs, card.mjs, shot.cjs, proxy.mjs,
-                            analyze-proxy.mjs, status.mjs, sheet.cjs
+                            analyze-proxy.mjs, status.mjs, sheet.cjs,
+                            images-in-context.mjs
 scripts/reported/           Naz's three DeepSeek Harness runs, copied from his image
 naz-session/                Naz's own CommandCode GOAT session files (as he published
                             them) and our analysis, with scripts/analyze.py
@@ -359,7 +452,8 @@ runs/<harness-version>/     Provider API runs (DSH, OpenCode, Pi)
   events.ndjson.gz/.sha256  the harness's own JSON event stream, timestamped
   proxy/calls.ndjson.gz     one line per model request: timings, status, usage, errors
   proxy/bodies/*.res.gz     every response body, as streamed
-  proxy/requests.tar.zst    every request body (tar, zstd long-range: `zstd -d --long=27`)
+  proxy/requests.tar.zst    every request body (tar, zstd long-range: `zstd -d --long=27`,
+                            `--long=31` for dsh-0.2.1-rc.3-images-teams)
   metrics.json              computed metrics
   session/                  the harness's own session files and state
                             (DSH home/, OpenCode xdg/, Pi agent/)

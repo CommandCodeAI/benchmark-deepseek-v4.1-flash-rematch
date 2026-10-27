@@ -1,0 +1,209 @@
+{
+  "requests": 541,
+  "failed": 14,
+  "maxImagesPerRequest": 27,
+  "maxRequestMB": 21.1,
+  "agents": [
+    {
+      "name": "A0",
+      "startMin": 0,
+      "prompt": "\"within the round 1 folder:\\n\\nBuild a single-file index.html (inline CSS and JS, no build step, no ",
+      "requests": 142,
+      "failed": 5,
+      "maxImages": 20,
+      "maxMB": 16.4
+    },
+    {
+      "name": "A1",
+      "startMin": 0,
+      "prompt": "\"Generate the session title from this JSON array of human messages:\\n[{\\\"seq\\\":8,\\\"text\\\":\\\"within t",
+      "requests": 1,
+      "failed": 0,
+      "maxImages": 0,
+      "maxMB": 0
+    },
+    {
+      "name": "A2",
+      "startMin": 7.3,
+      "prompt": "\"You are \\\"chartwright\\\", the data-visualization / dashboard specialist on a 3-person team building ",
+      "requests": 103,
+      "failed": 2,
+      "maxImages": 27,
+      "maxMB": 21.1
+    },
+    {
+      "name": "A3",
+      "startMin": 7.3,
+      "prompt": "\"You are \\\"atelier\\\", the visual designer on a 3-person team building a single-file, offline interac",
+      "requests": 102,
+      "failed": 3,
+      "maxImages": 17,
+      "maxMB": 17.9
+    },
+    {
+      "name": "A4",
+      "startMin": 7.5,
+      "prompt": "\"You are \\\"verifier\\\", the independent QA engineer on a 3-person team building VIVARIUM: a single-fi",
+      "requests": 193,
+      "failed": 4,
+      "maxImages": 15,
+      "maxMB": 10.7
+    }
+  ],
+  "byImagesInContext": [
+    {
+      "images": "0",
+      "requests": 139,
+      "failed": 5,
+      "ttftP50": 3.512,
+      "ttftP95": 5.519
+    },
+    {
+      "images": "1-5",
+      "requests": 139,
+      "failed": 1,
+      "ttftP50": 10.876,
+      "ttftP95": 22.478
+    },
+    {
+      "images": "6-10",
+      "requests": 97,
+      "failed": 6,
+      "ttftP50": 22.308,
+      "ttftP95": 43.705
+    },
+    {
+      "images": "11-20",
+      "requests": 141,
+      "failed": 1,
+      "ttftP50": 33.388,
+      "ttftP95": 67.323
+    },
+    {
+      "images": "21+",
+      "requests": 25,
+      "failed": 1,
+      "ttftP50": 63.926,
+      "ttftP95": 80.363
+    }
+  ],
+  "failures": [
+    {
+      "id": "00009",
+      "min": 1.5,
+      "agent": "A0",
+      "images": 0,
+      "mb": 0.1,
+      "status": 200,
+      "error": "ECONNRESET"
+    },
+    {
+      "id": "00028",
+      "min": 7.5,
+      "agent": "A0",
+      "images": 0,
+      "mb": 0.2,
+      "status": 200,
+      "error": "ETIMEDOUT"
+    },
+    {
+      "id": "00029",
+      "min": 7.5,
+      "agent": "A3",
+      "images": 0,
+      "mb": 0.1,
+      "status": 200,
+      "error": "ETIMEDOUT"
+    },
+    {
+      "id": "00033",
+      "min": 7.6,
+      "agent": "A2",
+      "images": 0,
+      "mb": 0.1,
+      "status": 200,
+      "error": "ETIMEDOUT"
+    },
+    {
+      "id": "00036",
+      "min": 7.8,
+      "agent": "A4",
+      "images": 0,
+      "mb": 0.1,
+      "status": 200,
+      "error": "ETIMEDOUT"
+    },
+    {
+      "id": "00315",
+      "min": 44.6,
+      "agent": "A4",
+      "images": 7,
+      "mb": 4.6,
+      "error": "ERR_HTTP2_STREAM_ERROR"
+    },
+    {
+      "id": "00314",
+      "min": 44.5,
+      "agent": "A0",
+      "images": 8,
+      "mb": 8.9,
+      "error": "ERR_HTTP2_STREAM_ERROR"
+    },
+    {
+      "id": "00313",
+      "min": 44.5,
+      "agent": "A3",
+      "images": 5,
+      "mb": 6.2,
+      "error": "ERR_HTTP2_STREAM_ERROR"
+    },
+    {
+      "id": "00348",
+      "min": 49.5,
+      "agent": "A4",
+      "images": 8,
+      "mb": 5,
+      "error": "ERR_HTTP2_STREAM_ERROR"
+    },
+    {
+      "id": "00367",
+      "min": 52.2,
+      "agent": "A0",
+      "images": 9,
+      "mb": 9.3,
+      "error": "ERR_HTTP2_STREAM_ERROR"
+    },
+    {
+      "id": "00386",
+      "min": 56.1,
+      "agent": "A4",
+      "images": 9,
+      "mb": 6.2,
+      "error": "ERR_HTTP2_STREAM_ERROR"
+    },
+    {
+      "id": "00398",
+      "min": 57.6,
+      "agent": "A3",
+      "images": 13,
+      "mb": 14.6,
+      "error": "ERR_HTTP2_STREAM_ERROR"
+    },
+    {
+      "id": "00396",
+      "min": 57.4,
+      "agent": "A0",
+      "images": 10,
+      "mb": 10.7,
+      "error": "ERR_HTTP2_STREAM_ERROR"
+    },
+    {
+      "id": "00460",
+      "min": 72.3,
+      "agent": "A2",
+      "images": 27,
+      "mb": 21.1,
+      "error": "ERR_HTTP2_STREAM_ERROR"
+    }
+  ]
+}
