@@ -1,0 +1,95 @@
+{
+  "suite": "static",
+  "summary": {
+    "PASS": 8,
+    "FAIL": 0,
+    "NOTE": 0,
+    "SKIP": 0,
+    "bySeverity": {},
+    "total": 8,
+    "durationMs": 130
+  },
+  "results": [
+    {
+      "id": "A1",
+      "area": "offline",
+      "description": "deliverable is one file: `round 1/index.html` is the only file in round 1/",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "index.html, 313.7 KB, sha256 f820f20a872901d9",
+      "ms": 0
+    },
+    {
+      "id": "A2",
+      "area": "offline",
+      "description": "no external <script src> / <link href> / @import / src= images / fonts",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "no external script/link/img/import/font refs",
+      "ms": 1
+    },
+    {
+      "id": "A3",
+      "area": "offline",
+      "description": "no network APIs in code: fetch/XHR/importScripts/WebSocket/sendBeacon/Worker/import()",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "none of fetch/XHR/WS/Worker/etc present",
+      "ms": 1
+    },
+    {
+      "id": "A4",
+      "area": "offline",
+      "description": "remote URL literals: only benign xmlns/comment/prose URLs, never loadable refs",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"total\":0,\"benign\":0,\"samples\":[],\"suspicious\":[]}",
+      "ms": 1
+    },
+    {
+      "id": "A5",
+      "area": "offline",
+      "description": "single inline <style> + single inline <script>; no leftover @@PLACEHOLDER@@ markers",
+      "status": "PASS",
+      "severity": "blocker",
+      "optional": false,
+      "detail": "1 style, 1 script, no placeholders",
+      "ms": 0
+    },
+    {
+      "id": "A6",
+      "area": "offline",
+      "description": "required module globals present in the file: VIVARIUM_ENGINE / _RENDER / _CONTROLS / _DASHBOARD",
+      "status": "PASS",
+      "severity": "major",
+      "optional": false,
+      "detail": "{\"engine\":true,\"render\":true,\"controls\":true,\"dashboard\":true}",
+      "ms": 1
+    },
+    {
+      "id": "A7",
+      "area": "offline",
+      "description": "no obvious placeholder/stub markers left in deliverable (in preparation / pending / TODO / stub)",
+      "status": "PASS",
+      "severity": "info",
+      "optional": false,
+      "detail": "{\"occurrences\":[],\"note\":\"clean\"}",
+      "ms": 0
+    },
+    {
+      "id": "A8",
+      "area": "offline",
+      "description": "reference: file parses (no unbalanced placeholder artifacts) & reasonable size",
+      "status": "PASS",
+      "severity": "minor",
+      "optional": false,
+      "detail": "313.7 KB / 9049 lines",
+      "ms": 1
+    }
+  ],
+  "at": "2026-10-27T18:57:03.708Z"
+}

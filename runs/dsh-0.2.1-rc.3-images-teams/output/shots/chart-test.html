@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vivarium — Record harness (chartwright, throwaway)</title>
+<link rel="stylesheet" href="../src/design.css">
+<link rel="stylesheet" href="../src/dashboard.css">
+<style>
+  /* Harness-only palette fallback so the record is dressable before design.css lands. */
+  :root {
+    --paper: #ece3d0; --paper-hi: #f4ecda; --paper-lo: #e2d6bf;
+    --ink: #211d16; --ink-2: #574f40; --ink-3: #8b806c;
+    --rule: #c9baa0; --rule-strong: #a8977b;
+    --brass: #a08043; --brass-hi: #c9ab6d; --brass-lo: #6f5730;
+    --flora: #4f6f52; --flora-soft: #8aa286;
+    --fauna: #ab7a35; --fauna-soft: #cdb184;
+    --predator: #93372d; --predator-soft: #bd837a;
+    --wax: #7a2b23; --desk: #171813;
+  }
+  html, body { margin: 0; padding: 0; background: var(--desk); }
+  body { color: var(--ink); font-family: Optima, "Gill Sans", sans-serif; }
+  .harness-under {
+    max-width: 1560px; margin: 20px auto; min-height: 600px;
+    background: var(--paper); padding: 20px; box-sizing: border-box;
+    font-size: 12px; color: var(--ink-3);
+  }
+</style>
+</head>
+<body>
+<div class="harness-under">The page under glass (placeholder under the record overlay).</div>
+
+<section class="record" id="record" hidden aria-labelledby="record-title">
+  <div class="record__sheet">
+    <header class="record__head">
+      <div class="record__head-main">
+        <p class="record__kicker">The Record <span aria-hidden="true">·</span> Study Concluded</p>
+        <h2 class="record__title" id="record-title">A Closed Ecology</h2>
+        <p class="record__meta" id="record-meta">Seed 1977 · 40 generations · three kingdoms</p>
+      </div>
+      <div class="record__actions">
+        <button class="ink-button" id="btn-replay" type="button"><span class="ink-button__mark" aria-hidden="true">↺</span> Replay this seed</button>
+        <button class="ink-button" id="btn-newseed" type="button"><span class="ink-button__mark" aria-hidden="true">✳</span> New study</button>
+        <button class="ink-button ink-button--quiet" id="btn-back" type="button"><span class="ink-button__mark" aria-hidden="true">←</span> Return to the plate</button>
+      </div>
+    </header>
+    <div class="record__rule" aria-hidden="true"></div>
+    <div class="record__grid">
+      <figure class="chart chart--census">
+        <figcaption class="chart__cap">
+          <span class="chart__fig">Fig. 2</span>
+          <span class="chart__title">Census of the three kingdoms</span>
+          <span class="chart__sub">counts per generation, with weather marks</span>
+        </figcaption>
+        <div class="chart__canvas-wrap chart__canvas-wrap--census">
+          <canvas id="chart-pop" role="img" aria-label="Population curves for flora, herbivora and carnivora across the study, with catastrophe markers."></canvas>
+        </div>
+      </figure>
+      <aside class="record__summary" id="record-summary" aria-label="Study summary">
+        <h3 class="record__aside-title">Summary of the Study</h3>
+      </aside>
+      <figure class="chart chart--drift">
+        <figcaption class="chart__cap">
+          <span class="chart__fig">Fig. 3–14</span>
+          <span class="chart__title">Drift at the four loci</span>
+          <span class="chart__sub">mean and one standard deviation, by taxon · the same loci, differently expressed</span>
+        </figcaption>
+        <div class="chart__canvas-wrap chart__canvas-wrap--drift">
+          <canvas id="chart-traits" role="img" aria-label="Trait drift charts: mean and one standard deviation for each of four genes, for each species, over the study."></canvas>
+        </div>
+      </figure>
+      <div class="record__aside-foot" id="record-notes" aria-label="Weather roster and observations"></div>
+    </div>
+    <footer class="record__foot">
+      <span>Vivarium · observation No. 0047</span>
+      <span aria-hidden="true">⁂</span>
+      <span id="record-foot-note">All charts are drawn in ink from the same seed.</span>
+    </footer>
+  </div>
+</section>
+
+<script src="../src/engine.js"></script>
+<script src="chart-world.js"></script>
+<script src="../src/dashboard.js"></script>
+<script>
+  (function () {
+    'use strict';
+    var params = new URLSearchParams(location.search);
+    var world = makeChartWorld({
+      seed: params.get('seed'), gens: params.get('gens'), interval: params.get('interval'),
+      cat: params.get('cat'), mode: params.get('mode'), mutation: params.get('mutation'), regrowth: params.get('regrowth')
+    });
+    window.__CHART_WORLD__ = world;
+    window.__CHART_MODE__ = params.get('mode') || 'normal';
+    document.title = 'Record harness · seed ' + world.seed + ' · ' + world.generation + ' gen · ' + window.__CHART_MODE__;
+    window.VIVARIUM_DASHBOARD.render(world);
+    window.VIVARIUM_DASHBOARD.show();
+    /* button stubs: harness-only, boot owns the real wiring */
+    ['btn-replay', 'btn-newseed', 'btn-back'].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) b.addEventListener('click', function () { console.log('harness click', id); });
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Vivarium — A Closed Ecology, Observed</title>
+<meta name="description" content="A living specimen under glass: a seeded ecosystem of flora, herbivora and carnivora, observed across generations and recorded in a field ledger.">
+<style>
+/* Design system placeholder — atelier builds this. */
+:root{--paper:#ece3d0}
+body{margin:0;background:#171813;color:#211d16}.sheet{background:var(--paper);max-width:1560px;margin:20px auto;min-height:600px}
+
+/* Dashboard styles placeholder — chartwright builds this. */
+.record{position:fixed;inset:0;background:#171813;display:grid;place-items:center}.record__sheet{background:#ece3d0;width:min(1500px,96vw);height:94vh;padding:32px}
+.record[hidden]{display:none}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#sim-canvas">Skip to the specimen under glass</a>
+
+<div class="desk">
+  <div class="sheet" id="sheet">
+
+    <header class="masthead" aria-label="Publication masthead">
+      <div class="masthead__kicker">
+        <span class="masthead__station">The Field Station</span>
+        <span class="masthead__hair" aria-hidden="true"></span>
+        <span class="masthead__ledger">Ledger of Enclosed Worlds</span>
+        <span class="masthead__plate">Pl. VII</span>
+      </div>
+      <div class="masthead__row">
+        <div class="masthead__lockup">
+          <h1 class="masthead__title">Vivarium</h1>
+          <p class="masthead__subtitle">A closed ecology, observed <span class="masthead__sub-sep" aria-hidden="true">·</span> <em>three kingdoms, four loci, one hour of weather</em></p>
+        </div>
+        <div class="masthead__meta" aria-label="Study metadata">
+          <div class="meta-block">
+            <span class="meta-block__key">Observation</span>
+            <span class="meta-block__val meta-block__val--mono" id="meta-observation">No. 0047</span>
+          </div>
+          <div class="meta-block">
+            <span class="meta-block__key">Seed</span>
+            <span class="meta-block__val meta-block__val--mono" id="meta-seed">1977</span>
+          </div>
+          <div class="meta-block">
+            <span class="meta-block__key">Generation</span>
+            <span class="meta-block__val meta-block__val--mono" id="meta-gen">00 / 40</span>
+          </div>
+          <div class="meta-block meta-block--status">
+            <span class="meta-block__key">Standing</span>
+            <span class="meta-block__val" id="meta-status"><span class="status-dot" aria-hidden="true"></span><span id="meta-status-text">Observing</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="masthead__rule" aria-hidden="true"><span></span></div>
+    </header>
+
+    <main class="spread" id="spread">
+      <section class="plate" aria-labelledby="plate-title">
+
+        <div class="plate__head">
+          <div class="plate__heading">
+            <h2 class="plate__title" id="plate-title"><span class="fig">Fig. 1</span> The Closed Terrarium</h2>
+            <p class="plate__note">A toroidal field of <span class="mono" id="plate-cells">160 × 90</span> cells, kept under glass. <span class="plate__hint" id="plate-hint">Hover a specimen to read its label.</span></p>
+          </div>
+          <div class="census" id="census" aria-label="Live census">
+            <div class="census__item census__item--flora">
+              <span class="census__glyph" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="14" height="14"><path d="M8 2v12M8 8 3.2 3.4M8 8l4.8-4.6M8 11.4 4.1 14M8 11.4l3.9 2.6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </span>
+              <span class="census__name">Flora</span>
+              <span class="census__count mono" id="census-flora">000</span>
+              <span class="census__trend mono" id="census-flora-trend" aria-hidden="true">·</span>
+            </div>
+            <div class="census__item census__item--fauna">
+              <span class="census__glyph" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="4.4" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="1.1" fill="currentColor"/><path d="M11.6 11.6 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </span>
+              <span class="census__name">Herbivora</span>
+              <span class="census__count mono" id="census-fauna">000</span>
+              <span class="census__trend mono" id="census-fauna-trend" aria-hidden="true">·</span>
+            </div>
+            <div class="census__item census__item--predator">
+              <span class="census__glyph" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="14" height="14"><path d="M3 12.4 8.1 2.6l4.9 9.8M5.4 9.3l5.2.1" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+              </span>
+              <span class="census__name">Carnivora</span>
+              <span class="census__count mono" id="census-predator">000</span>
+              <span class="census__trend mono" id="census-predator-trend" aria-hidden="true">·</span>
+            </div>
+          </div>
+        </div>
+
+        <figure class="vitrine" aria-labelledby="vitrine-figcapless">
+          <div class="vitrine__mount">
+            <div class="vitrine__frame">
+              <canvas id="sim-canvas" role="img" aria-label="The living terrarium. Flora, herbivora and carnivora move across a warm paper field." tabindex="0"></canvas>
+              <div class="vitrine__grid" aria-hidden="true"></div>
+              <div class="vitrine__glass" aria-hidden="true"></div>
+              <div class="vitrine__vignette" aria-hidden="true"></div>
+              <div class="vitrine__screws" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <div class="vitrine__tag">Specimen 047 · <span id="tag-seed">seed 1977</span></div>
+              <div class="vitrine__weather" id="event-banner" hidden>
+                <span class="weather__seal" id="banner-seal" aria-hidden="true">S</span>
+                <span class="weather__body">
+                  <span class="weather__latin" id="banner-latin">Siccitas</span>
+                  <span class="weather__name" id="banner-name">Drought</span>
+                  <span class="weather__note" id="banner-note">Flora growth halved for three seasons.</span>
+                </span>
+                <span class="weather__gen mono" id="banner-gen">GEN 16</span>
+              </div>
+              <div class="vitrine__conditions" id="active-conditions" aria-live="polite"></div>
+              <div class="specimen-card" id="specimen-card" hidden aria-live="polite"></div>
+              <div class="vitrine__recast" id="recast-note" hidden aria-hidden="true">The plate is recast.</div>
+            </div>
+            <figcaption class="vitrine__caption">
+              <span class="vitrine__caption-left"><span class="fig">Pl. I</span> Living specimen, under glass. <em>All marks are drawn from one seed.</em></span>
+              <span class="vitrine__caption-right mono" id="vitrine-clock">ticks 0000 · 60/s</span>
+            </figcaption>
+          </div>
+
+          <div class="generation-rule" id="generation-rule" aria-label="Generation rule and playback">
+            <div class="rule__transport">
+              <button class="rule-btn rule-btn--play" id="btn-play" type="button" aria-label="Pause the study" aria-pressed="false" data-tooltip="play-pause">
+                <svg class="icon-play" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M4 2.6 13 8l-9 5.4z" fill="currentColor"/></svg>
+                <svg class="icon-pause" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3.5 2.5h3v11h-3zM9.5 2.5h3v11h-3z" fill="currentColor"/></svg>
+              </button>
+              <button class="rule-btn" id="btn-step" type="button" aria-label="Advance one generation" data-tooltip="step">
+                <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 3.2 10 8l-7 4.8z" fill="currentColor"/><path d="M11.5 3v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </button>
+              <button class="rule-btn" id="btn-conclude" type="button" aria-label="Conclude the study now and open the record" data-tooltip="conclude">
+                <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M1.8 3.2 7.4 8l-5.6 4.8zM8 3.2 13.6 8 8 12.8z" fill="currentColor"/></svg>
+              </button>
+              <span class="rule__transport-label mono">run</span>
+            </div>
+            <div class="rule__scale" id="rule-scale">
+              <div class="rule__ticks" id="rule-ticks" aria-hidden="true"></div>
+              <div class="rule__progress" id="rule-progress" aria-hidden="true"></div>
+              <div class="rule__seals" id="rule-seals" aria-hidden="true"></div>
+              <div class="rule__cursor" id="rule-cursor" aria-hidden="true">
+                <span class="rule__cursor-mark"></span>
+                <span class="rule__cursor-label mono" id="rule-cursor-label">GEN 00</span>
+              </div>
+            </div>
+            <div class="rule__readout">
+              <span class="rule__gen mono" id="rule-gen">gen 00 / 40</span>
+              <span class="rule__speed mono" id="rule-rate">2.0× · 60 ticks/s</span>
+            </div>
+          </div>
+        </figure>
+
+        <div class="ledger" aria-label="Field notes ledger">
+          <span class="ledger__label">Field Notes</span>
+          <ol class="ledger__list" id="ledger-list">
+            <li class="ledger__entry ledger__entry--sealed">
+              <span class="ledger__gen mono">GEN 00</span>
+              <span class="ledger__text">The glass is sealed. A world begins from seed <span class="mono" id="ledger-seed">1977</span>.</span>
+            </li>
+          </ol>
+          <span class="ledger__counter mono" id="ledger-counter">01</span>
+        </div>
+
+      </section>
+
+      <aside class="folio" id="folio" aria-labelledby="folio-title">
+        <button class="folio__tab" id="folio-toggle" type="button" aria-expanded="true" aria-controls="folio-panel" aria-label="Collapse instruments" data-tooltip="drawer">
+          <span class="folio__tab-text">Instruments</span>
+          <span class="folio__tab-mark" aria-hidden="true">⇥</span>
+        </button>
+        <div class="folio__panel" id="folio-panel">
+          <div class="folio__head">
+            <h2 class="folio__title" id="folio-title">Instruments</h2>
+            <span class="folio__sub">Custodian's settings</span>
+          </div>
+          <div class="folio__ruler" aria-hidden="true"><span></span></div>
+          <div class="folio__body" id="instrument-body"></div>
+          <div class="folio__foot">
+            <p class="folio__keyline mono"><kbd>Space</kbd> run/pause <span aria-hidden="true">·</span> <kbd>G</kbd> step <span aria-hidden="true">·</span> <kbd>R</kbd> recast <span aria-hidden="true">·</span> <kbd>?</kbd> notes</p>
+            <p class="folio__sig">Every variable is a weather. Nothing here is decoration.</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="colophon">
+      <span class="colophon__left">Observation No. 0047 <span class="colophon__hair" aria-hidden="true"></span> Field station, 47°N</span>
+      <span class="colophon__center" aria-hidden="true">⁂</span>
+      <span class="colophon__right">A single file. A single seed. <span class="colophon__hair" aria-hidden="true"></span> <span id="colophon-state">Run in progress</span></span>
+    </footer>
+
+  </div>
+</div>
+
+<div class="wash" id="wash" aria-hidden="true"></div>
+
+<section class="record" id="record" hidden aria-labelledby="record-title">
+  <div class="record__sheet">
+    <header class="record__head">
+      <div class="record__head-main">
+        <p class="record__kicker">The Record <span aria-hidden="true">·</span> Study Concluded</p>
+        <h2 class="record__title" id="record-title">A Closed Ecology</h2>
+        <p class="record__meta" id="record-meta">Seed 1977 · 40 generations · three kingdoms</p>
+      </div>
+      <div class="record__actions">
+        <button class="ink-button" id="btn-replay" type="button"><span class="ink-button__mark" aria-hidden="true">↺</span> Replay this seed</button>
+        <button class="ink-button" id="btn-newseed" type="button"><span class="ink-button__mark" aria-hidden="true">✳</span> New study</button>
+        <button class="ink-button ink-button--quiet" id="btn-back" type="button"><span class="ink-button__mark" aria-hidden="true">←</span> Return to the plate</button>
+      </div>
+    </header>
+    <div class="record__rule" aria-hidden="true"></div>
+    <div class="record__grid">
+      <figure class="chart chart--census">
+        <figcaption class="chart__cap">
+          <span class="chart__fig">Fig. 2</span>
+          <span class="chart__title">Census of the three kingdoms</span>
+          <span class="chart__sub">counts per generation, with weather marks</span>
+        </figcaption>
+        <div class="chart__canvas-wrap chart__canvas-wrap--census">
+          <canvas id="chart-pop" role="img" aria-label="Population curves for flora, herbivora and carnivora across the study, with catastrophe markers."></canvas>
+        </div>
+      </figure>
+      <aside class="record__summary" id="record-summary" aria-label="Study summary">
+        <h3 class="record__aside-title">Summary of the Study</h3>
+      </aside>
+      <figure class="chart chart--drift">
+        <figcaption class="chart__cap">
+          <span class="chart__fig">Fig. 3–14</span>
+          <span class="chart__title">Drift at the four loci</span>
+          <span class="chart__sub">mean and one standard deviation, by taxon · the same loci, differently expressed</span>
+        </figcaption>
+        <div class="chart__canvas-wrap chart__canvas-wrap--drift">
+          <canvas id="chart-traits" role="img" aria-label="Trait drift charts: mean and one standard deviation for each of four genes, for each species, over the study."></canvas>
+        </div>
+      </figure>
+      <div class="record__aside-foot" id="record-notes" aria-label="Weather roster and observations"></div>
+    </div>
+    <footer class="record__foot">
+      <span>Vivarium · observation No. 0047</span>
+      <span aria-hidden="true">⁂</span>
+      <span id="record-foot-note">All charts are drawn in ink from the same seed.</span>
+    </footer>
+  </div>
+</section>
+
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+<div class="shortcut-note" id="shortcut-note" hidden>
+  <h3>Field Habits</h3>
+  <p><kbd>Space</kbd> run / pause <span aria-hidden="true">·</span> <kbd>G</kbd> advance one generation <span aria-hidden="true">·</span> <kbd>R</kbd> recast the plate <span aria-hidden="true">·</span> <kbd>D</kbd> fold instruments <span aria-hidden="true">·</span> <kbd>?</kbd> close this note</p>
+  <p class="shortcut-note__sub">Every instrument is keyboard-reachable. Arrow keys turn dials and sliders; <kbd>Esc</kbd> dismisses notes.</p>
+</div>
+
+<script>
+/* Engine placeholder — Lead is building the real seeded simulation. */
+(function (root) {
+  'use strict';
+  root.VIVARIUM_ENGINE = {
+    DEFAULTS: { seed: 1977, mutation: 0.06, regrowth: 1.0, generations: 40, speed: 2.0, interval: 8, catastrophes: true, trails: true, width: 160, height: 90 },
+    createWorld(cfg) {
+      const config = Object.assign({}, this.DEFAULTS, cfg || {});
+      return { config, seed: config.seed, generation: 0, tick: 0, ticksIntoGen: 0, finished: false,
+        counts: { flora: 0, herbivora: 0, carnivora: 0 }, history: [], events: [], activeEvents: [],
+        agents: { flora: [], herbivora: [], carnivora: [] } };
+    },
+    runGeneration() {}, runHeadless(w) { return w; }, setParam() {}, getStats(w) { return w.counts; }, hashWorld() { return 'stub'; }
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* Renderer placeholder */
+(function (root) {
+  'use strict';
+  root.VIVARIUM_RENDER = { create() { return { draw() {}, resize() {}, destroy() {} }; } };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* Controls placeholder — atelier builds this. */
+(function (root) {
+  'use strict';
+  root.VIVARIUM_CONTROLS = {
+    mount(el) { el.innerHTML = '<p style="padding:18px;font:12px monospace;color:#574f40">INSTRUMENTS — in preparation</p>'; },
+    update() {}, setRunning() {}, setFinished() {}, destroy() {}
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* Dashboard placeholder — chartwright builds this. */
+(function (root) {
+  'use strict';
+  root.VIVARIUM_DASHBOARD = { render() {}, show() { const r = document.getElementById('record'); if (r) r.hidden = false; }, hide() { const r = document.getElementById('record'); if (r) r.hidden = true; }, onResize() {} };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* Boot placeholder — Lead builds this. */
+(function () {
+  'use strict';
+  document.addEventListener('DOMContentLoaded', function () {
+    const el = document.getElementById('instrument-body');
+    if (el && window.VIVARIUM_CONTROLS) {
+      window.VIVARIUM_CONTROLS.mount(el, {
+        getWorld: () => null, getParam: (k) => (window.VIVARIUM_ENGINE.DEFAULTS[k]),
+        setParam: () => {}, actions: { recast() {}, pause() {}, resume() {}, stepGen() {}, conclude() {} },
+        isRunning: () => false, getSparkData: () => ({ diversity: [], mutations: [], flora: [], events: [], progress: 0, tickRate: [] })
+      });
+    }
+  });
+})();
+
+</script>
+</body>
+</html>

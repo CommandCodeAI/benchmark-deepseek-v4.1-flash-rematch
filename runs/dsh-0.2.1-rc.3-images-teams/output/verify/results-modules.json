@@ -1,0 +1,119 @@
+{
+  "at": "2026-10-27T18:04:38.908Z",
+  "results": [
+    {
+      "id": "M-RENDER",
+      "status": "ok",
+      "msg": "vitrine renders species ink",
+      "detail": "{\"nonBg\":0.6159,\"flora\":14680,\"fauna\":49810,\"predator\":8347,\"dark\":2228}"
+    },
+    {
+      "id": "M-CTRL-INV",
+      "status": "ok",
+      "msg": "all 8 instruments mounted",
+      "detail": "seed:INPUT mutation:INPUT regrowth:INPUT generations:INPUT speed:DIV interval:DIV catastrophes:BUTTON trails:BUTTON"
+    },
+    {
+      "id": "M-CTRL-SPARK",
+      "status": "ok",
+      "msg": "8 sparkline canvases",
+      "detail": ""
+    },
+    {
+      "id": "M-CTRL-TAB",
+      "status": "ok",
+      "msg": "all 8 instruments in tab trail (60 stops)",
+      "detail": ""
+    },
+    {
+      "id": "M-CTRL-FOCUS",
+      "status": "ok",
+      "msg": "visible focus on all tab stops",
+      "detail": ""
+    },
+    {
+      "id": "M-CTRL-ARROW",
+      "status": "ok",
+      "msg": "arrow keys adjust all continuous controls",
+      "detail": ""
+    },
+    {
+      "id": "M-CTRL-TOGGLE",
+      "status": "ok",
+      "msg": "catastrophes toggles via Space",
+      "detail": ""
+    },
+    {
+      "id": "M-CTRL-TOGGLE",
+      "status": "ok",
+      "msg": "trails toggles via Space",
+      "detail": ""
+    },
+    {
+      "id": "M-CTRL-TIP",
+      "status": "ok",
+      "msg": "tooltip on hover",
+      "detail": "viii · field noteGhost trailsFaint pencil ghosts behind each creature, showing the last few ticks of"
+    },
+    {
+      "id": "M-CTRL-TIP-ESC",
+      "status": "ok",
+      "msg": "Escape dismisses tooltip",
+      "detail": ""
+    },
+    {
+      "id": "M-CTRL-FOLD",
+      "status": "ok",
+      "msg": "folio collapses",
+      "detail": "width=34, panelHidden=false, inert=true"
+    },
+    {
+      "id": "M-PLATE-SCROLL",
+      "status": "ok",
+      "msg": "plate page not scrollable at 1440x900",
+      "detail": "{\"overflowY\":false,\"bodyOverflowY\":\"visible\"}"
+    },
+    {
+      "id": "M-DASH-POP",
+      "status": "ok",
+      "msg": "population chart drawn",
+      "detail": "{\"nonBg\":0.0574,\"dark\":1313,\"wax\":1548,\"species\":[3140,4841,3792]}"
+    },
+    {
+      "id": "M-DASH-TRAITS",
+      "status": "ok",
+      "msg": "all 12 matrix cells drawn",
+      "detail": "{\"nonBg\":0.1574,\"dpr\":1,\"cells\":[0.187,0.185,0.201,0.171,0.189,0.178,0.189,0.174,0.166,0.197,0.149,0.177]}"
+    },
+    {
+      "id": "M-DASH-SUM",
+      "status": "ok",
+      "msg": "summary populated",
+      "detail": "Summary of the Studyseed 1977 · 12 gen · 1 weatherFinal censusFlora997peak 997 · +11%Herbivora107pea"
+    },
+    {
+      "id": "M-DASH-FIT",
+      "status": "ok",
+      "msg": "record sheet fits 1440x900 without internal scroll",
+      "detail": "{\"scrollH\":871,\"clientH\":871,\"scrollW\":1386,\"clientW\":1386}"
+    },
+    {
+      "id": "M-DASH-OVERFLOW",
+      "status": "note",
+      "msg": "3 overflow candidates",
+      "detail": "[{\"kind\":\"text-overflow-visible\",\"tag\":\"h1\",\"cls\":\"masthead__title\",\"scrollW\":212,\"clientW\":212,\"scrollH\":67,\"clientH\":58,\"text\":\"Vivarium\"},{\"kind\":\"text-overflow-visible\",\"tag\":\"span\",\"cls\":\"rule__cursor-label mono\",\"scrollW\":42,\"clientW\":42,\"scrollH\":19,\"clientH\":13,\"text\":\"GEN 00\"},{\"kind\":\"text-overflow-visible\",\"tag\":\"h2\",\"cls\":\"record__title\",\"scrollW\":317,\"clientW\":317,\"scrollH\":44,\"clientH\":40,\"text\":\"A Closed Ecology\"}]"
+    },
+    {
+      "id": "M-DASH-GEO",
+      "status": "note",
+      "msg": "record geometry",
+      "detail": "{\"sheet\":{\"x\":25.9,\"y\":13.5,\"w\":1388.2,\"h\":873,\"right\":1414.1,\"bottom\":886.5},\"scrollH\":900,\"innerH\":900,\"pop\":{\"x\":59.9,\"y\":163.9,\"w\":946,\"h\":245.2,\"right\":1005.9,\"bottom\":409.2},\"traits\":{\"x\":59.9,\"y\":452.6,\"w\":1320.2,\"h\":354.8,\"right\":1380.1,\"bottom\":807.5}}"
+    },
+    {
+      "id": "M-ERR",
+      "status": "ok",
+      "msg": "no console/page errors in module run",
+      "detail": ""
+    }
+  ]
+}

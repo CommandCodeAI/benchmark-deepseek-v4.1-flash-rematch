@@ -1,0 +1,46 @@
+{
+  "totalSec": 6051.956,
+  "finished": true,
+  "exit": 0,
+  "requests": 541,
+  "succeeded": 527,
+  "failedRequests": 14,
+  "failuresByKind": {
+    "transport": 14
+  },
+  "failureSamples": [
+    {
+      "id": "00009",
+      "status": 200,
+      "error": "ECONNRESET"
+    },
+    {
+      "id": "00028",
+      "status": 200,
+      "error": "ETIMEDOUT"
+    },
+    {
+      "id": "00029",
+      "status": 200,
+      "error": "ETIMEDOUT"
+    },
+    {
+      "id": "00033",
+      "status": 200,
+      "error": "ETIMEDOUT"
+    },
+    {
+      "id": "00036",
+      "status": 200,
+      "error": "ETIMEDOUT"
+    }
+  ],
+  "throughputTokS": 191.88764939779207,
+  "ttftAvg": 20.280819734345354,
+  "ttftP50": 12.665,
+  "ttftP95": 63.547,
+  "cacheHit": 0.9874314719150858,
+  "uncachedInput": 1542260,
+  "cachedInput": 121165824,
+  "output": 997503
+}

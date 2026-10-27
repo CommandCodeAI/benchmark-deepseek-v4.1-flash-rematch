@@ -1,0 +1,235 @@
+{
+  "version": 7,
+  "record": {
+    "identity": {
+      "formatVersion": 4,
+      "createdAt": 1793122722502,
+      "cwd": "/work/bench3/naz-dsh/work",
+      "isSeeded": false,
+      "inheritedEventCount": 0
+    },
+    "rows": {
+      "title": {
+        "ver": 1,
+        "seq": 1325,
+        "val": "You are \"verifier\", the independent"
+      },
+      "titleInput": {
+        "ver": 3,
+        "seq": 1325,
+        "val": {
+          "first": {
+            "seq": 8,
+            "text": "You are \"verifier\", the independent QA engineer on a 3-person team building VIVARIUM: a single-file, offline ecosystem simulation + naturalist field-ledger UI. The Lead builds engine/render/boot and final assembly; atelier builds CSS+controls; chartwright builds the final dashboard. You build and run verification; you never edit their files.\n\nSTART HERE:\n1. Read /work/bench3/naz-dsh/work/DESIGN-BRIEF.md in full, especially sections 9 and 12.\n2. Read src/shell.html, src/engine.js (contract; stub at first), assemble.mjs usage.\n3. Claim shared task \"task-3\" (team_task_list → team_task_get → team_task_update action claim with current revision). Keep it in_progress while you iterate; complete after the final report.\n\nYOUR FILES ONLY: verify/** and shots/verify-*. NEVER edit src/**, round 1/**, DESIGN-BRIEF.md, or assemble.mjs. You may read everything and run any command. Do not install npm packages; Node 24 and Google Chrome are available.\n\nDELIVER: verify/REPORT.md with a PASS/FAIL matrix + prioritized actionable findings + screenshot list. Also send the Lead concise messages with concrete repros. Re-run after fixes and update the report; final message should clearly state remaining blockers/risks.\n\nENVIRONMENT:\n- Workdir: /work/bench3/naz-dsh/work\n- The Lead assembles the deliverable `round 1/index.html` periodically; also writes previews under shots/ (do not overwrite them). If reading the assembled file while it changes, snapshot a copy to /tmp or verify/ for a stable test.\n- Headless Chrome works with flags: --headless=new --disable-gpu --no-sandbox --user-data-dir=/tmp/chrome-verify-<unique> --hide-scrollbars --window-size=1440,900. Add --virtual-time-budget=N for auto-run screenshots. CDP interaction is possible by launching Chrome with --remote-debugging-port=<port> and using Node 24's built-in WebSocket (no dependencies). Use unique profile dirs/ports.\n- For engine tests, load src/engine.js in node:vm with a globalThis/window shim (engine is DOM-free and attaches to globalThis). Also test the same code extracted from the assembled index.html if feasible.\n\nTEST MATRIX (broad; use judgement and prioritize what the user's brief demands):\nA. Single-file/offline: exactly one deliverable file; no external <script src>, <link href>, @import, url(http...), fetch/XHR/importScripts/CDN; no external font/image requests; capture all requests from headless Chrome (CDP Network events and/or performance.getEntriesByType('resource')) and assert only the local document + maybe data/blob URIs.\nB. Engine determinism: same seed + config + same gen boundaries → identical hash; different seed → different; across two separate node processes too; seed 1977 equality; headless speed (e.g. 100 gens under ~1s); check engine for Math.random/Date usage; history integrity (counts ≥0, finite traits, all 3 taxa × 4 genes, mean/sd present each generation); catastrophe scheduling at configured interval and all three types appearing over a long enough run; catastrophe effects measurable; parameter changes apply live; extinction doesn't crash; hash stability despite rendering/controls not running.\nC. Auto-start & completion: load assembled page no params → generation advances; at default N it auto-transitions to THE RECORD; verify no JS errors/console errors/pageerrors; DOM state (record hidden false, charts non-blank).\nD. Controls: 6 instruments + 2 toggles + at least 8 sparkline canvases exist; custom slider/dial/stepper/toggle present; labels + units + live readouts; keyboard: Tab reaches every control, arrows change values, Home/End/PageUp work for sliders/dials, Space/Enter toggles switches, visible focus (computed outline/box-shadow not none); tooltips appear on focus and hover, disappear on Escape; seed recast restarts run; generations shortening ends run; speed/interval/mutation/regrowth apply live; folio fold/unfold works and hidden controls are not tabbable when folded; no control clipped at 1440×900.\nE. Catastrophes: fire automatically with interval control; event banner appears + wax seal on rule + ledger entry + tint wash; charts show markers after run; check event log timestamps/generations.\nF. Dashboard: population curves + trait drift means and spread bands per gene per species rendered on canvas (pixel variance, colored pixels present, axes text not clipped), summary populated, fits 1440×900 without page scroll, 1280×800 sanity; replay/new study/return buttons work; no errors.\nG. Accessibility/motion: skip link; visible focus; reduced-motion (emulate via CDP Emulation.setEmulatedMedia or --force-prefers-reduced-motion) doesn't break; aria roles/values on controls; canvas aria labels; no empty buttons without accessible names.\nH. Visual: screenshots 1440×900 at t≈1.5s, mid-run/event, final record; 1280×800; inspect with read_image for collisions/clipping/legibility/design quality, report specific pixels/areas.\n\nStart immediately: write the node engine test harness and a CDP driver under verify/ (they can run against stubs now), then test as modules land. Do not wait for everything to be finished — test incrementally and report. Keep messages to Lead short and actionable. Do not declare pass without evidence."
+          },
+          "count": 1,
+          "lastSeq": 8
+        }
+      },
+      "llmRetry": {
+        "ver": 1,
+        "seq": 1325,
+        "val": {}
+      },
+      "sandboxMode": {
+        "ver": 1,
+        "seq": 1325,
+        "val": "workspace-write"
+      },
+      "goal": {
+        "ver": 6,
+        "seq": 1325,
+        "val": {
+          "current": null,
+          "seenGoalIds": [],
+          "failure": null
+        }
+      },
+      "tokenUsage": {
+        "ver": 2,
+        "seq": 1325,
+        "val": {
+          "totals": {
+            "uncachedInputTokens": 381324,
+            "outputTokens": 235834,
+            "cacheReadTokens": 45573504,
+            "cacheWriteTokens": 0
+          },
+          "last": {
+            "turn": 1,
+            "step": 189,
+            "buckets": {
+              "uncachedInputTokens": 508,
+              "outputTokens": 531,
+              "cacheReadTokens": 379520,
+              "cacheWriteTokens": 0
+            }
+          }
+        }
+      },
+      "contextPressure": {
+        "ver": 5,
+        "seq": 1325,
+        "val": {
+          "surfaceTokens": 301422,
+          "contextWindow": 1000000,
+          "pressureTokens": 380028,
+          "sampledSurfaceTokens": 300931
+        }
+      },
+      "contextBreakdown": {
+        "ver": 6,
+        "seq": 1325,
+        "val": {
+          "systems": [
+            {
+              "seq": 7,
+              "tokens": 1076
+            }
+          ],
+          "surfaceTokens": 301422,
+          "breakdown": {
+            "systemTokens": 1076,
+            "toolsTokens": 5067,
+            "messageTokens": 300346
+          }
+        }
+      },
+      "todos": {
+        "ver": 2,
+        "seq": 1325,
+        "val": [
+          {
+            "content": "Set up verify/ harness: engine node-vm test, CDP driver, screenshot tool",
+            "status": "completed"
+          },
+          {
+            "content": "Engine contract tests (determinism, history, catastrophes, params, speed, no Math.random/Date, hash)",
+            "status": "completed"
+          },
+          {
+            "content": "Static single-file/offline checks of assembled round 1/index.html",
+            "status": "completed"
+          },
+          {
+            "content": "Browser auto-run/JS-error/network/auto-completion/record tests via CDP",
+            "status": "completed"
+          },
+          {
+            "content": "Controls/a11y/keyboard/sparkline/fold tests",
+            "status": "completed"
+          },
+          {
+            "content": "Catastrophe visuals + ledger + seals + dashboard chart pixel tests",
+            "status": "completed"
+          },
+          {
+            "content": "Screenshots 1440x900 initial/mid/event/record + 1280x800, visual inspection",
+            "status": "completed"
+          },
+          {
+            "content": "Write verify/REPORT.md PASS/FAIL matrix, message Lead, iterate on fixes",
+            "status": "completed"
+          }
+        ]
+      },
+      "turnBoundary": {
+        "ver": 2,
+        "seq": 1325,
+        "val": {
+          "openTurnStartSeq": null,
+          "lastStepStartSeq": 1322,
+          "lastStepBoundary": {
+            "kind": "end",
+            "seq": 1324
+          },
+          "lastTurn": 1
+        }
+      },
+      "inbox": {
+        "ver": 1,
+        "seq": 1325,
+        "val": {
+          "next-turn": [],
+          "next-step": []
+        }
+      },
+      "userQuestions": {
+        "ver": 2,
+        "seq": 1325,
+        "val": {
+          "inheritedEventCount": 0,
+          "timed": false,
+          "questions": {
+            "active": [],
+            "settled": []
+          }
+        }
+      },
+      "plan": {
+        "ver": 3,
+        "seq": 1325,
+        "val": {
+          "active": false,
+          "wanted": null,
+          "running": null,
+          "activeAtLastHeader": false
+        }
+      },
+      "permissions": {
+        "ver": 2,
+        "seq": 1325,
+        "val": {
+          "preset": null,
+          "sandbox": "workspace-write",
+          "approval": "never",
+          "seeded": false
+        }
+      },
+      "workingDirectory": {
+        "ver": 1,
+        "seq": 1325,
+        "val": "/work/bench3/naz-dsh/work"
+      },
+      "subagentCatalog": {
+        "ver": 6,
+        "seq": 1325,
+        "val": {
+          "inheritedEventCount": 0
+        }
+      },
+      "subagentTiming": {
+        "ver": 3,
+        "seq": 1325,
+        "val": {
+          "descriptorSeen": true,
+          "settledMs": 5304631,
+          "lastTurnCompleted": true
+        }
+      },
+      "subagent": {
+        "ver": 2,
+        "seq": 1325,
+        "val": {
+          "identity": {
+            "mode": "continuable",
+            "label": "Independent verifier: determinism, offline/single-file, controls, dashboard, visual screenshot QA",
+            "seq": 0
+          }
+        }
+      },
+      "agentTeam": {
+        "ver": 4,
+        "seq": 1325,
+        "val": {
+          "id": "a4da6d40-1654-4daa-aa83-c788d573c952",
+          "members": [],
+          "tasks": [],
+          "messages": [],
+          "delivered": [],
+          "nextTaskNumber": 1
+        }
+      }
+    }
+  }
+}
